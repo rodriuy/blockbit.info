@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Nuestra Pasión, Tu Apoyo | Desde Artigas al Mundo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00529B; /* Azul Blockbit */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #003d73; /* Azul Blockbit más oscuro */
+        }
+        .nav-link.active {
+            color: #38bdf8; /* Un azul cielo para el enlace activo */
+            font-weight: 600;
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .btn-primary {
+            @apply bg-sky-500 hover:bg-sky-400 text-white font-semibold py-3 px-8 rounded-lg text-lg transition-colors shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:ring-opacity-50;
+        }
+        .btn-secondary {
+            @apply bg-slate-600 hover:bg-slate-500 text-white font-semibold py-3 px-6 rounded-lg text-base transition-colors shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-opacity-50;
+        }
+        .section-title {
+            @apply text-3xl md:text-4xl font-bold text-sky-700 text-center mb-12 md:mb-16;
+        }
+        .card {
+            @apply bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300;
+        }
+        .gallery-item {
+            @apply relative overflow-hidden rounded-lg shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300;
+        }
+        .gallery-item img, .gallery-item video {
+            @apply w-full h-64 object-cover;
+        }
+        .gallery-item .overlay {
+            @apply absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300;
+        }
+        .gallery-item .overlay ion-icon {
+            @apply text-white text-5xl;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-700">
+
+    <header class="bg-sky-700 text-white sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#inicio" class="text-3xl font-extrabold hover:text-sky-300 transition-colors tracking-tight">Blockbit</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="#inicio" class="nav-link hover:text-sky-300 transition-colors">Inicio</a>
+                <a href="#historia" class="nav-link hover:text-sky-300 transition-colors">Nuestra Trayectoria</a>
+                <a href="#impacto" class="nav-link hover:text-sky-300 transition-colors">Nuestra Visión</a>
+                <a href="#multimedia" class="nav-link hover:text-sky-300 transition-colors">Galería</a>
+                <a href="#equipo" class="nav-link hover:text-sky-300 transition-colors">Equipo</a>
+                <a href="#sponsors" class="nav-link bg-amber-400 hover:bg-amber-300 text-sky-800 px-4 py-2 rounded-md font-semibold transition-colors">¡Súmate!</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-sky-700 border-t border-sky-600">
+            <a href="#inicio" class="block nav-link text-white py-3 px-6 hover:bg-sky-600 transition-colors">Inicio</a>
+            <a href="#historia" class="block nav-link text-white py-3 px-6 hover:bg-sky-600 transition-colors">Nuestra Trayectoria</a>
+            <a href="#impacto" class="block nav-link text-white py-3 px-6 hover:bg-sky-600 transition-colors">Nuestra Visión</a>
+            <a href="#multimedia" class="block nav-link text-white py-3 px-6 hover:bg-sky-600 transition-colors">Galería</a>
+            <a href="#equipo" class="block nav-link text-white py-3 px-6 hover:bg-sky-600 transition-colors">Equipo</a>
+            <a href="#sponsors" class="block nav-link text-amber-300 font-semibold py-3 px-6 hover:bg-sky-600 transition-colors">¡Súmate!</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="min-h-screen flex items-center justify-center bg-cover bg-center relative" style="background-image: url('https://placehold.co/1920x1080/075985/E0F2FE?text=Blockbit+Desde+Artigas+al+Mundo');">
+          <div class="absolute inset-0 z-10 bg-black bg-opacity-40 backdrop-blur-sm p-8 md:p-16 text-center flex flex-col items-center justify-center">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+                Blockbit: Innovamos el futuro, juntos a cada paso.
+            </h1>
+            <p class="text-xl md:text-2xl text-sky-200 mb-10">
+                Con nuestra garra y el sueño de llegar a la cima, impulsamos la innovación. ¡Necesitamos tu apoyo para seguir creciendo!
+            </p>
+            <div class="space-y-4 sm:space-y-0 sm:space-x-6 flex flex-col sm:flex-row justify-center">
+                <a href="#sponsors" class="btn-primary">Apoya Nuestro Sueño</a>
+                <a href="#historia" class="btn-secondary bg-opacity-70 hover:bg-opacity-100">Conoce Nuestra Lucha</a>
+            </div>
+        </div>        
+            </div>
+        </section>
+
+        <section id="historia" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Nuestra Trayectoria: A Puro Corazón y Esfuerzo</h2>
+                <div class="relative">
+                    <div class="hidden md:block absolute h-full border-l-4 border-sky-500 left-1/2 transform -translate-x-1/2"></div>
+                     <div class="space-y-12 md:space-y-0">
+                        <div class="md:flex md:items-center w-full fade-in-section">
+                            <div class="md:w-1/2 md:pr-8">
+                                <div class="bg-slate-50 p-6 rounded-xl shadow-lg md:text-right">
+                                    <h3 class="text-2xl font-semibold text-sky-600 mb-3">2021: El Origen de un Sueño</h3>
+                                    <p class="text-slate-600 mb-2">Nuestra historia comenzó en 2021, impulsados por Guillermo. Dimos nuestros primeros pasos en Ceilab y las Olimpiadas de Ceibal, ¡y vaya si empezamos con fuerza!</p>
+                                    <p class="text-slate-600 font-medium"><strong>Logro Clave:</strong> Campeones en Placas Programables.</p>
+                                    <img src="https://placehold.co/600x400/E2E8F0/475569?text=Foto+Inicio+2021" alt="[Imagen de Inicio de Blockbit 2021]" class="mt-4 rounded-lg shadow-md hidden md:block ml-auto" style="max-width: 200px;">
+                                </div>
+                            </div>
+                            <div class="hidden md:block relative md:w-auto">
+                                <div class="absolute w-8 h-8 bg-sky-500 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold">1</div>
+                            </div>
+                            <div class="hidden md:block md:w-1/2"></div>
+                        </div>
+                        <div class="md:flex md:items-center w-full fade-in-section">
+                            <div class="hidden md:block md:w-1/2"></div>
+                            <div class="hidden md:block relative md:w-auto">
+                                 <div class="absolute w-8 h-8 bg-sky-500 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold">2</div>
+                            </div>
+                            <div class="md:w-1/2 md:pl-8">
+                                 <div class="bg-slate-50 p-6 rounded-xl shadow-lg">
+                                    <h3 class="text-2xl font-semibold text-sky-600 mb-3">2022: Unimos Fuerzas y Cruzamos Fronteras</h3>
+                                    <p class="text-slate-600 mb-2">En 2022, consolidamos el equipo y nuestro trabajo nos llevó al primer premio en First Lego League (Olimpiadas Ceibal).</p>
+                                    <p class="text-slate-600 font-medium"><strong>Logro Clave:</strong> ¡Top 10 Mundial en FIRST Championship (Houston, TX)! Un orgullo para Artigas y Uruguay.</p>
+                                     <img src="https://placehold.co/600x400/E2E8F0/475569?text=Foto+Houston+2022" alt="[Imagen de Blockbit en Houston 2022]" class="mt-4 rounded-lg shadow-md hidden md:block" style="max-width: 200px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:flex md:items-center w-full fade-in-section">
+                            <div class="md:w-1/2 md:pr-8">
+                                <div class="bg-slate-50 p-6 rounded-xl shadow-lg md:text-right">
+                                    <h3 class="text-2xl font-semibold text-sky-600 mb-3">2024: Seguimos Creciendo y Dejando Huella</h3>
+                                    <p class="text-slate-600 mb-2">Los triunfos continuaron en las Olimpiadas Ceibal y tuvimos el honor de representar a nuestro país en el WRO Puerto Rico en 2024.</p>
+                                    <p class="text-slate-600 font-medium"><strong>Logro Clave:</strong> Top 20 Mundial en WRO y múltiples premios en Robo Pampa. ¡La garra charrúa presente!</p>
+                                     <img src="https://placehold.co/600x400/E2E8F0/475569?text=Foto+WRO+2024" alt="[Imagen de Blockbit en WRO 2024]" class="mt-4 rounded-lg shadow-md hidden md:block ml-auto" style="max-width: 200px;">
+                                </div>
+                            </div>
+                             <div class="hidden md:block relative md:w-auto">
+                                 <div class="absolute w-8 h-8 bg-sky-500 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold">3</div>
+                            </div>
+                            <div class="hidden md:block md:w-1/2"></div>
+                        </div>
+                         <div class="md:flex md:items-center w-full fade-in-section">
+                            <div class="hidden md:block md:w-1/2"></div>
+                            <div class="hidden md:block relative md:w-auto">
+                                <div class="absolute w-8 h-8 bg-sky-500 rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold">
+                                    <ion-icon name="people-outline" class="text-lg"></ion-icon>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2 md:pl-8">
+                                 <div class="bg-slate-50 p-6 rounded-xl shadow-lg">
+                                    <h3 class="text-2xl font-semibold text-sky-600 mb-3">Devolviendo a Nuestra Comunidad Artiguense</h3>
+                                    <p class="text-slate-600">Siempre hemos buscado devolver a nuestra comunidad, por eso hemos ofrecido mentoría y apoyo a equipos emergentes del Liceo 2, fomentando el ecosistema STEM en Artigas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="impacto" class="py-16 md:py-24 bg-sky-50">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Nuestra Visión: Soñamos en Grande, Desde Artigas para el Mundo</h2>
+                <p class="text-center text-lg text-slate-600 max-w-3xl mx-auto mb-4">
+                    Para nosotros en Blockbit, esto es más que construir robots; es construir un futuro. Creemos en el poder de la juventud uruguaya para innovar y resolver los desafíos más complejos. Queremos ser un faro de inspiración en Artigas, en Uruguay y en Latinoamérica, demostrando que con pasión, garra y el apoyo de nuestra gente, no hay límites.
+                </p>
+                <p class="text-center text-lg text-sky-600 font-semibold max-w-3xl mx-auto mb-12 md:mb-16">
+                    ¡Queremos que Artigas se sienta orgullosa y que el mundo vea de lo que somos capaces!
+                </p>
+                <div class="max-w-3xl mx-auto mb-12 rounded-lg shadow-xl overflow-hidden fade-in-section">
+                    <div class="aspect-w-16 aspect-h-9 bg-slate-300 flex items-center justify-center">
+                         <video class="w-full h-full object-cover" controls poster="https://placehold.co/1280x720/0284C7/FFFFFF?text=Video+Inspirador+Blockbit">
+                            Tu navegador no soporta videos HTML5. Considera usar un placeholder o un enlace al video.
+                        </video>
+                        </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="rocket-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Innovación Constante</h3>
+                        <p class="text-slate-600 text-sm">Exploramos tecnologías de vanguardia y fomentamos la creatividad para desarrollar soluciones únicas y audaces.</p>
+                    </div>
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="sparkles-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Desarrollo de Talento Artiguense</h3>
+                        <p class="text-slate-600 text-sm">Potenciamos habilidades en jóvenes de nuestra tierra, preparándolos para comerse el mundo.</p>
+                    </div>
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="earth-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Embajadores de Uruguay</h3>
+                        <p class="text-slate-600 text-sm">Llevamos con orgullo la bandera uruguaya a las competencias más prestigiosas del planeta.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="multimedia" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Blockbit en Acción: Nuestra Pasión en Imágenes y Videos</h2>
+                <p class="text-center text-lg text-slate-600 max-w-3xl mx-auto mb-12 md:mb-16">
+                    Aquí compartimos algunos de los momentos que definen nuestra pasión y esfuerzo. Desde Artigas para el mundo, cada imagen y video cuenta una parte de nuestra historia de lucha y sueños.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/0EA5E9/FFFFFF?text=Blockbit+Compitiendo" alt="[Blockbit en competencia]">
+                        <div class="overlay">
+                            <ion-icon name="expand-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/0284C7/FFFFFF?text=Video+del+Robot" alt="[Video del Robot de Blockbit]">
+                         <div class="overlay">
+                            <ion-icon name="play-circle-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/0369A1/FFFFFF?text=Equipo+Celebrando" alt="[Equipo Blockbit celebrando]">
+                        <div class="overlay">
+                            <ion-icon name="expand-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/075985/FFFFFF?text=Trabajando+en+el+Robot" alt="[Blockbit trabajando en el robot]">
+                        <div class="overlay">
+                            <ion-icon name="expand-outline"></ion-icon>
+                        </div>
+                    </div>
+                     <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/0EA5E9/FFFFFF?text=Blockbit+en+Viaje" alt="[Blockbit en viaje internacional]">
+                        <div class="overlay">
+                            <ion-icon name="expand-outline"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="gallery-item fade-in-section">
+                        <img src="https://placehold.co/600x400/0284C7/FFFFFF?text=Mentoría+a+Otros+Equipos" alt="[Blockbit dando mentoría]">
+                         <div class="overlay">
+                            <ion-icon name="play-circle-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center mt-12">
+                    <a href="#" class="btn-secondary">Ver Más en Nuestras Redes (Próximamente)</a>
+                </p>
+            </div>
+        </section>
+
+        <section id="equipo" class="py-16 md:py-24 bg-sky-50">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Nuestro Equipo Guerrero: El Alma de Blockbit</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+                    <div class="card text-center fade-in-section transform hover:scale-105">
+                        <img src="fotos/rodrigo.png" alt="[Foto de Rodrigo]" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-sky-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-sky-700 mb-1">Rodrigo</h3>
+                        <p class="text-slate-600 text-xs px-2">Desarrollo tecnológico, proyectos e investigación. ¡Siempre buscando innovar!</p>
+                    </div>
+                     <div class="card text-center fade-in-section transform hover:scale-105">
+                        <img src="fotos/belen.png" alt="[Foto de Belén]" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-sky-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-sky-700 mb-1">Belén</h3>
+                        <p class="text-slate-600 text-xs px-2">Nuestra Community Manager estrella, conectando Blockbit con el mundo.</p>
+                    </div>
+                    <div class="card text-center fade-in-section transform hover:scale-105">
+                        <img src="fotos/felicia.png" alt="[Foto de Felicia]" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-sky-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-sky-700 mb-1">Felicia</h3>
+                        <p class="text-slate-600 text-xs px-2">La investigadora y organizadora, ¡la que pone orden y fundamento a nuestras ideas!</p>
+                    </div>
+                    <div class="card text-center fade-in-section transform hover:scale-105">
+                        <img src="fotos/nahuel.png" alt="[Foto de Nahuel]" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-sky-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-sky-700 mb-1">Nahuel</h3>
+                        <p class="text-slate-600 text-xs px-2">El genio de los fierros, capaz de construir cualquier mecanismo que imaginemos.</p>
+                    </div>
+                    <div class="card text-center fade-in-section transform hover:scale-105 sm:col-span-2 lg:col-span-1 xl:col-auto">
+                        <img src="fotos/julián.png" alt="[Foto de Julián]" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-sky-300 shadow-md">
+                        <h3 class="text-lg font-semibold text-sky-700 mb-1">Julián</h3>
+                        <p class="text-slate-600 text-xs px-2">Nuestro programador experto, ¡el cerebro detrás del código de nuestros robots!</p>
+                    </div>
+                </div>
+                 <div class="mt-12 text-center fade-in-section">
+                     <p class="text-slate-600 italic text-lg">"Somos un equipo de Artigas, resiliente y ambicioso, comprometidos con la excelencia y con ganas de comernos el mundo. ¡Y vamos por más!"</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sponsors" class="py-16 md:py-24 bg-sky-700 text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">¡Súmate a Blockbit! Tu Apoyo Nos Impulsa</h2>
+                <p class="text-lg md:text-xl text-sky-200 max-w-3xl mx-auto mb-10">
+                    Cada logro, cada viaje, cada robot que construimos es gracias al esfuerzo y la pasión, pero también necesitamos el apoyo de nuestra gente de Artigas y de empresas visionarias que crean en el talento joven uruguayo. Al asociarte con nosotros, inviertes en el futuro, en la innovación y te alineas con un equipo que deja todo en la cancha.
+                </p>
+                <div class="mb-12 fade-in-section">
+                    <h3 class="text-xl font-semibold text-amber-300 mb-4">Algunos de quienes confían en nosotros (Ejemplos):</h3>
+                    <div class="flex flex-wrap justify-center items-center gap-8">
+                        <img src="https://placehold.co/150x60/FFFFFF/075985?text=Sponsor+Logo+1" alt="[Logo Sponsor 1]" class="h-12">
+                        <img src="https://placehold.co/150x60/FFFFFF/075985?text=Sponsor+Logo+2" alt="[Logo Sponsor 2]" class="h-12">
+                        <img src="https://placehold.co/150x60/FFFFFF/075985?text=Sponsor+Logo+3" alt="[Logo Sponsor 3]" class="h-12">
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 text-left">
+                    <div class="bg-sky-600 p-6 rounded-lg shadow-lg fade-in-section">
+                        <ion-icon name="ribbon-outline" class="text-4xl text-amber-300 mb-3"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Visibilidad para Tu Marca</h3>
+                        <p class="text-sky-100 text-sm">Asocia tu marca con la innovación, el éxito juvenil y la representación de Artigas y Uruguay en el mundo.</p>
+                    </div>
+                    <div class="bg-sky-600 p-6 rounded-lg shadow-lg fade-in-section">
+                        <ion-icon name="leaf-outline" class="text-4xl text-amber-300 mb-3"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Impacto Social Positivo</h3>
+                        <p class="text-sky-100 text-sm">Contribuye al desarrollo de la educación STEM y al futuro de jóvenes talentos de nuestra tierra.</p>
+                    </div>
+                    <div class="bg-sky-600 p-6 rounded-lg shadow-lg fade-in-section md:col-span-2 lg:col-span-1">
+                         <ion-icon name="people-circle-outline" class="text-4xl text-amber-300 mb-3"></ion-icon>
+                        <h3 class="text-xl font-semibold mb-2">Conexión con la Innovación</h3>
+                        <p class="text-sky-100 text-sm">Conecta con mentes jóvenes, creativas y con una perspectiva fresca sobre la tecnología y el futuro.</p>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">¿Querés ser parte de nuestra historia y ayudarnos a llegar más lejos?</h3>
+                <p class="text-sky-200 mb-8 max-w-xl mx-auto">Nos encantaría charlar y explorar cómo podemos colaborar. ¡Desde Artigas, contamos contigo!</p>
+                <a href="mailto:sponsors@blockbit.uy?subject=Interés%20en%20Apoyar%20a%20Blockbit%20(Desde%20la%20Web)" class="btn-primary bg-amber-400 hover:bg-amber-300 text-sky-800 text-xl px-10 py-4">
+                    <ion-icon name="mail-outline" class="mr-2 align-middle text-2xl"></ion-icon>¡Quiero Apoyarlos!
+                </a>
+                 <p class="text-xs text-sky-300 mt-4">(sponsors@blockbit.uy)</p>
+            </div>
+        </section>
+
+        <section id="estilo" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title">Nuestro ADN: La Garra Charrúa que Nos Define</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="shield-checkmark-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Resiliencia Pura</h3>
+                        <p class="text-slate-600 text-sm">Caemos y nos levantamos más fuertes. Los desafíos son nuestro combustible.</p>
+                    </div>
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="flame-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Ambición Guerrera</h3>
+                        <p class="text-slate-600 text-sm">No competimos solo por viajar; vamos a ganar y a dejar a Artigas y Uruguay en lo más alto.</p>
+                    </div>
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="sync-circle-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Organización Estratégica</h3>
+                        <p class="text-slate-600 text-sm">Cada uno sabe su rol, pero todos tiramos para el mismo lado. ¡Equipo ante todo!</p>
+                    </div>
+                    <div class="card text-center fade-in-section">
+                        <ion-icon name="color-palette-outline" class="text-5xl text-sky-500 mx-auto mb-4"></ion-icon>
+                        <h3 class="text-xl font-semibold text-sky-600 mb-2">Minimalismo Funcional</h3>
+                        <p class="text-slate-600 text-sm">Enfoque claro, soluciones inteligentes. Nuestro azul nos representa: serios, pero con chispa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="futuro" class="py-16 md:py-24 bg-sky-50">
+            <div class="container mx-auto px-6 text-center max-w-3xl">
+                <h2 class="section-title">Próximos Desafíos: ¡A Conquistar Steam Avanzado!</h2>
+                <div class="fade-in-section">
+                    <p class="text-lg text-slate-600 mb-4">Este año, nos aventuramos en la nueva y exigente categoría <strong>Steam Avanzado</strong>. Un nuevo desafío que encaramos con la misma garra de siempre, listos para poner a prueba nuestra innovación y trabajo en equipo.</p>
+                    <p class="text-lg text-slate-600 mb-4">Rodrigo, Belén y Felicia liderarán el desarrollo del proyecto, mientras Nahuel y Julián se encargarán de la ingeniería y programación del robot. ¡Juntos, como siempre, apuntamos a lo más alto!</p>
+                    <p class="text-xl font-semibold text-sky-600 mt-6">El futuro es nuestro, ¡y desde Artigas vamos a seguir haciendo historia!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-sky-800 text-sky-200 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <a href="#inicio" class="text-2xl font-bold hover:text-sky-300 transition-colors mb-4 inline-block">Blockbit</a>
+            <p class="mb-2 text-sm">&copy; <span id="currentYear"></span> Blockbit. Todos los derechos reservados.</p>
+            <p class="text-xs">Desde Artigas, Uruguay, con pasión y garra, ¡al mundo!</p>
+            <div class="mt-4 space-x-4">
+                 <a href="mailto:sponsors@blockbit.uy" class="hover:text-amber-300 transition-colors"><ion-icon name="mail-outline" class="text-2xl"></ion-icon></a>
+                <!-- Ejemplo: 
+                <a href="#" class="hover:text-sky-300 transition-colors"><ion-icon name="logo-instagram" class="text-2xl"></ion-icon></a>
+                <a href="#" class="hover:text-sky-300 transition-colors"><ion-icon name="logo-linkedin" class="text-2xl"></ion-icon></a>
+                -->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // Update copyright year
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Active navigation link highlighting on scroll
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function changeNavOnScroll() {
+                let currentSectionId = 'inicio';
+                let minDistance = Infinity;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    const scrollPosition = window.pageYOffset;
+                    const distanceToMidSection = Math.abs(scrollPosition - (sectionTop - window.innerHeight / 2 + sectionHeight / 2));
+
+                    if (scrollPosition >= sectionTop - window.innerHeight / 1.5 && scrollPosition < sectionTop + sectionHeight - window.innerHeight / 1.5) {
+                         if (distanceToMidSection < minDistance) {
+                            minDistance = distanceToMidSection;
+                            currentSectionId = section.getAttribute('id');
+                        }
+                    }
+                });
+                
+                if (window.pageYOffset < window.innerHeight / 2) {
+                    currentSectionId = 'inicio';
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', changeNavOnScroll);
+            changeNavOnScroll();
+
+            // Intersection Observer for fade-in animations
+            const animatedSections = document.querySelectorAll('.fade-in-section');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observerInstance) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observerInstance.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            animatedSections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Basic Gallery Modal (Placeholder - Requires more JS for full functionality)
+            // This is a very basic example. For a real modal, you'd need more complex JS.
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img')?.src;
+                    if (imgSrc) {
+                        // Placeholder: In a real scenario, you'd open a modal here.
+                        // For now, we'll just log to console or alert.
+                        console.log('Abrir imagen en modal:', imgSrc);
+                        // alert('Mostrar imagen: ' + imgSrc); // Evitar alert en producción
+                    } else {
+                        console.log('Elemento de galería clickeado (podría ser un video).');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
