@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero Kanban</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <style>
+        /* Additional custom styles can go here if needed */
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4">
+
+        <!-- Header Section -->
+        <header class="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Tablero Kanban</h1>
+            <div class="relative"> <!-- Relative container for positioning the filter popup -->
+                <button id="filterButton" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-filter"></i> Filtrar <span id="active-filter-indicator" class="hidden ml-1 px-1.5 py-0.5 bg-yellow-400 text-blue-800 text-xs rounded-full">!</span>
+                </button>
+                <div id="filterMenuPopup" class="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-md shadow-lg hidden z-20">
+                    <div class="p-4 space-y-3">
+                        <div>
+                            <h6 class="text-sm font-semibold text-gray-700 mb-1">Miembros</h6>
+                            <div id="filterMembersContainer" class="space-y-1 max-h-32 overflow-y-auto">
+                                <!-- Member checkboxes will be populated here -->
+                                <p class="text-xs text-gray-500">Cargando miembros...</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="text-sm font-semibold text-gray-700 mb-1">Etiquetas</h6>
+                            <div id="filterLabelsContainer" class="space-y-1 max-h-32 overflow-y-auto">
+                                <!-- Label checkboxes will be populated here -->
+                                <p class="text-xs text-gray-500">Cargando etiquetas...</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-gray-200">
+                            <button id="clearFiltersButton" class="text-xs text-gray-600 hover:text-blue-600 hover:underline">Limpiar Filtros</button>
+                            <button id="applyFiltersButton" class="text-xs bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1.5 px-3 rounded">Aplicar</button>
+                        </div>
+                    </div>
+                </div>
+                <button id="toggleCalendarViewButton" class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded ml-2">
+                    <i class="fas fa-calendar-alt"></i> Ver Calendario
+                </button>
+            </div>
+        </header>
+        <!-- End Header Section -->
+
+        <!-- Board Section & Calendar Section Container -->
+        <div id="view-container">
+            <!-- Board View -->
+            <div id="board-view" class="flex items-start">
+                <main id="board-container" class="bg-white p-4 rounded-b-lg shadow-md flex space-x-4 overflow-x-auto flex-grow">
+                    <!-- Las listas de tareas se agregarán aquí -->
+                    <div id="no-lists-message" class="text-gray-500 hidden">No hay listas en este tablero. ¡Crea una!</div>
+                </main>
+                <div class="ml-4 mt-4"> <!-- This is for the Add List button, keep it with board view -->
+                    <button id="addListButton" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded h-full">
+                        <i class="fas fa-plus"></i> Añadir otra lista
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div id="calendar-view" class="hidden bg-white p-4 rounded-b-lg shadow-md">
+                <div id="calendar-controls" class="flex justify-between items-center mb-4">
+                    <button id="prevMonthButton" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">&lt; Anterior</button>
+                    <h2 id="calendarMonthYear" class="text-xl font-semibold">Mes Año</h2>
+                    <button id="nextMonthButton" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Siguiente &gt;</button>
+                </div>
+                <div id="calendar-container" class="grid grid-cols-7 gap-px border border-gray-200 bg-gray-200">
+                    <!-- Calendar grid will be generated here -->
+                </div>
+            </div>
+        </div>
+        <!-- End Board Section & Calendar Section Container -->
+
+        <!-- Card Detail Modal -->
+        <div id="cardDetailModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 overflow-y-auto h-full w-full flex items-center justify-center hidden p-4 z-50">
+            <div id="modalBackdrop" class="fixed inset-0"></div>
+            <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center bg-blue-600 text-white p-4 rounded-t-lg">
+                    <input type="text" id="modalCardTitleInput" class="text-xl font-bold bg-transparent border-b border-blue-400 focus:border-blue-300 outline-none w-full placeholder-blue-300" placeholder="Título de la Tarjeta...">
+                    <button id="closeModalButton" class="text-blue-200 hover:text-white text-2xl ml-4">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 space-y-4 overflow-y-auto">
+                    <!-- Cover Image -->
+                    <div id="modalCoverImageContainer" class="mb-4">
+                        <label for="modalCoverImageInput" class="block text-sm font-medium text-gray-700 mb-1"><i class="fas fa-image mr-2"></i>Imagen de Portada (URL)</label>
+                        <input type="url" id="modalCoverImageInput" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 mb-2" placeholder="https://ejemplo.com/imagen.jpg">
+                        <img id="modalCoverImage" src="" alt="Vista previa de portada" class="max-h-60 w-full object-contain rounded hidden bg-gray-100"/>
+                        <div id="modalCoverImageError" class="text-red-500 text-xs mt-1 hidden">URL de imagen inválida.</div>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label for="modalCardDescription" class="block text-sm font-medium text-gray-700 mb-1">
+                            <i class="fas fa-align-left mr-2"></i>Descripción
+                        </label>
+                        <textarea id="modalCardDescription" rows="4" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Añade una descripción más detallada..."></textarea>
+                    </div>
+
+                    <!-- Sections -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Labels -->
+                        <div class="relative">
+                            <h5 class="font-semibold text-gray-700 mb-1 flex justify-between items-center">
+                                <span><i class="fas fa-tags mr-2"></i>Etiquetas</span>
+                                <button id="manageLabelsButton" class="text-sm text-blue-500 hover:underline">Gestionar</button>
+                            </h5>
+                            <div id="modalLabelsSection" class="text-sm text-gray-600 bg-gray-100 p-3 rounded min-h-[40px] flex flex-wrap gap-1">
+                                Sin etiquetas asignadas.
+                            </div>
+                            <!-- Label Manager Pop-up -->
+                            <div id="labelManagerPopup" class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden p-3 space-y-2">
+                                <h6 class="text-xs font-semibold text-gray-500">Etiquetas Disponibles</h6>
+                                <div id="availableLabelsContainer" class="max-h-32 overflow-y-auto space-y-1">
+                                    <!-- JS will populate this -->
+                                </div>
+                                <button id="closeLabelManagerButton" class="text-xs text-blue-500 hover:underline w-full text-right">Hecho</button>
+                            </div>
+                        </div>
+
+                        <!-- Members -->
+                        <div class="relative">
+                            <h5 class="font-semibold text-gray-700 mb-1 flex justify-between items-center">
+                                <span><i class="fas fa-users mr-2"></i>Miembros</span>
+                                <button id="manageMembersButton" class="text-sm text-blue-500 hover:underline">Gestionar</button>
+                            </h5>
+                            <div id="modalMembersSection" class="text-sm text-gray-600 bg-gray-100 p-3 rounded min-h-[40px] flex flex-wrap gap-1">
+                                Sin miembros asignados.
+                            </div>
+                            <!-- Member Manager Pop-up -->
+                            <div id="memberManagerPopup" class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg hidden p-3 space-y-2">
+                                <h6 class="text-xs font-semibold text-gray-500">Miembros del Equipo</h6>
+                                <div id="availableMembersContainer" class="max-h-32 overflow-y-auto space-y-1">
+                                    <!-- JS will populate this -->
+                                </div>
+                                <button id="closeMemberManagerButton" class="text-xs text-blue-500 hover:underline w-full text-right">Hecho</button>
+                            </div>
+                        </div>
+
+                        <!-- Due Date -->
+                        <div>
+                            <h5 class="font-semibold text-gray-700 mb-1"><i class="far fa-calendar-alt mr-2"></i>Fecha de Entrega</h5>
+                            <div id="modalDueDateSection" class="text-sm text-gray-600 bg-gray-100 p-3 rounded min-h-[40px] flex items-center justify-between">
+                                <span>Sin fecha de entrega.</span>
+                                <button id="editDueDateButton" class="text-xs text-blue-500 hover:underline">Editar</button>
+                            </div>
+                             <input type="date" id="modalDueDateInput" class="mt-1 p-2 border rounded-md w-full hidden">
+                        </div>
+
+                        <!-- Checklist -->
+                        <div>
+                            <h5 class="font-semibold text-gray-700 mb-1 flex justify-between items-center">
+                                <span><i class="far fa-check-square mr-2"></i>Checklist</span>
+                                <button id="addChecklistButton" class="text-sm text-blue-500 hover:underline">Añadir Checklist</button>
+                            </h5>
+                            <div id="modalChecklistsContainer" class="space-y-3 mt-2">
+                                <!-- Checklists will be rendered here by JS -->
+                                <p id="noChecklistsMessage" class="text-xs text-gray-500 p-2 bg-gray-50 rounded">No hay checklists todavía.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <h5 class="font-semibold text-gray-700 mb-1 flex justify-between items-center">
+                            <span><i class="fas fa-map-marker-alt mr-2"></i>Ubicación</span>
+                            <button id="editLocationButton" class="text-sm text-blue-500 hover:underline">Añadir/Editar</button>
+                        </h5>
+                        <div id="modalLocationTextDisplay" class="text-sm text-gray-700 p-1 rounded min-h-[20px]">
+                            Sin ubicación asignada.
+                        </div>
+                        <div id="modalLocationStaticMapPreview" class="mt-1 h-32 bg-gray-200 rounded hidden border">
+                            <!-- Static Leaflet map will be initialized here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="flex justify-end items-center p-4 bg-gray-100 rounded-b-lg space-x-3 border-t">
+                    <button id="archiveCardButton" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded text-sm">
+                        <i class="fas fa-archive mr-1"></i> Archivar Tarjeta
+                    </button>
+                    <button id="saveCardChangesButton" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded text-sm">
+                        <i class="fas fa-save mr-1"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- End Card Detail Modal -->
+
+    </div>
+
+    <!-- Leaflet.js -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Location Picker Modal -->
+    <div id="locationPickerModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center hidden p-4 z-[60]">
+        <div class="bg-white p-5 rounded-lg shadow-xl w-full max-w-lg transform transition-all">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-lg font-semibold text-gray-800">Seleccionar Ubicación</h3>
+                <button id="closeLocationPickerButton" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <input type="text" id="locationSearchInput" class="w-full p-2 border border-gray-300 rounded-md mb-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Buscar lugar o dirección...">
+            <div id="locationMapDiv" style="height: 300px;" class="mb-3 rounded border border-gray-300 bg-gray-100"></div>
+            <div id="selectedLocationText" class="text-xs text-gray-600 mb-3 min-h-[1.2em]">Coordenadas: N/A</div>
+            <div class="flex justify-end space-x-3">
+                <button id="cancelLocationPickButton" class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md text-sm font-medium">Cancelar</button>
+                <button id="confirmLocationPickButton" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md text-sm font-medium">Confirmar Ubicación</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Custom JavaScript for the board -->
+    <script>
+        // IMPORTANT: Replace with your actual Firebase project configuration!
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Firestore Document Path
+        // For a multi-tenant app, {appId} should be dynamic.
+        // For this single-board example, replace 'YOUR_APP_ID' or use a fixed string.
+        const boardDocRef = db.collection('artifacts').doc('YOUR_APP_ID')
+                               .collection('public').doc('data')
+                               .collection('boards').doc('main_board');
+
+        // Conceptual Firestore Data Structure for 'main_board'
+        // {
+        //   lists: [
+        //     {
+        //       id: "list-1",
+        //       title: "Por Hacer",
+        //       cards: [
+        //         {
+        //           id: "card-1",
+        //           title: "Diseñar la interfaz de usuario",
+        //           description: "Crear mockups para todas las pantallas de la aplicación.",
+        //           coverImage: "url_to_image.jpg", // Optional
+        //           labels: ["diseño", "urgente"],
+        //           members: ["userId1", "userId2"], // Array of user IDs
+        //           dueDate: "2024-08-15", // ISO 8601 format
+        //           checklist: [
+        //             { id: "chk-1", text: "Diseñar pantalla de inicio", completed: true },
+        //             { id: "chk-2", text: "Diseñar modal de tarjeta", completed: false }
+        //           ],
+        //           location: { // Optional, for cards with a geographical context
+        //             latitude: 34.0522,
+        //             longitude: -118.2437,
+        //             address: "123 Main St, Anytown, USA"
+        //           },
+        //           comments: [
+        //              { userId: "userId1", text: "Buen trabajo!", timestamp: "2024..." }
+        //           ],
+        //           attachments: [
+        //              { fileName: "mockup.png", url: "url_to_file", uploadedAt: "2024..."}
+        //           ]
+        //         }
+        //         // ... más tarjetas
+        //       ]
+        //     },
+        //     // ... más listas
+        //   ],
+        //   teamMembers: [ // Example:
+        //     // { id: "userId1", name: "Alice", avatarUrl: "url_to_avatar.jpg" },
+        //     // { id: "userId2", name: "Bob", avatarUrl: "url_to_avatar.jpg" }
+        //   ],
+        //   availableLabels: [ // Example:
+        //     // { id: "label-1", name: "urgente", color: "red-500" },
+        //     // { id: "label-2", name: "diseño", color: "blue-500" }
+        //   ]
+        // }
+
+        // Handle Authentication State
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in anonymously.
+                console.log("Usuario conectado anónimamente:", user.uid);
+                // Initialize and load board data here
+                initializeAppLogic();
+            } else {
+                // User is signed out.
+                console.log("Usuario desconectado.");
+            }
+        });
+
+        // Sign in Anonymously
+        const signInAnonymously = async () => {
+            try {
+                await auth.signInAnonymously();
+            } catch (error) {
+                console.error("Error al iniciar sesión anónimamente:", error);
+                // Handle error appropriately for the user
+                alert("No se pudo conectar a la aplicación. Por favor, intente de nuevo más tarde.");
+            }
+        };
+
+        // Main application logic after authentication
+        function initializeAppLogic() {
+            console.log("Aplicación inicializada, datos del tablero se cargarán aquí.");
+            setupListSnapshotListener();
+            setupAddListButton();
+            setupCalendarViewToggle();
+            setupFilterButton(); // Setup for filter button
+        }
+
+        // Store current board data globally for easy access by modal and other functions
+        let currentBoardData = { lists: [], availableLabels: [], teamMembers: [] }; // Ensure these exist
+        let isCalendarViewVisible = false;
+        let currentCalendarDate = new Date();
+        let activeFilters = { members: [], labels: [] }; // For storing active filters
+
+        function setupListSnapshotListener() {
+            boardDocRef.onSnapshot(doc => {
+                // const boardContainer = document.getElementById('board-container'); // Not directly used here anymore
+                // const noListsMessage = document.getElementById('no-lists-message'); // Handled by renderListsAndCards
+
+                if (doc.exists) {
+                    currentBoardData = doc.data();
+                    if (!currentBoardData.lists) currentBoardData.lists = [];
+                    if (!currentBoardData.availableLabels) currentBoardData.availableLabels = [];
+                    if (!currentBoardData.teamMembers) currentBoardData.teamMembers = [];
+
+
+                    if (!isCalendarViewVisible) {
+                        renderListsAndCards(); // Centralized function to render board with filters
+                    } else {
+                        renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+                    }
+                } else {
+                    console.log("No such document! Initializing with an empty board.");
+                    currentBoardData = { lists: [], availableLabels: [], teamMembers: [] };
+                    if (!isCalendarViewVisible) {
+                        renderListsAndCards(); // Render empty board
+                    } else {
+                        renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth());
+                    }
+                }
+                 // Populate filter menu if it's open, or ensure it's populated next time it opens
+                populateFilterMenu();
+
+            }, error => {
+                console.error("Error getting board data: ", error);
+                alert("Error al cargar el tablero. Revise la consola para más detalles.");
+                currentBoardData = { lists: [], availableLabels: [], teamMembers: [] };
+                if (!isCalendarViewVisible) {
+                    renderListsAndCards(); // Attempt to render empty/error state
+                } else {
+                     // Optionally display error in calendar view too
+                }
+            });
+        }
+
+        function setupFilterButton() {
+            const filterButton = document.getElementById('filterButton');
+            const filterMenuPopup = document.getElementById('filterMenuPopup');
+
+            filterButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from immediately closing due to body listener
+                populateFilterMenu(); // Ensure content is up-to-date
+                filterMenuPopup.classList.toggle('hidden');
+            });
+
+            document.getElementById('applyFiltersButton').addEventListener('click', () => {
+                const selectedMemberIds = Array.from(membersContainer.querySelectorAll('input[type="checkbox"]:checked'))
+                                             .map(cb => cb.value);
+                const selectedLabelIds = Array.from(labelsContainer.querySelectorAll('input[type="checkbox"]:checked'))
+                                            .map(cb => cb.value);
+
+                activeFilters.members = selectedMemberIds;
+                activeFilters.labels = selectedLabelIds;
+
+                console.log("Filtros aplicados:", activeFilters);
+                updateActiveFilterIndicator();
+                renderListsAndCards(); // Re-render board with active filters
+                filterMenuPopup.classList.add('hidden');
+            });
+
+            document.getElementById('clearFiltersButton').addEventListener('click', () => {
+                activeFilters.members = [];
+                activeFilters.labels = [];
+
+                // Uncheck all checkboxes by re-populating the menu
+                populateFilterMenu();
+
+                console.log("Filtros limpiados.");
+                updateActiveFilterIndicator();
+                renderListsAndCards(); // Re-render board with no filters
+                filterMenuPopup.classList.add('hidden');
+            });
+
+            // Close pop-up if clicking outside
+            document.body.addEventListener('click', (event) => {
+                if (!filterMenuPopup.classList.contains('hidden') && !filterMenuPopup.contains(event.target) && event.target !== filterButton && !filterButton.contains(event.target) ) {
+                    filterMenuPopup.classList.add('hidden');
+                }
+            });
+        }
+
+
+        function populateFilterMenu() {
+            const membersContainer = document.getElementById('filterMembersContainer');
+            const labelsContainer = document.getElementById('filterLabelsContainer');
+            membersContainer.innerHTML = ''; // Clear previous options
+            labelsContainer.innerHTML = ''; // Clear previous options
+
+            // Populate Members
+            if (currentBoardData.teamMembers && currentBoardData.teamMembers.length > 0) {
+                currentBoardData.teamMembers.forEach(member => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center';
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `filter-member-${member.id}`;
+                    checkbox.value = member.id;
+                    checkbox.className = 'h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500';
+                    if (activeFilters.members.includes(member.id)) {
+                        checkbox.checked = true;
+                    }
+
+                    const label = document.createElement('label');
+                    label.htmlFor = checkbox.id;
+                    label.textContent = member.name || 'Miembro sin nombre';
+                    label.className = 'ml-2 text-xs text-gray-700';
+
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+                    membersContainer.appendChild(div);
+                });
+            } else {
+                membersContainer.innerHTML = '<p class="text-xs text-gray-500">No hay miembros disponibles.</p>';
+            }
+
+            // Populate Labels
+            if (currentBoardData.availableLabels && currentBoardData.availableLabels.length > 0) {
+                currentBoardData.availableLabels.forEach(sLabel => { // sLabel for 'selectableLabel' to avoid conflict
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center';
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `filter-label-${sLabel.id}`;
+                    checkbox.value = sLabel.id;
+                    checkbox.className = 'h-3.5 w-3.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500';
+                     if (activeFilters.labels.includes(sLabel.id)) {
+                        checkbox.checked = true;
+                    }
+
+                    const label = document.createElement('label');
+                    label.htmlFor = checkbox.id;
+                    label.className = 'ml-2 text-xs text-gray-700 flex items-center';
+
+                    const colorDot = document.createElement('span');
+                    colorDot.className = 'w-2.5 h-2.5 rounded-full mr-1.5 inline-block';
+                    colorDot.style.backgroundColor = sLabel.color || '#cccccc';
+
+                    label.appendChild(colorDot);
+                    label.appendChild(document.createTextNode(sLabel.name || 'Etiqueta sin nombre'));
+
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+                    labelsContainer.appendChild(div);
+                });
+            } else {
+                labelsContainer.innerHTML = '<p class="text-xs text-gray-500">No hay etiquetas disponibles.</p>';
+            }
+        }
+
+
+        function updateActiveFilterIndicator() {
+            const indicator = document.getElementById('active-filter-indicator');
+            if (activeFilters.members.length > 0 || activeFilters.labels.length > 0) {
+                indicator.classList.remove('hidden');
+            } else {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        // New function to centralize board rendering with filter logic
+        function renderListsAndCards() {
+            const boardContainer = document.getElementById('board-container');
+            const noListsMessage = document.getElementById('no-lists-message');
+            // Detach noListsMessage before clearing, to preserve its event listeners if any (though it has none now)
+            if(noListsMessage.parentNode) noListsMessage.parentNode.removeChild(noListsMessage);
+            boardContainer.innerHTML = ''; // Clear previous lists
+
+            const lists = currentBoardData.lists || [];
+            let hasVisibleCardsOverall = false;
+
+            if (lists.length === 0) {
+                noListsMessage.classList.remove('hidden');
+                boardContainer.appendChild(noListsMessage);
+                return;
+            }
+
+            noListsMessage.classList.add('hidden'); // Assume initially we have content
+
+            lists.forEach(list => {
+                const listElement = document.createElement('div');
+                listElement.id = `list-${list.id}`;
+                listElement.className = 'list-column bg-gray-200 p-3 rounded-lg shadow-md w-72 flex-shrink-0';
+
+                const titleElement = document.createElement('h2');
+                titleElement.className = 'text-xl font-semibold mb-3 text-gray-800';
+                titleElement.textContent = list.title;
+                listElement.appendChild(titleElement);
+
+                const cardsContainer = document.createElement('div');
+                cardsContainer.id = `cards-container-${list.id}`;
+                cardsContainer.className = 'space-y-2 min-h-[100px] p-1 rounded-md'; // From existing renderList
+                cardsContainer.dataset.listId = list.id; // For D&D
+                // Add D&D handlers from original renderList
+                cardsContainer.ondragover = (event) => { event.preventDefault(); cardsContainer.classList.add('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400'); };
+                cardsContainer.ondragleave = (event) => { cardsContainer.classList.remove('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400'); };
+                cardsContainer.ondrop = (event) => {
+                    event.preventDefault();
+                    cardsContainer.classList.remove('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400');
+                    const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+                    handleCardDrop(data.cardId, data.originalListId, list.id); // targetListId is list.id
+                };
+
+
+                let cardsInListRendered = 0;
+                if (list.cards && list.cards.length > 0) {
+                    list.cards.forEach(card => {
+                        let showCard = true;
+                        // Member filter
+                        if (activeFilters.members.length > 0) {
+                            if (!card.members || !card.members.some(memberId => activeFilters.members.includes(memberId))) {
+                                showCard = false;
+                            }
+                        }
+                        // Label filter (only if card is still visible)
+                        if (showCard && activeFilters.labels.length > 0) {
+                            if (!card.labels || !card.labels.some(labelId => activeFilters.labels.includes(labelId))) {
+                                showCard = false;
+                            }
+                        }
+
+                        if (showCard) {
+                            const cardElement = renderCard(card, list.id); // renderCard remains mostly the same
+                            cardsContainer.appendChild(cardElement);
+                            cardsInListRendered++;
+                            hasVisibleCardsOverall = true;
+                        }
+                    });
+                }
+
+                if (cardsInListRendered === 0) {
+                    const noCardsInListMsg = document.createElement('div');
+                    noCardsInListMsg.className = 'text-xs text-gray-500 p-2 text-center';
+                    if (activeFilters.members.length > 0 || activeFilters.labels.length > 0) {
+                        noCardsInListMsg.textContent = 'Ninguna tarjeta coincide con los filtros en esta lista.';
+                    } else {
+                        noCardsInListMsg.textContent = 'No hay tarjetas en esta lista. Arrastra una aquí.';
+                    }
+                    cardsContainer.appendChild(noCardsInListMsg);
+                }
+
+                listElement.appendChild(cardsContainer);
+
+                const addCardButton = document.createElement('button');
+                addCardButton.className = 'mt-3 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full text-sm';
+                addCardButton.innerHTML = '<i class="fas fa-plus"></i> Añadir tarjeta';
+                addCardButton.onclick = () => addNewCardToList(list.id, list.title);
+                listElement.appendChild(addCardButton);
+
+                boardContainer.appendChild(listElement);
+            });
+
+            if (!hasVisibleCardsOverall && (activeFilters.members.length > 0 || activeFilters.labels.length > 0) && lists.length > 0) {
+                 // If filters are active and they hide ALL cards across ALL lists.
+                noListsMessage.textContent = 'Ninguna tarjeta coincide con los filtros seleccionados.';
+                noListsMessage.classList.remove('hidden');
+                boardContainer.appendChild(noListsMessage);
+            } else if (lists.length > 0 && !hasVisibleCardsOverall && activeFilters.members.length === 0 && activeFilters.labels.length === 0) {
+                // This case should be handled by individual lists showing "No hay tarjetas..."
+                // but if all lists are empty to begin with, this message is for the board.
+                // The initial `if (lists.length === 0)` handles when there are no lists at all.
+            }
+        }
+
+
+        function setupCalendarViewToggle() {
+            const toggleButton = document.getElementById('toggleCalendarViewButton');
+            const boardView = document.getElementById('board-view');
+            const calendarView = document.getElementById('calendar-view');
+            const addListButtonContainer = boardView.querySelector('.ml-4.mt-4');
+
+            toggleButton.addEventListener('click', () => {
+                isCalendarViewVisible = !isCalendarViewVisible;
+                if (isCalendarViewVisible) {
+                    boardView.classList.add('hidden');
+                    calendarView.classList.remove('hidden');
+                    addListButtonContainer.classList.add('hidden');
+                    toggleButton.innerHTML = '<i class="fas fa-th-list"></i> Ver Tablero';
+                    renderCalendar(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth()); // Initial render
+                } else {
+                    boardView.classList.remove('hidden');
+                    calendarView.classList.add('hidden');
+                    addListButtonContainer.classList.remove('hidden');
+                    toggleButton.innerHTML = '<i class="fas fa-calendar-alt"></i> Ver Calendario';
+                    // Re-render board view if necessary (snapshot listener might have handled it if data changed)
+                    // For now, assume snapshot listener keeps board view updated when it's not hidden.
+                }
+            });
+        }
+
+        // Placeholder for renderCalendar - to be implemented in Pass 2
+        function renderCalendar(year, month) {
+            console.log(`Renderizar calendario para: ${month + 1}/${year}`);
+            const calendarContainer = document.getElementById('calendar-container');
+            calendarContainer.innerHTML = '<p class="text-center p-4 text-gray-500">El calendario se implementará aquí.</p>'; // Placeholder
+            document.getElementById('calendarMonthYear').textContent =
+                `${new Date(year, month).toLocaleString('es-ES', { month: 'long', year: 'numeric' })}`;
+        }
+
+
+        function renderList(list) {
+            const boardContainer = document.getElementById('board-container');
+
+            const listElement = document.createElement('div');
+            listElement.id = `list-${list.id}`;
+            listElement.className = 'list-column bg-gray-200 p-3 rounded-lg shadow-md w-72 flex-shrink-0';
+
+            const titleElement = document.createElement('h2');
+            titleElement.className = 'text-xl font-semibold mb-3 text-gray-800';
+            titleElement.textContent = list.title;
+
+            const cardsContainer = document.createElement('div');
+            cardsContainer.id = `cards-container-${list.id}`;
+            cardsContainer.className = 'space-y-2 min-h-[100px] p-1 rounded-md'; // Min height and some padding
+            cardsContainer.dataset.listId = list.id; // Store listId for drop events
+
+            cardsContainer.ondragover = (event) => {
+                event.preventDefault();
+                cardsContainer.classList.add('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400');
+            };
+            cardsContainer.ondragleave = (event) => {
+                cardsContainer.classList.remove('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400');
+            };
+            cardsContainer.ondrop = (event) => {
+                event.preventDefault();
+                cardsContainer.classList.remove('bg-blue-100', 'outline-dashed', 'outline-2', 'outline-blue-400');
+                const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+                const targetListId = cardsContainer.dataset.listId;
+                handleCardDrop(data.cardId, data.originalListId, targetListId);
+            };
+
+            cardsContainer.innerHTML = ''; // Clear previous cards
+
+            if (list.cards && list.cards.length > 0) {
+                list.cards.forEach(card => {
+                    const cardElement = renderCard(card, list.id);
+                    cardsContainer.appendChild(cardElement);
+                });
+            } else {
+                const noCardsMessage = document.createElement('div');
+                noCardsMessage.className = 'text-xs text-gray-400 p-2 text-center select-none'; // select-none to prevent text selection issues
+                noCardsMessage.textContent = 'No hay tarjetas en esta lista. Arrastra una aquí.';
+                cardsContainer.appendChild(noCardsMessage);
+            }
+
+            const addCardButton = document.createElement('button');
+            addCardButton.className = 'mt-3 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded w-full text-sm';
+            addCardButton.innerHTML = '<i class="fas fa-plus"></i> Añadir tarjeta';
+            addCardButton.onclick = () => {
+                addNewCardToList(list.id, list.title);
+            };
+
+            listElement.appendChild(titleElement);
+            listElement.appendChild(cardsContainer);
+            listElement.appendChild(addCardButton);
+
+            boardContainer.appendChild(listElement);
+        }
+
+        function renderCard(card, listId) {
+            const cardElement = document.createElement('div');
+            cardElement.id = `card-${card.id}`;
+            cardElement.dataset.cardId = card.id; // For easier identification
+            cardElement.className = 'bg-white p-2.5 rounded-md shadow hover:shadow-lg transition-shadow cursor-pointer'; // Changed cursor
+            cardElement.draggable = true;
+
+            cardElement.ondragstart = (event) => {
+                event.dataTransfer.setData('text/plain', JSON.stringify({ cardId: card.id, originalListId: listId }));
+                event.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => { // Timeout to allow the browser to render the drag image before hiding
+                    cardElement.classList.add('opacity-50', 'border-dashed', 'border-gray-400');
+                }, 0);
+            };
+
+            cardElement.ondragend = (event) => {
+                cardElement.classList.remove('opacity-50', 'border-dashed', 'border-gray-400');
+            };
+
+            const titleElement = document.createElement('h4');
+            titleElement.className = 'font-medium text-gray-800 text-sm';
+            titleElement.textContent = card.title;
+            cardElement.appendChild(titleElement);
+
+            // Cover Image Preview on Card
+            const coverImagePreview = document.createElement('img');
+            coverImagePreview.className = 'mt-2 rounded-sm max-h-20 w-full object-cover hidden'; // Initially hidden, increased max-h
+            if (card.coverImage) {
+                coverImagePreview.src = card.coverImage;
+                coverImagePreview.alt = "Vista previa de la portada";
+                coverImagePreview.classList.remove('hidden');
+            }
+            cardElement.appendChild(coverImagePreview);
+
+            // Mini details (labels, members, due date icons, checklist)
+            const miniDetailsContainer = document.createElement('div');
+            miniDetailsContainer.className = 'mt-2 flex flex-wrap gap-2 items-center text-xs'; // Removed text-gray-600 for individual control
+
+            if (card.dueDate) {
+                const dueDateEl = document.createElement('span');
+                // Ensure dueDate is treated as local by appending time if not present.
+                // Firestore typically stores dates as Timestamps, which convert to JS Date objects.
+                // If it's a string like "YYYY-MM-DD", it needs careful handling.
+                const dueDateObj = new Date(card.dueDate.includes('T') ? card.dueDate : card.dueDate + 'T00:00:00');
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+                let bgColorClass = 'bg-gray-100 text-gray-700'; // Default
+                const sevenDaysFromNow = new Date(today);
+                sevenDaysFromNow.setDate(today.getDate() + 7);
+
+                if (dueDateObj < today) {
+                    bgColorClass = 'bg-red-100 text-red-700'; // Overdue: light red background, red text
+                } else if (dueDateObj >= today && dueDateObj <= sevenDaysFromNow) {
+                    bgColorClass = 'bg-yellow-100 text-yellow-700'; // Due soon (within 7 days): light yellow background, yellow text
+                }
+
+                dueDateEl.className = `${bgColorClass} px-1.5 py-0.5 rounded-sm flex items-center`;
+                dueDateEl.innerHTML = `<i class="far fa-clock mr-1"></i> <span>${dueDateObj.toLocaleDateString('es-ES', {month:'short', day:'numeric'})}</span>`;
+                miniDetailsContainer.appendChild(dueDateEl);
+            }
+
+            if (card.labels && card.labels.length > 0) {
+                const labelsEl = document.createElement('div'); // Changed to div for potential multiple small label colors
+                labelsEl.className = 'flex items-center gap-1';
+                // Simple label count for now, could be individual small colored squares in future
+                const labelIcon = document.createElement('span');
+                labelIcon.className = `px-1.5 py-0.5 rounded-sm bg-gray-200 text-gray-700`;
+                labelIcon.innerHTML = `<i class="fas fa-tag mr-1"></i> ${card.labels.length}`;
+                labelsEl.appendChild(labelIcon);
+                miniDetailsContainer.appendChild(labelsEl);
+            }
+
+            if (card.members && card.members.length > 0) {
+                const membersEl = document.createElement('span');
+                membersEl.className = 'bg-gray-100 px-1.5 py-0.5 rounded-sm flex items-center';
+                // Placeholder for avatars, just count for now
+                membersEl.innerHTML = `<i class="fas fa-users mr-1 text-gray-500"></i> ${card.members.length}`;
+                miniDetailsContainer.appendChild(membersEl);
+            }
+
+            // Checklist progress on card (overall)
+            if (card.checklists && card.checklists.length > 0) {
+                let totalItems = 0;
+                let completedItems = 0;
+                card.checklists.forEach(checklist => {
+                    totalItems += checklist.items.length;
+                    completedItems += checklist.items.filter(item => item.completed).length;
+                });
+
+                if (totalItems > 0) {
+                    const checklistProgressEl = document.createElement('span');
+                    const allCompleted = completedItems === totalItems;
+                    checklistProgressEl.className = `px-1.5 py-0.5 rounded-sm flex items-center text-xs ${allCompleted ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`;
+                    checklistProgressEl.innerHTML = `<i class="far fa-check-square mr-1"></i> ${completedItems}/${totalItems}`;
+                    miniDetailsContainer.appendChild(checklistProgressEl);
+                }
+            }
+
+            if (miniDetailsContainer.hasChildNodes()) {
+                cardElement.appendChild(miniDetailsContainer);
+            }
+
+            cardElement.onclick = (event) => {
+                // Prevent opening modal if a drag action is initiated
+                if (cardElement.classList.contains('opacity-50')) return;
+                openCardModal(card.id, listId);
+            };
+
+            return cardElement;
+        }
+
+        async function addNewCardToList(listId, listTitle) {
+            const cardTitle = prompt(`Introduce el título para la nueva tarjeta en la lista "${listTitle}":`);
+            if (cardTitle && cardTitle.trim() !== "") {
+                const newCardId = `card-${Date.now()}`;
+                const newCard = {
+                    id: newCardId,
+                    title: cardTitle.trim(),
+                    description: "",
+                    coverImage: null, // or ""
+                    labels: [],
+                    members: [],
+                    dueDate: null, // or ""
+                    checklist: [],
+                    location: null,
+                    comments: [],
+                    attachments: []
+                };
+
+                try {
+                    const doc = await boardDocRef.get();
+                    if (doc.exists) {
+                        const boardData = doc.data();
+                        const currentLists = boardData.lists || [];
+
+                        const listIndex = currentLists.findIndex(list => list.id === listId);
+                        if (listIndex === -1) {
+                            console.error("Lista no encontrada:", listId);
+                            alert("Error: La lista a la que intentas añadir la tarjeta no fue encontrada.");
+                            return;
+                        }
+
+                        // Ensure cards array exists
+                        if (!currentLists[listIndex].cards) {
+                            currentLists[listIndex].cards = [];
+                        }
+                        currentLists[listIndex].cards.push(newCard);
+
+                        await boardDocRef.update({ lists: currentLists });
+                        console.log(`Nueva tarjeta "${newCard.title}" añadida a la lista "${listTitle}".`);
+                    } else {
+                        console.error("El documento del tablero no existe. No se puede añadir la tarjeta.");
+                        alert("Error: El tablero no existe. No se puede añadir la tarjeta.");
+                    }
+                } catch (error) {
+                    console.error("Error al añadir la tarjeta:", error);
+                    alert("Error al añadir la tarjeta. Revise la consola.");
+                }
+            }
+        }
+
+        function setupAddListButton() {
+            const addListButton = document.getElementById('addListButton');
+            addListButton.onclick = async () => {
+                const listTitle = prompt("Introduce el título para la nueva lista:");
+                if (listTitle && listTitle.trim() !== "") {
+                    const newListId = `list-${Date.now()}`;
+                    const newList = {
+                        id: newListId,
+                        title: listTitle.trim(),
+                        cards: [] // Initialize with an empty array of cards
+                    };
+
+                    try {
+                        const doc = await boardDocRef.get();
+                        if (doc.exists) {
+                            const currentLists = doc.data().lists || [];
+                            const updatedLists = [...currentLists, newList];
+                            await boardDocRef.update({ lists: updatedLists });
+                        } else {
+                            // If the document doesn't exist, create it with the new list
+                            await boardDocRef.set({ lists: [newList] });
+                        }
+                        console.log("Nueva lista añadida:", newList.title);
+                    } catch (error) {
+                        console.error("Error al añadir la lista:", error);
+                        alert("Error al añadir la lista. Revise la consola.");
+                    }
+                }
+            };
+        }
+
+        async function handleCardDrop(cardId, originalListId, targetListId) {
+            console.log(`Dropping card ${cardId} from list ${originalListId} to list ${targetListId}`);
+            if (!cardId || !originalListId || !targetListId) {
+                console.error("Información de drag/drop incompleta.");
+                return;
+            }
+
+            try {
+                const doc = await boardDocRef.get();
+                if (!doc.exists) {
+                    console.error("El documento del tablero no existe.");
+                    return;
+                }
+
+                let currentLists = doc.data().lists || [];
+                let cardToMove = null;
+                let originalListIndex = -1;
+                let targetListIndex = -1;
+
+                // Find lists and card
+                for (let i = 0; i < currentLists.length; i++) {
+                    if (currentLists[i].id === originalListId) {
+                        originalListIndex = i;
+                        if (currentLists[i].cards) {
+                            const cardIndex = currentLists[i].cards.findIndex(c => c.id === cardId);
+                            if (cardIndex > -1) {
+                                cardToMove = currentLists[i].cards[cardIndex];
+                            }
+                        }
+                    }
+                    if (currentLists[i].id === targetListId) {
+                        targetListIndex = i;
+                    }
+                }
+
+                if (!cardToMove) {
+                    console.error(`Tarjeta con ID ${cardId} no encontrada en la lista original ${originalListId}.`);
+                    // This might happen if the data changed rapidly or if there's a bug.
+                    // To prevent data loss, one might choose to skip the update or re-fetch.
+                    // For now, log and exit.
+                    return;
+                }
+
+                // Remove card from original list
+                if (originalListIndex > -1) {
+                    currentLists[originalListIndex].cards = currentLists[originalListIndex].cards.filter(c => c.id !== cardId);
+                } else {
+                     console.error(`Lista original con ID ${originalListId} no encontrada.`);
+                     return;
+                }
+
+                // Add card to target list (at the end for simplicity)
+                if (targetListIndex > -1) {
+                    if (!currentLists[targetListIndex].cards) {
+                        currentLists[targetListIndex].cards = [];
+                    }
+                    // Prevent adding duplicate card if something went wrong and card already exists in target (edge case)
+                    if (!currentLists[targetListIndex].cards.find(c => c.id === cardId)) {
+                         currentLists[targetListIndex].cards.push(cardToMove);
+                    } else {
+                        console.warn(`Card ${cardId} already exists in target list ${targetListId}. Skipping add.`);
+                    }
+                } else {
+                    console.error(`Lista destino con ID ${targetListId} no encontrada.`);
+                    return;
+                }
+
+                await boardDocRef.update({ lists: currentLists });
+                console.log(`Tarjeta ${cardId} movida de ${originalListId} a ${targetListId} en Firestore.`);
+
+            } catch (error) {
+                console.error("Error al mover la tarjeta:", error);
+                alert("Error al mover la tarjeta. Revise la consola.");
+            }
+        }
+
+        // Card Detail Modal Logic
+        let activeCardContext = {
+            cardId: null,
+            listId: null,
+            tempLabels: [],
+            tempMembers: [],
+            originalCoverImage: null,
+            tempDueDate: null,
+            tempChecklists: [],
+            tempLocation: null // For location {lat, lng, text}
+        };
+
+
+        function openCardModal(cardId, listId) {
+            // Close any open popups first
+            document.getElementById('labelManagerPopup').classList.add('hidden');
+            document.getElementById('memberManagerPopup').classList.add('hidden');
+
+            if (!currentBoardData || !currentBoardData.lists) {
+                console.error("Datos del tablero no disponibles para abrir el modal.");
+                return;
+            }
+            const list = currentBoardData.lists.find(l => l.id === listId);
+            if (!list || !list.cards) {
+                console.error(`Lista con ID ${listId} no encontrada o no tiene tarjetas.`);
+                return;
+            }
+            const card = list.cards.find(c => c.id === cardId);
+            if (!card) {
+                console.error(`Tarjeta con ID ${cardId} no encontrada en la lista ${listId}.`);
+                return;
+            }
+
+            activeCardContext = { cardId, listId }; // Store context
+            populateModalData(card);
+
+            const modal = document.getElementById('cardDetailModal');
+            modal.classList.remove('hidden');
+            // Focus the title input when modal opens
+            document.getElementById('modalCardTitleInput').focus();
+        }
+
+        function populateModalData(card) {
+            document.getElementById('modalCardTitleInput').value = card.title || '';
+            document.getElementById('modalCardDescription').value = card.description || '';
+
+            activeCardContext.originalCoverImage = card.coverImage || null;
+            document.getElementById('modalCoverImageInput').value = card.coverImage || '';
+            updateModalCoverImagePreview(card.coverImage);
+
+            // Store temporary selections for labels and members
+            activeCardContext.tempLabels = card.labels ? [...card.labels] : [];
+            activeCardContext.tempMembers = card.members ? [...card.members] : [];
+
+            populateModalLabels(card.labels);
+            populateModalMembers(card.members);
+
+            activeCardContext.tempDueDate = card.dueDate || null; // Initialize tempDueDate from card
+
+            const dueDateSectionSpan = document.getElementById('modalDueDateSection').querySelector('span');
+            const dueDateInput = document.getElementById('modalDueDateInput');
+            if (activeCardContext.tempDueDate) {
+                // Display date using UTC to avoid timezone shifts from simple YYYY-MM-DD
+                // Using 'T00:00:00Z' ensures the date is treated as UTC midnight
+                dueDateSectionSpan.textContent = new Date(activeCardContext.tempDueDate + 'T00:00:00Z').toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+                dueDateInput.value = activeCardContext.tempDueDate;
+            } else {
+                dueDateSectionSpan.textContent = 'Sin fecha de entrega.';
+                dueDateInput.value = '';
+            }
+
+            // Initialize and populate checklists
+            activeCardContext.tempChecklists = card.checklists ? JSON.parse(JSON.stringify(card.checklists)) : []; // Deep copy
+            populateModalChecklists();
+
+            activeCardContext.tempLocation = card.location ? JSON.parse(JSON.stringify(card.location)) : null;
+            populateModalLocationDisplay();
+
+        }
+
+        function updateModalCoverImagePreview(url) {
+            const imgElement = document.getElementById('modalCoverImage');
+            const errorElement = document.getElementById('modalCoverImageError');
+            if (url && url.trim() !== "") {
+                imgElement.src = url.trim();
+                imgElement.classList.remove('hidden');
+                errorElement.classList.add('hidden');
+                imgElement.onerror = () => {
+                    imgElement.classList.add('hidden');
+                    errorElement.textContent = 'No se pudo cargar la imagen. Verifique la URL.';
+                    errorElement.classList.remove('hidden');
+                };
+                imgElement.onload = () => {
+                     errorElement.classList.add('hidden');
+                }
+            } else {
+                imgElement.src = '';
+                imgElement.classList.add('hidden');
+                errorElement.classList.add('hidden');
+            }
+        }
+
+        function populateModalLabels(labelIds = []) {
+            const labelsSection = document.getElementById('modalLabelsSection');
+            labelsSection.innerHTML = ''; // Clear current labels
+            const availableLabels = currentBoardData.availableLabels || [];
+
+            if (labelIds.length === 0) {
+                labelsSection.textContent = 'Sin etiquetas asignadas.';
+                return;
+            }
+
+            labelIds.forEach(labelId => {
+                const labelInfo = availableLabels.find(l => l.id === labelId);
+                if (labelInfo) {
+                    const labelChip = document.createElement('span');
+                    labelChip.className = `px-2 py-1 text-xs rounded-full font-semibold`;
+                    // Tailwind doesn't support dynamic class names well for JIT, so use inline style for background
+                    labelChip.style.backgroundColor = labelInfo.color || '#cccccc'; // fallback color
+                    // Determine text color based on background brightness (simple heuristic)
+                    const hexColor = (labelInfo.color || '#cccccc').replace('#','');
+                    const r = parseInt(hexColor.substring(0,2),16);
+                    const g = parseInt(hexColor.substring(2,4),16);
+                    const b = parseInt(hexColor.substring(4,6),16);
+                    const brightness = (r*299 + g*587 + b*114) / 1000;
+                    labelChip.style.color = brightness > 128 ? 'black' : 'white';
+                    labelChip.textContent = labelInfo.name;
+                    labelsSection.appendChild(labelChip);
+                }
+            });
+        }
+
+        function populateModalMembers(memberIds = []) {
+            const membersSection = document.getElementById('modalMembersSection');
+            membersSection.innerHTML = ''; // Clear current members
+            const teamMembers = currentBoardData.teamMembers || [];
+
+            if (memberIds.length === 0) {
+                membersSection.textContent = 'Sin miembros asignados.';
+                return;
+            }
+
+            memberIds.forEach(memberId => {
+                const memberInfo = teamMembers.find(m => m.id === memberId);
+                if (memberInfo) {
+                    const memberChip = document.createElement('span');
+                    memberChip.className = 'flex items-center bg-gray-200 px-2 py-1 text-xs rounded-full';
+                    // Avatar placeholder
+                    const avatar = document.createElement('span');
+                    avatar.className = 'w-4 h-4 rounded-full bg-blue-500 text-white text-xxs flex items-center justify-center mr-1.5';
+                    avatar.textContent = memberInfo.name ? memberInfo.name.substring(0,1).toUpperCase() : '?';
+                    memberChip.appendChild(avatar);
+                    memberChip.appendChild(document.createTextNode(memberInfo.name || 'Desconocido'));
+                    membersSection.appendChild(memberChip);
+                }
+            });
+        }
+
+
+        function closeCardModal() {
+            const modal = document.getElementById('cardDetailModal');
+            modal.classList.add('hidden');
+             // Close popups if open
+            document.getElementById('labelManagerPopup').classList.add('hidden');
+            document.getElementById('memberManagerPopup').classList.add('hidden');
+
+            activeCardContext = {
+                cardId: null, listId: null, tempLabels: [], tempMembers: [],
+                originalCoverImage: null, tempDueDate: null // Ensure tempDueDate is reset
+            };
+
+            document.getElementById('modalCardTitleInput').value = '';
+            document.getElementById('modalCardDescription').value = '';
+            document.getElementById('modalCoverImageInput').value = '';
+            updateModalCoverImagePreview('');
+            document.getElementById('modalLabelsSection').textContent = 'Sin etiquetas asignadas.';
+            document.getElementById('modalMembersSection').textContent = 'Sin miembros asignados.';
+
+            // Reset Due Date section in modal
+            const dueDateSectionSpan = document.getElementById('modalDueDateSection').querySelector('span');
+            const dueDateInput = document.getElementById('modalDueDateInput');
+            const editDueDateButton = document.getElementById('editDueDateButton');
+            dueDateSectionSpan.textContent = 'Sin fecha de entrega.';
+            dueDateInput.value = '';
+            dueDateInput.classList.add('hidden'); // Ensure input is hidden
+            dueDateSectionSpan.classList.remove('hidden'); // Ensure span is shown
+            editDueDateButton.textContent = 'Editar'; // Reset button text
+
+            // Reset Checklist section
+            document.getElementById('modalChecklistsContainer').innerHTML = '';
+            document.getElementById('noChecklistsMessage').classList.remove('hidden');
+            activeCardContext.tempChecklists = [];
+
+            // Reset Location display and tempLocation
+            document.getElementById('modalLocationDisplay').textContent = 'Sin ubicación asignada.';
+            activeCardContext.tempLocation = null;
+            const staticMapPreview = document.getElementById('modalLocationStaticMapPreview');
+            if (staticMapPreview._leaflet_id) { // If map was initialized
+                staticMapPreview._leaflet_map_instance.remove();
+                staticMapPreview._leaflet_map_instance = null;
+            }
+            staticMapPreview.classList.add('hidden');
+            staticMapPreview.innerHTML = ''; // Clear any old map tiles
+        }
+
+        // --- Location Picker Modal & Logic ---
+
+        let leafletMap = null; // Holds the map instance for the location picker
+        let leafletMarker = null; // Holds the marker instance
+        let staticPreviewMap = null; // Holds the static preview map instance in the main modal
+
+        function initializeLocationPickerMap(lat = 51.505, lng = -0.09) { // Default to London
+            const mapDiv = document.getElementById('locationMapDiv');
+            if (!mapDiv) {
+                console.error("locationMapDiv not found!");
+                return;
+            }
+            if (leafletMap) {
+                leafletMap.setView([lat, lng], 13);
+                 if (leafletMarker) {
+                    leafletMarker.setLatLng([lat, lng]);
+                } else {
+                    leafletMarker = L.marker([lat, lng]).addTo(leafletMap);
+                }
+                // Ensure map size is correct if it was hidden and shown
+                setTimeout(() => leafletMap.invalidateSize(), 0);
+                return;
+            }
+
+            leafletMap = L.map('locationMapDiv').setView([lat, lng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(leafletMap);
+
+            leafletMap.on('click', function(e) {
+                const { lat, lng } = e.latlng;
+                reverseGeocode(lat, lng);
+            });
+             setTimeout(() => leafletMap.invalidateSize(), 0); // Initial invalidate
+        }
+
+        async function reverseGeocode(lat, lng) {
+            document.getElementById('selectedLocationText').textContent = 'Obteniendo dirección...';
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
+                const data = await response.json();
+                const addressText = data.display_name || `Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`;
+                updateMarkerAndSelectedText(lat, lng, addressText);
+            } catch (error) {
+                console.error("Error en geocodificación inversa:", error);
+                updateMarkerAndSelectedText(lat, lng, `Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)} (Error al obtener dirección)`);
+            }
+        }
+
+        function updateMarkerAndSelectedText(lat, lng, text) {
+            if (!leafletMap) return;
+            if (leafletMarker) {
+                leafletMarker.setLatLng([lat, lng]);
+            } else {
+                leafletMarker = L.marker([lat, lng]).addTo(leafletMap);
+            }
+            leafletMap.panTo([lat,lng]);
+            document.getElementById('selectedLocationText').textContent = text || `Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}`;
+            document.getElementById('confirmLocationPickButton')._tempLocationData = { lat, lng, text: text || `Lat: ${lat.toFixed(5)}, Lng: ${lng.toFixed(5)}` };
+        }
+
+        function populateModalLocationDisplay() {
+            const display = document.getElementById('modalLocationDisplay');
+            if (activeCardContext.tempLocation && activeCardContext.tempLocation.text) {
+                display.textContent = activeCardContext.tempLocation.text;
+            } else if (activeCardContext.tempLocation && activeCardContext.tempLocation.lat && activeCardContext.tempLocation.lng) {
+                 display.textContent = `Lat: ${activeCardContext.tempLocation.lat.toFixed(5)}, Lng: ${activeCardContext.tempLocation.lng.toFixed(5)}`;
+            }
+            else {
+                display.textContent = 'Sin ubicación asignada.';
+            }
+        }
+
+        function closeLocationPicker() {
+            document.getElementById('locationPickerModal').classList.add('hidden');
+            // Do not remove the marker from the map here, its state is managed by initialize or new selections.
+        }
+
+
+        // Event Listeners for Modal and its components
+        document.addEventListener('DOMContentLoaded', () => {
+            // Modal close
+            document.getElementById('closeModalButton').addEventListener('click', closeCardModal);
+            document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+                 // Close only if backdrop itself is clicked, not content of popups
+                if (e.target.id === 'modalBackdrop') {
+                    // Check if location picker is open, if so, maybe don't close main modal?
+                    // For now, simple: closes everything.
+                    if (!document.getElementById('locationPickerModal').classList.contains('hidden')) {
+                        // console.log("Backdrop clicked while location picker open");
+                        // return; // Or handle closing location picker first
+                    }
+                    if (!document.getElementById('labelManagerPopup').classList.contains('hidden') ||
+                        !document.getElementById('memberManagerPopup').classList.contains('hidden')) {
+                        // If popups are open, this click might be intended for them or to close them.
+                    }
+                    closeCardModal();
+                }
+            });
+
+            // Cover Image Input
+            const coverImageInput = document.getElementById('modalCoverImageInput');
+            coverImageInput.addEventListener('change', () => { // Using change for committed URL
+                updateModalCoverImagePreview(coverImageInput.value);
+            });
+
+            // Manage Labels Button
+            document.getElementById('manageLabelsButton').addEventListener('click', () => {
+                document.getElementById('memberManagerPopup').classList.add('hidden'); // Close other popup
+                populateLabelManagerPopup();
+                document.getElementById('labelManagerPopup').classList.toggle('hidden');
+            });
+            document.getElementById('closeLabelManagerButton').addEventListener('click', () => {
+                document.getElementById('labelManagerPopup').classList.add('hidden');
+                populateModalLabels(activeCardContext.tempLabels); // Update modal display with temp selections
+            });
+
+            // Manage Members Button
+            document.getElementById('manageMembersButton').addEventListener('click', () => {
+                document.getElementById('labelManagerPopup').classList.add('hidden'); // Close other popup
+                populateMemberManagerPopup();
+                document.getElementById('memberManagerPopup').classList.toggle('hidden');
+            });
+             document.getElementById('closeMemberManagerButton').addEventListener('click', () => {
+                document.getElementById('memberManagerPopup').classList.add('hidden');
+                populateModalMembers(activeCardContext.tempMembers); // Update modal display with temp selections
+            });
+
+
+            // Edit Due Date
+            const editDueDateButton = document.getElementById('editDueDateButton');
+            const dueDateSectionSpan = document.getElementById('modalDueDateSection').querySelector('span');
+            const dueDateInput = document.getElementById('modalDueDateInput');
+
+            editDueDateButton.addEventListener('click', () => {
+                const isInputHidden = dueDateInput.classList.contains('hidden');
+                if (isInputHidden) { // About to show input
+                    dueDateInput.value = activeCardContext.tempDueDate || ''; // Populate with current temp value
+                    dueDateSectionSpan.classList.add('hidden');
+                    dueDateInput.classList.remove('hidden');
+                    editDueDateButton.textContent = 'Guardar Fecha';
+                    dueDateInput.focus();
+                } else { // About to hide input (Save action)
+                    activeCardContext.tempDueDate = dueDateInput.value || null; // Update tempDueDate
+                    if (activeCardContext.tempDueDate) {
+                        // Display date using UTC to avoid timezone shifts from simple YYYY-MM-DD
+                        dueDateSectionSpan.textContent = new Date(activeCardContext.tempDueDate + 'T00:00:00Z').toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+                    } else {
+                         dueDateSectionSpan.textContent = 'Sin fecha de entrega.';
+                    }
+                    dueDateSectionSpan.classList.remove('hidden');
+                    dueDateInput.classList.add('hidden');
+                    editDueDateButton.textContent = 'Editar';
+                }
+            });
+
+            // Removed blur event listener for due date input to simplify logic.
+            // User must explicitly click "Guardar Fecha" (which is the toggled "Editar" button).
+
+            // --- Location Picker Event Listeners ---
+            document.getElementById('editLocationButton').addEventListener('click', () => {
+                const locationPickerModal = document.getElementById('locationPickerModal');
+                locationPickerModal.classList.remove('hidden');
+                document.getElementById('locationSearchInput').value = '';
+
+                const currentLoc = activeCardContext.tempLocation;
+                if (currentLoc && currentLoc.lat && currentLoc.lng) {
+                    initializeLocationPickerMap(currentLoc.lat, currentLoc.lng);
+                    const displayText = currentLoc.text || `Lat: ${currentLoc.lat.toFixed(5)}, Lng: ${currentLoc.lng.toFixed(5)}`;
+                    updateMarkerAndSelectedText(currentLoc.lat, currentLoc.lng, displayText);
+                } else {
+                    initializeLocationPickerMap();
+                    document.getElementById('selectedLocationText').textContent = 'Busca una dirección o haz clic en el mapa.';
+                    if (leafletMarker) {
+                        leafletMarker.remove(); // Remove marker if one was placed during default init
+                        leafletMarker = null;
+                    }
+                    document.getElementById('confirmLocationPickButton')._tempLocationData = null;
+                }
+            });
+
+            document.getElementById('closeLocationPickerButton').addEventListener('click', closeLocationPicker);
+            document.getElementById('cancelLocationPickButton').addEventListener('click', closeLocationPicker);
+
+            document.getElementById('confirmLocationPickButton').addEventListener('click', () => {
+                const newLocation = document.getElementById('confirmLocationPickButton')._tempLocationData;
+                if (newLocation) {
+                    activeCardContext.tempLocation = { ...newLocation };
+                    populateModalLocationDisplay();
+                }
+                closeLocationPicker();
+            });
+
+            const locationSearchInput = document.getElementById('locationSearchInput');
+            locationSearchInput.addEventListener('keypress', async (e) => {
+                if (e.key === 'Enter' && leafletMap) {
+                    e.preventDefault();
+                    const query = locationSearchInput.value;
+                    if (!query) return;
+                    document.getElementById('selectedLocationText').textContent = 'Buscando...';
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1&addressdetails=1`);
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.json();
+
+                        if (data && data.length > 0) {
+                            const { lat, lon, display_name } = data[0];
+                            const parsedLat = parseFloat(lat);
+                            const parsedLon = parseFloat(lon);
+                            leafletMap.setView([parsedLat, parsedLon], 13);
+                            updateMarkerAndSelectedText(parsedLat, parsedLon, display_name);
+                        } else {
+                            document.getElementById('selectedLocationText').textContent = 'No se encontraron resultados para tu búsqueda.';
+                        }
+                    } catch (error) {
+                        console.error("Error en geocodificación:", error);
+                        document.getElementById('selectedLocationText').textContent = 'Error al buscar la ubicación.';
+                    }
+                }
+            });
+
+
+            // Save Card Changes
+            document.getElementById('saveCardChangesButton').addEventListener('click', async () => {
+                if (!activeCardContext.cardId || !activeCardContext.listId) {
+                    alert("Error: No hay tarjeta activa para guardar. Por favor, cierre y vuelva a abrir la tarjeta.");
+                    return;
+                }
+
+                // Ensure tempDueDate is up-to-date if input was visible and not explicitly saved by "Guardar Fecha"
+                const dueDateInput = document.getElementById('modalDueDateInput');
+                if (!dueDateInput.classList.contains('hidden')) {
+                     activeCardContext.tempDueDate = dueDateInput.value || null;
+                }
+
+                const updatedCardData = {
+                    id: activeCardContext.cardId, // Ensure ID is preserved
+                    title: document.getElementById('modalCardTitleInput').value.trim(),
+                    description: document.getElementById('modalCardDescription').value.trim(),
+                    coverImage: document.getElementById('modalCoverImageInput').value.trim() || null,
+                    labels: activeCardContext.tempLabels || [],
+                    members: activeCardContext.tempMembers || [],
+                    dueDate: activeCardContext.tempDueDate || null,
+                    checklists: activeCardContext.tempChecklists || [],
+                    location: activeCardContext.tempLocation || null
+                };
+
+                try {
+                    const currentLists = JSON.parse(JSON.stringify(currentBoardData.lists || [])); // Deep copy
+                    const listIndex = currentLists.findIndex(list => list.id === activeCardContext.listId);
+
+                    if (listIndex === -1) {
+                        throw new Error("Lista no encontrada.");
+                    }
+                    if (!currentLists[listIndex].cards) {
+                         currentLists[listIndex].cards = []; // Should not happen if card was opened
+                    }
+                    const cardIndex = currentLists[listIndex].cards.findIndex(card => card.id === activeCardContext.cardId);
+                    if (cardIndex === -1) {
+                        throw new Error("Tarjeta no encontrada en la lista.");
+                    }
+
+                    // Preserve any properties not directly edited by the modal, merge new ones
+                    currentLists[listIndex].cards[cardIndex] = {
+                        ...currentLists[listIndex].cards[cardIndex],
+                        ...updatedCardData
+                    };
+
+                    await boardDocRef.update({ lists: currentLists });
+
+                    // Optional: Simple feedback
+                    const saveButton = document.getElementById('saveCardChangesButton');
+                    const originalText = saveButton.innerHTML;
+                    saveButton.innerHTML = '<i class="fas fa-check mr-1"></i> Guardado!';
+                    saveButton.classList.add('bg-green-700');
+                    setTimeout(() => {
+                        saveButton.innerHTML = originalText;
+                        saveButton.classList.remove('bg-green-700');
+                        closeCardModal();
+                    }, 1000);
+
+                } catch (error) {
+                    console.error("Error al guardar cambios:", error);
+                    alert(`Error al guardar cambios: ${error.message}`);
+                }
+            });
+
+            // Archive Card
+            document.getElementById('archiveCardButton').addEventListener('click', async () => {
+                if (!activeCardContext.cardId || !activeCardContext.listId) {
+                    alert("Error: No hay tarjeta activa para archivar.");
+                    return;
+                }
+
+                if (confirm('¿Seguro que quieres archivar esta tarjeta?')) {
+                    try {
+                        let currentLists = JSON.parse(JSON.stringify(currentBoardData.lists || [])); // Deep copy
+                        const listIndex = currentLists.findIndex(list => list.id === activeCardContext.listId);
+
+                        if (listIndex === -1) {
+                            throw new Error("Lista no encontrada.");
+                        }
+
+                        if (!currentLists[listIndex].cards) {
+                             throw new Error("No hay tarjetas en la lista para archivar.");
+                        }
+
+                        const originalCardCount = currentLists[listIndex].cards.length;
+                        currentLists[listIndex].cards = currentLists[listIndex].cards.filter(card => card.id !== activeCardContext.cardId);
+
+                        if (currentLists[listIndex].cards.length === originalCardCount) {
+                             throw new Error("Tarjeta no encontrada para archivar.");
+                        }
+
+                        await boardDocRef.update({ lists: currentLists });
+                        alert("Tarjeta archivada con éxito."); // Simple feedback
+                        closeCardModal();
+
+                    } catch (error) {
+                        console.error("Error al archivar la tarjeta:", error);
+                        alert(`Error al archivar la tarjeta: ${error.message}`);
+                    }
+                }
+            });
+        });
+
+        function populateLabelManagerPopup() {
+            const container = document.getElementById('availableLabelsContainer');
+            container.innerHTML = '';
+            const availableLabels = currentBoardData.availableLabels || [];
+            if (availableLabels.length === 0) {
+                container.textContent = 'No hay etiquetas disponibles para configurar.';
+                return;
+            }
+
+            availableLabels.forEach(label => {
+                const div = document.createElement('div');
+                div.className = 'p-1.5 hover:bg-gray-100 rounded cursor-pointer flex items-center justify-between';
+                div.dataset.labelId = label.id;
+
+                const labelDisplay = document.createElement('span');
+                labelDisplay.className = 'flex items-center';
+
+                const colorDot = document.createElement('span');
+                colorDot.className = 'w-3 h-3 rounded-full mr-2 inline-block';
+                colorDot.style.backgroundColor = label.color || '#cccccc';
+                labelDisplay.appendChild(colorDot);
+                labelDisplay.appendChild(document.createTextNode(label.name));
+
+                div.appendChild(labelDisplay);
+
+                const checkIcon = document.createElement('i');
+                checkIcon.className = 'fas fa-check text-green-500 ml-2';
+                if (!activeCardContext.tempLabels.includes(label.id)) {
+                    checkIcon.classList.add('hidden');
+                }
+                div.appendChild(checkIcon);
+
+                div.onclick = () => {
+                    checkIcon.classList.toggle('hidden');
+                    if (activeCardContext.tempLabels.includes(label.id)) {
+                        activeCardContext.tempLabels = activeCardContext.tempLabels.filter(id => id !== label.id);
+                    } else {
+                        activeCardContext.tempLabels.push(label.id);
+                    }
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function populateMemberManagerPopup() {
+            const container = document.getElementById('availableMembersContainer');
+            container.innerHTML = '';
+            const teamMembers = currentBoardData.teamMembers || [];
+             if (teamMembers.length === 0) {
+                container.textContent = 'No hay miembros de equipo para asignar.';
+                return;
+            }
+
+            teamMembers.forEach(member => {
+                const div = document.createElement('div');
+                div.className = 'p-1.5 hover:bg-gray-100 rounded cursor-pointer flex items-center justify-between';
+                div.dataset.memberId = member.id;
+
+                const memberDisplay = document.createElement('span');
+                memberDisplay.className = 'flex items-center';
+                const avatar = document.createElement('span');
+                avatar.className = 'w-5 h-5 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center mr-2';
+                avatar.textContent = member.name ? member.name.substring(0,1).toUpperCase() : '?';
+                memberDisplay.appendChild(avatar);
+                memberDisplay.appendChild(document.createTextNode(member.name));
+
+                div.appendChild(memberDisplay);
+
+                const checkIcon = document.createElement('i');
+                checkIcon.className = 'fas fa-check text-green-500 ml-2';
+                 if (!activeCardContext.tempMembers.includes(member.id)) {
+                    checkIcon.classList.add('hidden');
+                }
+                div.appendChild(checkIcon);
+
+                div.onclick = () => {
+                    checkIcon.classList.toggle('hidden');
+                    if (activeCardContext.tempMembers.includes(member.id)) {
+                        activeCardContext.tempMembers = activeCardContext.tempMembers.filter(id => id !== member.id);
+                    } else {
+                        activeCardContext.tempMembers.push(member.id);
+                    }
+                };
+                container.appendChild(div);
+            });
+        }
+
+
+        // Initiate anonymous sign-in when the page loads
+        signInAnonymously();
+
+    </script>
+</body>
+</html>
