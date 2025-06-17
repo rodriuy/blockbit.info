@@ -249,35 +249,122 @@
     }
 
     async function setupInitialData() {
-        console.log("Configurando datos iniciales...");
-        const uid = generateUniqueId; // Alias for brevity
-        const userYouId = uid();
-        const lblTechId = uid(), lblResearchId = uid(), lblDesignId = uid();
+        console.log("Configurando datos iniciales del tablero Tesoros de Artigas...");
+        
+        const uid = generateUniqueId; // Alias
 
-        const initialData = {
-            title: "Tablero Principal Blockbit",
-            teamMembers: [{ id: userYouId, name: "Tú", avatar: "https://placehold.co/40x40/007bff/ffffff?text=T" }],
-            availableLabels: [
-                { id: lblTechId, name: "Tech", color: "bg-blue-500" },
-                { id: lblResearchId, name: "Investigación", color: "bg-purple-500" },
-                { id: lblDesignId, name: "Diseño", color: "bg-pink-500" },
-            ],
+        // 1. Define initialTeamMembers and initialAvailableLabels
+        const initialTeamMembers = [
+            { id: uid(), name: "Tú", avatar: "https://placehold.co/40x40/007bff/ffffff?text=T" },
+            { id: uid(), name: "Belén", avatar: "https://placehold.co/40x40/28a745/ffffff?text=B" },
+            { id: uid(), name: "Micaela", avatar: "https://placehold.co/40x40/ffc107/000000?text=M" }
+        ];
+
+        const initialAvailableLabels = [
+            { id: uid(), name: "Tech", color: "bg-indigo-500" },
+            { id: uid(), name: "Investigación", color: "bg-purple-500" },
+            { id: uid(), name: "Diseño", color: "bg-pink-500" },
+            { id: uid(), name: "Gestión", color: "bg-yellow-500" },
+            { id: uid(), name: "Estrategia", color: "bg-teal-500" },
+            { id: uid(), name: "Comunicación", color: "bg-cyan-500" },
+            { id: uid(), name: "Marketing", color: "bg-green-500" },
+            { id: uid(), name: "Infraestructura", color: "bg-gray-500" },
+            { id: uid(), name: "Producción", color: "bg-orange-500" },
+            { id: uid(), name: "Web", color: "bg-sky-500" },
+            { id: uid(), name: "Lanzamiento", color: "bg-rose-500" },
+            { id: uid(), name: "Logística", color: "bg-lime-500" },
+            { id: uid(), name: "Ventas", color: "bg-emerald-500" },
+            { id: uid(), name: "Comunidad", color: "bg-fuchsia-500" },
+            { id: uid(), name: "Producto", color: "bg-violet-500" }
+        ];
+
+        // 2. Create ID mappings
+        const idVos = initialTeamMembers.find(m => m.name === "Tú").id;
+        const idBelen = initialTeamMembers.find(m => m.name === "Belén").id;
+        const idMicaela = initialTeamMembers.find(m => m.name === "Micaela").id;
+
+        const memberPlaceholderToId = {
+            "ID_VOS": idVos,
+            "ID_BELEN": idBelen,
+            "ID_MICAELA": idMicaela
+        };
+
+        const labelNameToId = initialAvailableLabels.reduce((acc, label) => {
+            acc[label.name.toLowerCase()] = label.id;
+            return acc;
+        }, {});
+
+        // 3. Embed tesorosDeArtigasRawData (content from tesoros_de_artigas_data.js)
+        const tesorosDeArtigasRawData = { // This data is pasted from tesoros_de_artigas_data.js output
             lists: [
-                { id: uid(), title: "Ideas", cards: [
-                    { id:uid(), title:"Brainstorming nuevas funciones", description:"Sesión para definir features V2.\n- User auth\n- Pagos recurrentes", dueDate:null, startDate:null, members:[], labels:[], coverImage:null, checklists:[], location:null, attachments:[], activity:[{user:"Sistema", text:"Tarjeta creada", timestamp:new Date().toISOString()}], createdAt:new Date().toISOString(), updatedAt:new Date().toISOString() }
-                ]},
-                { id: uid(), title: "Backlog", cards: [
-                    { id:uid(), title:"Definir esquema de BD para usuarios", description:"Modelar la base de datos para perfiles de usuario y roles.", dueDate:new Date(Date.now() + 3*24*3600*1000).toISOString(), startDate:new Date().toISOString(), members:[userYouId], labels:[lblTechId], coverImage:"https://placehold.co/600x400/6366f1/fff?text=BD", checklists:[], location:null, attachments:[{name:"diagrama_v1.png", url:"#"}], activity:[{user:userYouId, text:"Tarea asignada.", timestamp:new Date().toISOString()}], createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()},
-                    { id:uid(), title:"Investigar pasarelas de pago", description:"Comparar Stripe, PayPal, MercadoPago.", dueDate:new Date(Date.now() + 7*24*3600*1000).toISOString(), startDate:new Date(Date.now() + 1*24*3600*1000).toISOString(), members:[], labels:[lblResearchId], coverImage:null, checklists:[], location:{lat: -34.6037, lng: -58.3816, text:"Buenos Aires, Argentina"}, attachments:[], activity:[], createdAt:new Date().toISOString(), updatedAt:new Date().toISOString()}
-                ]},
-                { id: uid(), title: "En Progreso", cards: [] },
-                { id: uid(), title: "Hecho", cards: [] }
-            ],
+                {
+                    id: "generateUniqueId()", title: "JUNIO: Planificación y Diseño (Mes 1)", cards: [
+                        { id: "generateUniqueId()", title: "Definición del MVP (Semana 1: 16-22 jun)", description: `Tareas (Todo el Equipo): Reunión clave. Definir las 5 "Tarjetas de Tesoro" iniciales (ej: Geoda, Boleadora, Estación AFE, Moneda, Carnaval). Definir la "cuota simbólica" del Programa Fundadores (sugiero $500 UYU por kit).`, dueDate: "2025-06-22T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["gestion", "estrategia"], startDate: "2025-06-16T09:00:00Z", createdAt: "2025-06-16T09:00:00Z", updatedAt: "2025-06-16T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-06-16T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Diseño de Identidad Visual (Semana 2: 23-29 jun)", description: `Tareas (Gurisas): Crear logo y paleta de colores para "Tesoros de Artigas". Diseñar las primeras 5 "Tarjetas de Tesoro" (frente y dorso). Preparar un diseño base para el "Mapa del Tesoro" (A4 plegable).`, dueDate: "2025-06-29T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño"], startDate: "2025-06-23T09:00:00Z", createdAt: "2025-06-23T09:00:00Z", updatedAt: "2025-06-23T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-06-23T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Plan de Comunicación Inicial (Semana 3: 30 jun - 6 jul)", description: `Tareas (Vos): Redactar borrador del Manifiesto Fundador (1 pág). Definir el mensaje clave y el "tono de voz" de la marca. Crear calendario de contenidos para el primer mes de RRSS.`, dueDate: "2025-07-06T23:59:59Z", members: ["ID_VOS"], labels: ["comunicacion", "marketing"], startDate: "2025-06-30T09:00:00Z", createdAt: "2025-06-30T09:00:00Z", updatedAt: "2025-06-30T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-06-30T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Setup Técnico Inicial (Semana 4: 7-13 jul)", description: `Tareas (Vos): Comprar dominio web (ej: tesorosdeartigas.uy). Crear cuentas de RRSS (Instagram, Facebook, TikTok). Configurar lista de correo en Mailchimp (o similar).`, dueDate: "2025-07-13T23:59:59Z", members: ["ID_VOS"], labels: ["tech", "infraestructura"], startDate: "2025-07-07T09:00:00Z", createdAt: "2025-07-07T09:00:00Z", updatedAt: "2025-07-07T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-07-07T09:00:00Z" }], location: null, coverImage: null, checklists: [] }
+                    ]
+                },
+                {
+                    id: "generateUniqueId()", title: "JULIO: Construcción (Mes 2)", cards: [
+                        { id: "generateUniqueId()", title: "Producción de Material Gráfico (Semanas 5-6: 14-27 jul)", description: `Tareas (Gurisas): Finalizar diseños de las 5 tarjetas y el mapa. Preparar archivos para imprenta. Buscar presupuestos de imprentas locales.`, dueDate: "2025-07-27T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño", "produccion"], startDate: "2025-07-14T09:00:00Z", createdAt: "2025-07-14T09:00:00Z", updatedAt: "2025-07-14T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-07-14T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Desarrollo Web - Landing Page (Semanas 7-8: 28 jul - 10 ago)", description: `Tareas (Vos): Construir landing page simple (puede ser con Carrd, Wix, o similar). Incluir: Manifiesto, cómo funciona, formulario de pre-registro para Fundadores.`, dueDate: "2025-08-10T23:59:59Z", members: ["ID_VOS"], labels: ["tech", "web"], startDate: "2025-07-28T09:00:00Z", createdAt: "2025-07-28T09:00:00Z", updatedAt: "2025-07-28T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-07-28T09:00:00Z" }], location: null, coverImage: null, checklists: [] }
+                    ]
+                },
+                {
+                    id: "generateUniqueId()", title: "AGOSTO: Lanzamiento (Mes 3)", cards: [
+                        { id: "generateUniqueId()", title: "Pre-Lanzamiento RRSS (Semanas 9-10: 11-24 ago)", description: `Tareas (Todo el Equipo): Iniciar publicaciones en RRSS (fotos de Artigas, pistas, Manifiesto). Anunciar Programa Fundadores. Captar primeros pre-registros.`, dueDate: "2025-08-24T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["marketing", "lanzamiento"], startDate: "2025-08-11T09:00:00Z", createdAt: "2025-08-11T09:00:00Z", updatedAt: "2025-08-11T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-08-11T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Producción y Logística Kits (Semanas 11-12: 25 ago - 7 sep)", description: `Tareas (Gurisas): Confirmar imprenta y enviar archivos. Definir packaging básico para los kits de Fundadores. Investigar opciones de envío local/nacional.`, dueDate: "2025-09-07T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["produccion", "logistica"], startDate: "2025-08-25T09:00:00Z", createdAt: "2025-08-25T09:00:00Z", updatedAt: "2025-08-25T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-08-25T09:00:00Z" }], location: null, coverImage: null, checklists: [] }
+                    ]
+                },
+                {
+                    id: "generateUniqueId()", title: "SEPTIEMBRE: Crecimiento (Mes 4)", cards: [
+                        { id: "generateUniqueId()", title: "Lanzamiento Oficial Programa Fundadores (Semana 13: 8-14 sep)", description: `Tareas (Todo el Equipo): Abrir inscripciones al Programa Fundadores (link a formulario/MercadoPago). Enviar kits a los primeros Fundadores.`, dueDate: "2025-09-14T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["lanzamiento", "ventas"], startDate: "2025-09-08T09:00:00Z", createdAt: "2025-09-08T09:00:00Z", updatedAt: "2025-09-08T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-09-08T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Contenido y Comunidad (Semanas 14-16: 15 sep - 5 oct)", description: `Tareas (Vos): Mantener flujo de contenido en RRSS. Interactuar con la comunidad. Recopilar feedback de Fundadores.`, dueDate: "2025-10-05T23:59:59Z", members: ["ID_VOS"], labels: ["marketing", "comunidad"], startDate: "2025-09-15T09:00:00Z", createdAt: "2025-09-15T09:00:00Z", updatedAt: "2025-09-15T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-09-15T09:00:00Z" }], location: null, coverImage: null, checklists: [] }
+                    ]
+                },
+                {
+                    id: "generateUniqueId()", title: "OCTUBRE: Preparación Final (Mes 5)", cards: [
+                        { id: "generateUniqueId()", title: "Diseño Expansión (Semanas 17-18: 6-19 oct)", description: `Tareas (Gurisas): Diseñar las siguientes 5-10 "Tarjetas de Tesoro" basadas en feedback y popularidad.`, dueDate: "2025-10-19T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño", "producto"], startDate: "2025-10-06T09:00:00Z", createdAt: "2025-10-06T09:00:00Z", updatedAt: "2025-10-06T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-10-06T09:00:00Z" }], location: null, coverImage: null, checklists: [] },
+                        { id: "generateUniqueId()", title: "Plan de Lanzamiento Público (Semanas 19-20: 20 oct - 2 nov)", description: `Tareas (Todo el Equipo): Definir estrategia para lanzamiento al público general (post-Fundadores). Planificar eventos o colaboraciones locales.`, dueDate: "2025-11-02T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["estrategia", "lanzamiento"], startDate: "2025-10-20T09:00:00Z", createdAt: "2025-10-20T09:00:00Z", updatedAt: "2025-10-20T09:00:00Z", attachments: [], activity: [{ user: "Sistema", text: "Tarjeta creada.", timestamp: "2025-10-20T09:00:00Z" }], location: null, coverImage: null, checklists: [] }
+                    ]
+                }
+            ]
+        };
+
+        // 4. Process raw data
+        const processedTesorosLists = tesorosDeArtigasRawData.lists.map(list => ({
+            ...list,
+            id: uid(), // Generate actual ID for the list
+            cards: list.cards.map(card => ({
+                ...card,
+                id: uid(), // Generate actual ID for the card
+                members: card.members.map(memberPlaceholder => memberPlaceholderToId[memberPlaceholder]).filter(id => id), 
+                labels: card.labels.map(labelName => labelNameToId[labelName.toLowerCase()]).filter(id => id), 
+                description: card.description || "",
+                dueDate: card.dueDate || null,
+                startDate: card.startDate || null,
+                coverImage: card.coverImage || null,
+                checklists: card.checklists || [],
+                location: card.location || null,
+                attachments: card.attachments || [],
+                activity: card.activity || [{ user: "Sistema", text: "Tarjeta creada.", timestamp: card.createdAt || new Date().toISOString() }],
+                createdAt: card.createdAt || new Date().toISOString(),
+                updatedAt: card.updatedAt || new Date().toISOString(),
+            }))
+        }));
+        
+        // 5. Construct newBoardData
+        const newBoardData = {
+            title: "Tesoros de Artigas - Plan de Proyecto", 
+            teamMembers: initialTeamMembers,
+            availableLabels: initialAvailableLabels,
+            lists: processedTesorosLists, 
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
-        try { await boardDocRef.set(initialData); console.log("Datos iniciales escritos."); }
-        catch (e) { console.error("Error escribiendo datos iniciales:", e); }
+        try { await boardDocRef.set(newBoardData); console.log("Datos iniciales de Tesoros de Artigas escritos."); }
+        catch (e) { console.error("Error escribiendo datos iniciales de Tesoros de Artigas:", e); }
     }
 
     function renderBoard() {
