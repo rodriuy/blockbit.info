@@ -40,6 +40,16 @@
     <div id="app-container" class="h-screen flex flex-col">
 
         <!-- Encabezado -->
+<<<<<<< jules_wip_9827308482249772926
+        <header class="bg-blue-700 text-white p-4 shadow-lg flex justify-between items-center print:hidden">
+            <h1 class="text-2xl font-bold">Tablero Blockbit</h1>
+            <div class="space-x-2">
+                <button id="board-view-btn" class="bg-blue-800 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn active-view-btn transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95" data-view="board-view"><i class="fas fa-th-large mr-2"></i>Tablero</button>
+                <button id="calendar-view-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95" data-view="calendar-view"><i class="fas fa-calendar-alt mr-2"></i>Calendario</button>
+                <button id="timeline-view-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95" data-view="timeline-view"><i class="fas fa-chart-gantt mr-2"></i>Cronograma</button>
+                <button id="dashboard-view-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95" data-view="dashboard-view"><i class="fas fa-tachometer-alt mr-2"></i>Panel</button>
+                <button id="filter-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-md text-sm transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95"><i class="fas fa-filter mr-2"></i>Filtrar</button>
+=======
         <header class="bg-blue-700 text-white p-3 shadow-lg flex justify-between items-center print:hidden">
             <h1 class="text-2xl font-bold">Tablero Blockbit</h1>
             <div class="space-x-2">
@@ -48,10 +58,20 @@
                 <button id="timeline-view-btn" class="bg-blue-500 hover:bg-blue-800 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn" data-view="timeline-view"><i class="fas fa-stream"></i> Cronograma</button>
                 <button id="dashboard-view-btn" class="bg-blue-500 hover:bg-blue-800 text-white font-semibold py-2 px-3 rounded-md text-sm view-toggle-btn" data-view="dashboard-view"><i class="fas fa-chart-pie"></i> Panel</button>
                 <button id="filter-btn" class="bg-blue-500 hover:bg-blue-800 text-white font-semibold py-2 px-3 rounded-md text-sm"><i class="fas fa-filter"></i> Filtrar</button>
+>>>>>>> main
             </div>
         </header>
 
         <!-- Área de Contenido Principal -->
+<<<<<<< jules_wip_9827308482249772926
+        <main id="main-content-area" class="flex-grow p-6 overflow-hidden">
+            <!-- Vista de Tablero (Kanban) -->
+            <div id="board-view" class="h-full overflow-x-auto">
+                <div id="lists-container" class="flex space-x-6 h-full pb-4">
+                    <!-- Las listas se insertarán aquí -->
+                    <div class="flex-shrink-0">
+                        <button id="add-list-button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md shadow w-72 h-12 flex items-center justify-center transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95">
+=======
         <main id="main-content-area" class="flex-grow p-4 overflow-hidden">
             <!-- Vista de Tablero (Kanban) -->
             <div id="board-view" class="h-full overflow-x-auto">
@@ -59,6 +79,7 @@
                     <!-- Las listas se insertarán aquí -->
                     <div class="flex-shrink-0">
                         <button id="add-list-button" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md shadow w-72 h-12 flex items-center justify-center">
+>>>>>>> main
                             <i class="fas fa-plus mr-2"></i> Añadir otra lista
                         </button>
                     </div>
@@ -66,25 +87,85 @@
             </div>
 
             <!-- Vista de Calendario (Oculta por defecto) -->
+<<<<<<< jules_wip_9827308482249772926
+            <div id="calendar-view" class="hidden h-full bg-white p-4 rounded-lg shadow transition-opacity duration-300 ease-in-out">
+=======
             <div id="calendar-view" class="hidden h-full bg-white p-4 rounded-lg shadow">
+>>>>>>> main
                 <h2 class="text-xl font-semibold mb-3">Vista de Calendario</h2>
                  <p>El calendario se mostrará aquí.</p>
             </div>
 
             <!-- Vista de Cronograma (Oculta por defecto) -->
+<<<<<<< jules_wip_9827308482249772926
+            <div id="timeline-view" class="hidden h-full bg-white p-4 rounded-lg shadow transition-opacity duration-300 ease-in-out">
+=======
             <div id="timeline-view" class="hidden h-full bg-white p-4 rounded-lg shadow">
+>>>>>>> main
                 <h2 class="text-xl font-semibold mb-3">Vista de Cronograma (Gantt)</h2>
                 <p>El cronograma se mostrará aquí.</p>
             </div>
 
             <!-- Vista de Panel (Oculta por defecto) -->
+<<<<<<< jules_wip_9827308482249772926
+            <div id="dashboard-view" class="hidden h-full bg-white p-4 rounded-lg shadow transition-opacity duration-300 ease-in-out">
+=======
             <div id="dashboard-view" class="hidden h-full bg-white p-4 rounded-lg shadow">
+>>>>>>> main
                 <h2 class="text-xl font-semibold mb-3">Panel de Métricas</h2>
                 <p>Las métricas y gráficos se mostrarán aquí.</p>
             </div>
         </main>
 
         <!-- Modal para Detalles de Tarjeta -->
+<<<<<<< jules_wip_9827308482249772926
+        <!-- Modal para Detalles de Tarjeta -->
+        <div id="card-detail-modal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center p-4 z-50 print:hidden transition-opacity duration-300 ease-in-out">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-3xl w-full flex flex-col modal-body-scroll transform transition-all duration-300 ease-in-out">
+                <!-- Encabezado del Modal -->
+                <div class="flex justify-between items-center mb-6 border-b border-gray-200 pb-4 bg-blue-600 -m-6 p-6 rounded-t-xl"> {/* Modal Header with Blue Background */}
+                    <div class="flex items-center w-full">
+                         <i class="fas fa-credit-card text-xl text-blue-100 mr-3"></i>
+                        <input type="text" id="modal-title-input" class="text-xl font-semibold text-white bg-transparent border-b-2 border-blue-400 focus:border-blue-200 outline-none w-full transition-colors duration-150 ease-in-out" placeholder="Título de la Tarjeta">
+                    </div>
+                    <button id="close-modal-button" class="text-blue-100 hover:text-white hover:bg-blue-500 rounded-full p-1 transition-all duration-150 ease-in-out transform hover:scale-110">
+                        <i class="fas fa-times fa-lg"></i>
+                    </button>
+                </div>
+
+                {/* Cuerpo del Modal - Adjusted top margin due to header background change */}
+                <div class="overflow-y-auto pr-3 pt-6 flex-grow custom-scrollbar">
+                    <div class="md:flex md:space-x-8">
+                        <div class="md:w-2/3">
+                            <div class="mb-6"> {/* Description Section */}
+                                <label for="modal-description" class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <i class="far fa-file-alt mr-2 text-gray-500"></i>Descripción (Markdown) {/* Changed icon, kept gray-500 as it's descriptive, not interactive like blue-500 ones */}
+                                </label>
+                                <textarea id="modal-description" rows="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-150 ease-in-out shadow-sm" placeholder="Añadir una descripción más detallada..."></textarea>
+                                <div class="mt-2">
+                                    <label class="block text-xs font-medium text-gray-500 mb-1">Vista Previa:</label>
+                                    <div id="modal-description-preview" class="p-3 border border-gray-200 rounded-lg bg-blue-50 min-h-[80px] prose prose-sm max-w-none text-sm custom-scrollbar overflow-auto"></div>
+                                </div>
+                            </div>
+
+                            <div id="modal-checklists-container" class="mb-6"> {/* Checklists Section */}
+                                <h4 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
+                                    <i class="fas fa-tasks mr-2 text-gray-500"></i>Checklist(s) {/* Changed icon */}
+                                </h4>
+                                <button id="add-checklist-button" class="mt-2 text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors duration-150 ease-in-out"><i class="fas fa-plus-square mr-1.5"></i>Añadir Checklist</button> {/* Added icon margin */}
+                            </div>
+
+                            <div class="mt-6"> {/* Activity Section */}
+                                <h4 class="text-base font-semibold text-gray-800 mb-3 flex items-center">
+                                    <i class="fas fa-history mr-2 text-gray-500"></i>Actividad {/* Changed icon */}
+                                </h4>
+                                <div class="mb-3"> {/* Comment Input Area */}
+                                    <input type="text" id="new-comment-input" placeholder="Escribe un comentario..." class="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-150 ease-in-out shadow-sm">
+                                    <button id="submit-comment-button" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-sm hover:shadow-md transform hover:scale-102 active:scale-98"><i class="fas fa-paper-plane mr-2"></i>Comentar</button>
+                                </div>
+                                <div id="modal-activity-log" class="space-y-3 max-h-60 overflow-y-auto bg-blue-50 p-3 rounded-lg border border-blue-200 text-xs custom-scrollbar">
+                                    <p class="text-sm text-gray-500 italic">No hay actividad reciente.</p>
+=======
         <div id="card-detail-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-50 print:hidden">
             <div class="bg-white p-5 rounded-lg shadow-2xl max-w-3xl w-full flex flex-col modal-body-scroll">
                 <!-- Encabezado del Modal -->
@@ -122,11 +203,44 @@
                                 </div>
                                 <div id="modal-activity-log" class="space-y-2 max-h-48 overflow-y-auto bg-gray-50 p-2 rounded border text-xs custom-scrollbar">
                                     <p class="text-sm text-gray-400 italic">No hay actividad reciente.</p>
+>>>>>>> main
                                 </div>
                             </div>
                         </div>
 
                         <div class="md:w-1/3 mt-6 md:mt-0">
+<<<<<<< jules_wip_9827308482249772926
+                            <h4 class="text-base font-semibold text-gray-800 mb-3">Añadir a la tarjeta</h4>
+                            <div class="mb-4"> {/* Members Button Group */}
+                                <button id="manage-members-button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 px-3 rounded-lg text-sm text-left flex items-center transition-all duration-150 ease-in-out shadow-sm hover:shadow transform hover:scale-102 active:scale-98"><i class="fas fa-users mr-2.5 w-4 text-slate-500"></i>Miembros</button>
+                                <div id="modal-members-list" class="mt-1.5 text-sm"></div>
+                            </div>
+                            <div class="mb-4"> {/* Labels Button Group */}
+                                <button id="manage-labels-button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 px-3 rounded-lg text-sm text-left flex items-center transition-all duration-150 ease-in-out shadow-sm hover:shadow transform hover:scale-102 active:scale-98"><i class="fas fa-tags mr-2.5 w-4 text-slate-500"></i>Etiquetas</button>
+                                <div id="modal-labels-list" class="mt-1.5 text-sm"></div>
+                            </div>
+                            <div class="mb-4"> {/* Due Date Button Group */}
+                                 <button id="edit-due-date-button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 px-3 rounded-lg text-sm text-left flex items-center transition-all duration-150 ease-in-out shadow-sm hover:shadow transform hover:scale-102 active:scale-98"><i class="fas fa-calendar-day mr-2.5 w-4 text-slate-500"></i>Fecha de Vencimiento</button>
+                                <div id="modal-due-date-display" class="mt-2 text-sm text-gray-700"></div>
+                                <input type="date" id="modal-due-date-input" class="hidden mt-1.5 p-2.5 border border-gray-300 rounded-lg w-full text-sm shadow-sm transition-all duration-150 ease-in-out focus:ring-blue-500">
+                            </div>
+                            <div class="mb-4"> {/* Location Button Group */}
+                                <button id="add-edit-location-button" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 px-3 rounded-lg text-sm text-left flex items-center transition-all duration-150 ease-in-out shadow-sm hover:shadow transform hover:scale-102 active:scale-98"><i class="fas fa-map-marker-alt mr-2.5 w-4 text-slate-500"></i>Ubicación</button>
+                                <div id="modal-location-display" class="mt-1.5 text-sm">
+                                    <p class="text-gray-500 italic text-xs">No hay ubicación.</p>
+                                    <div id="modal-static-map-preview" class="h-28 w-full bg-gray-100 rounded-lg mt-2 border border-gray-200"></div>
+                                </div>
+                            </div>
+                            <div class="mb-4"> {/* Attachments Section */}
+                                <h4 class="text-base font-semibold text-gray-800 mb-2 mt-4 flex items-center">
+                                    <i class="fas fa-paperclip mr-2 text-gray-500"></i>Archivos Adjuntos {/* Changed icon color */}
+                                </h4>
+                                <div id="attachments-display-area" class="space-y-1.5 text-sm max-h-36 overflow-y-auto custom-scrollbar p-2.5 bg-blue-50 rounded-lg border border-blue-200">
+                                    <p class="text-xs text-gray-500 italic">No hay archivos adjuntos.</p>
+                                </div>
+                                <button id="add-attachment-button" class="mt-2 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors duration-150 ease-in-out">
+                                    <i class="fas fa-plus-circle mr-1.5"></i>Adjuntar archivo (URL) {/* Added icon margin */}
+=======
                             <h4 class="text-md font-semibold text-gray-700 mb-2">Añadir a la tarjeta</h4>
                             <div class="mb-3">
                                 <button id="manage-members-button" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-3 rounded-md text-sm text-left flex items-center"><i class="fas fa-users mr-2 w-4"></i>Miembros</button>
@@ -155,20 +269,43 @@
                                 </div>
                                 <button id="add-attachment-button" class="mt-1 text-xs text-blue-600 hover:text-blue-800">
                                     <i class="fas fa-plus-circle"></i> Adjuntar archivo (URL)
+>>>>>>> main
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Pie del Modal -->
+<<<<<<< jules_wip_9827308482249772926
+                <div class="mt-8 flex justify-end space-x-4 border-t border-gray-200 pt-6">
+                    <button id="archive-card-button" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-md hover:shadow-lg transform hover:scale-102 active:scale-98"><i class="fas fa-archive mr-2"></i>Archivar</button>
+                    <button id="save-card-changes-button" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-md hover:shadow-lg transform hover:scale-102 active:scale-98"><i class="fas fa-save mr-2"></i>Guardar</button>
+=======
                 <div class="mt-6 flex justify-end space-x-3 border-t pt-4">
                     <button id="archive-card-button" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded text-sm"><i class="fas fa-archive mr-2"></i>Archivar Tarjeta</button>
                     <button id="save-card-changes-button" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded text-sm"><i class="fas fa-save mr-2"></i>Guardar Cambios</button>
+>>>>>>> main
                 </div>
             </div>
         </div>
 
         <!-- Modal para Selector de Ubicación con Leaflet -->
+<<<<<<< jules_wip_9827308482249772926
+        <div id="location-picker-modal" class="fixed inset-0 bg-black bg-opacity-75 hidden flex items-center justify-center p-4 z-[60] print:hidden transition-opacity duration-300 ease-in-out">
+            <div class="bg-white p-6 rounded-xl shadow-2xl max-w-xl w-full transform transition-all duration-300 ease-in-out">
+                <div class="flex justify-between items-center mb-5 border-b border-gray-200 pb-3 bg-blue-600 -m-6 p-6 rounded-t-xl"> {/* Modal Header with Blue Background */}
+                    <h3 class="text-xl font-semibold text-white"><i class="fas fa-map-marked-alt mr-2"></i>Seleccionar Ubicación</h3> {/* Added icon */}
+                    <button id="cancel-location-picker-close-button" class="text-blue-100 hover:text-white hover:bg-blue-500 rounded-full p-1 transition-all duration-150 ease-in-out transform hover:scale-110">
+                        <i class="fas fa-times fa-lg"></i>
+                    </button>
+                </div>
+                <input type="text" id="location-search-input" placeholder="Buscar dirección..." class="w-full p-3 border border-gray-300 rounded-lg mb-4 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all duration-150 ease-in-out mt-6"> {/* Added mt-6 for spacing from new header */}
+                <div id="leaflet-map-container" style="height: 300px;" class="rounded-lg border border-gray-300 mb-4"></div>
+                <p id="selected-location-text" class="mt-3 text-sm text-gray-600">Ubicación seleccionada: Ninguna</p>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button id="cancel-location-button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2.5 px-4 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-sm hover:shadow transform hover:scale-102 active:scale-98">Cancelar</button>
+                    <button id="confirm-location-button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg text-sm transition-all duration-150 ease-in-out shadow-md hover:shadow-lg transform hover:scale-102 active:scale-98">Confirmar</button>
+=======
         <div id="location-picker-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-[60] print:hidden">
             <div class="bg-white p-5 rounded-lg shadow-xl max-w-xl w-full">
                 <h3 class="text-xl font-semibold mb-3">Seleccionar Ubicación</h3>
@@ -178,6 +315,7 @@
                 <div class="mt-4 flex justify-end space-x-2">
                     <button id="cancel-location-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-3 rounded text-sm">Cancelar</button>
                     <button id="confirm-location-button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded text-sm">Confirmar Ubicación</button>
+>>>>>>> main
                 </div>
             </div>
         </div>
@@ -250,7 +388,11 @@
 
     async function setupInitialData() {
         console.log("Configurando datos iniciales del tablero Tesoros de Artigas...");
+<<<<<<< jules_wip_9827308482249772926
+
+=======
         
+>>>>>>> main
         const uid = generateUniqueId; // Alias
 
         // 1. Define initialTeamMembers and initialAvailableLabels
@@ -339,8 +481,13 @@
             cards: list.cards.map(card => ({
                 ...card,
                 id: uid(), // Generate actual ID for the card
+<<<<<<< jules_wip_9827308482249772926
+                members: card.members.map(memberPlaceholder => memberPlaceholderToId[memberPlaceholder]).filter(id => id),
+                labels: card.labels.map(labelName => labelNameToId[labelName.toLowerCase()]).filter(id => id),
+=======
                 members: card.members.map(memberPlaceholder => memberPlaceholderToId[memberPlaceholder]).filter(id => id), 
                 labels: card.labels.map(labelName => labelNameToId[labelName.toLowerCase()]).filter(id => id), 
+>>>>>>> main
                 description: card.description || "",
                 dueDate: card.dueDate || null,
                 startDate: card.startDate || null,
@@ -353,6 +500,15 @@
                 updatedAt: card.updatedAt || new Date().toISOString(),
             }))
         }));
+<<<<<<< jules_wip_9827308482249772926
+
+        // 5. Construct newBoardData
+        const newBoardData = {
+            title: "Tesoros de Artigas - Plan de Proyecto",
+            teamMembers: initialTeamMembers,
+            availableLabels: initialAvailableLabels,
+            lists: processedTesorosLists,
+=======
         
         // 5. Construct newBoardData
         const newBoardData = {
@@ -360,6 +516,7 @@
             teamMembers: initialTeamMembers,
             availableLabels: initialAvailableLabels,
             lists: processedTesorosLists, 
+>>>>>>> main
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         };
@@ -371,10 +528,17 @@
         if (!currentBoardData || !currentBoardData.lists) return;
         const listsContainer = document.getElementById('lists-container');
         const addListButtonContainer = listsContainer.querySelector('#add-list-button')?.parentElement;
+<<<<<<< jules_wip_9827308482249772926
+        listsContainer.innerHTML = '';
+
+        currentBoardData.lists.forEach(list => renderList(list, listsContainer));
+
+=======
         listsContainer.innerHTML = ''; 
 
         currentBoardData.lists.forEach(list => renderList(list, listsContainer));
         
+>>>>>>> main
         if (addListButtonContainer) listsContainer.appendChild(addListButtonContainer);
     }
 
@@ -388,8 +552,13 @@
                 <span class="text-sm text-gray-500">${listData.cards?.length || 0}</span>
             </h2>
             <div class="cards-container flex-grow space-y-3 overflow-y-auto p-1 min-h-[80px] custom-scrollbar" data-list-id="${listData.id}"></div>
+<<<<<<< jules_wip_9827308482249772926
+            <button class="add-card-btn mt-3 text-blue-600 hover:text-blue-700 py-2 rounded-md hover:bg-blue-100 w-full text-sm flex items-center justify-center transition-all duration-150 ease-in-out transform hover:scale-102 active:scale-98"> {/* Added full transition */}
+                <i class="fas fa-plus mr-2"></i>Añadir tarjeta
+=======
             <button class="add-card-btn mt-3 text-blue-600 hover:text-blue-700 py-2 rounded-md hover:bg-blue-100 w-full text-sm flex items-center justify-center">
                 <i class="fas fa-plus mr-2"></i> Añadir tarjeta
+>>>>>>> main
             </button>`;
         const cardsCont = listEl.querySelector('.cards-container');
         if (listData.cards?.length) {
@@ -397,7 +566,11 @@
         } else {
             cardsCont.innerHTML = '<p class="text-xs text-gray-500 p-2 text-center italic">Lista vacía</p>';
         }
+<<<<<<< jules_wip_9827308482249772926
+
+=======
         
+>>>>>>> main
         listEl.querySelector('.add-card-btn').addEventListener('click', () => {
             const title = prompt(`Nueva tarjeta para "${listData.title}":`);
             if (title) addNewCardToList(listData.id, title);
@@ -409,15 +582,42 @@
     function renderCard(cardData, container, listId) {
         const cardEl = document.createElement('div');
         cardEl.id = `card-${cardData.id}`;
+<<<<<<< jules_wip_9827308482249772926
+        // Refined card styling: more padding, subtle border, enhanced shadows
+        cardEl.className = 'bg-white p-2.5 rounded-md shadow-md hover:shadow-lg border border-gray-200 flex flex-col space-y-2 transition-all duration-200 ease-in-out hover:-translate-y-px hover:scale-[1.01] transform cursor-pointer';
+        cardEl.draggable = true;
+
+        // Card Title
+        const titleEl = document.createElement('p');
+        titleEl.className = 'font-medium text-sm text-gray-800 break-words';
+        titleEl.textContent = cardData.title;
+
+        // Placeholder for metadata icons (future enhancement)
+        const metadataPlaceholder = document.createElement('div');
+        metadataPlaceholder.className = 'h-5 text-xs text-gray-400 flex items-center space-x-2'; // Fixed height for alignment
+        // Example of what could go here if data was rendered:
+        // if (cardData.dueDate) metadataPlaceholder.innerHTML += `<i class="fas fa-calendar-alt"></i>`;
+        // if (cardData.members?.length) metadataPlaceholder.innerHTML += `<i class="fas fa-users"></i>`;
+        // if (cardData.attachments?.length) metadataPlaceholder.innerHTML += `<i class="fas fa-paperclip"></i>`;
+
+        cardEl.appendChild(titleEl);
+        cardEl.appendChild(metadataPlaceholder); // Add placeholder even if empty for consistent structure
+
+=======
         cardEl.className = 'bg-white p-3 rounded-md shadow cursor-pointer hover:shadow-lg transition-shadow duration-150';
         cardEl.draggable = true;
         cardEl.innerHTML = `<p class="font-medium text-sm text-gray-800">${cardData.title}</p>`; // Basic display
         
+>>>>>>> main
         cardEl.addEventListener('click', () => openCardModal(cardData, listId));
         cardEl.addEventListener('dragstart', e => handleDragStart(e, cardData.id, listId));
         container.appendChild(cardEl);
     }
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     document.getElementById('add-list-button')?.addEventListener('click', async () => {
         const title = prompt("Nombre de la nueva lista:");
         if (title && currentBoardData) {
@@ -464,7 +664,11 @@
                 return { ...l, cards: l.cards.filter(c => c.id !== draggedItemId) };
             } return l;
         }).map(l => l.id === targetListId && cardToMove ? { ...l, cards: [...l.cards, cardToMove] } : l );
+<<<<<<< jules_wip_9827308482249772926
+
+=======
         
+>>>>>>> main
         if (cardToMove) {
             try { await boardDocRef.update({ lists: tempLists }); console.log("Tarjeta movida."); }
             catch (e) { console.error("Error moviendo tarjeta:", e); renderBoard(); } // Revert on error
@@ -498,7 +702,11 @@
         updateDescriptionPreview(activeCardContext.tempDescription || '');
         renderAttachmentsList(activeCardContext.tempAttachments || []);
         renderActivityLog(activeCardContext.tempActivity || []);
+<<<<<<< jules_wip_9827308482249772926
+
+=======
         
+>>>>>>> main
         const locDisp = document.getElementById('modal-location-display').querySelector('p');
         const staticMap = document.getElementById('modal-static-map-preview');
         if (activeCardContext.tempLocation?.text) {
@@ -516,7 +724,11 @@
         cardModalEl.classList.add('hidden');
         activeCardContext = {}; // Reset
         if (staticPreviewMap) { staticPreviewMap.remove(); staticPreviewMap = null; }
+<<<<<<< jules_wip_9827308482249772926
+        document.getElementById('modal-static-map-preview').innerHTML = '';
+=======
         document.getElementById('modal-static-map-preview').innerHTML = ''; 
+>>>>>>> main
     }
 
     async function saveCardChanges() {
@@ -537,16 +749,27 @@
             createdAt: activeCardContext.originalCreatedAt || new Date().toISOString(), // Preserve original
             coverImage: activeCardContext.originalCoverImage || null, // Preserve original
         };
+<<<<<<< jules_wip_9827308482249772926
+        const newLists = currentBoardData.lists.map(l => l.id === activeCardContext.listId ?
+=======
         const newLists = currentBoardData.lists.map(l => l.id === activeCardContext.listId ? 
+>>>>>>> main
             { ...l, cards: l.cards.map(c => c.id === updatedCard.id ? updatedCard : c) } : l
         );
         try { await boardDocRef.update({ lists: newLists }); console.log("Tarjeta guardada."); closeCardModal(); }
         catch (e) { console.error("Error guardando tarjeta:", e); alert("Error al guardar."); }
     }
+<<<<<<< jules_wip_9827308482249772926
+
+    async function archiveCard() {
+        if (!activeCardContext.cardId || !confirm("¿Archivar esta tarjeta?")) return;
+        const newLists = currentBoardData.lists.map(l => l.id === activeCardContext.listId ?
+=======
     
     async function archiveCard() {
         if (!activeCardContext.cardId || !confirm("¿Archivar esta tarjeta?")) return;
         const newLists = currentBoardData.lists.map(l => l.id === activeCardContext.listId ? 
+>>>>>>> main
             { ...l, cards: l.cards.filter(c => c.id !== activeCardContext.cardId) } : l
         );
         try { await boardDocRef.update({ lists: newLists }); console.log("Tarjeta archivada."); closeCardModal(); }
@@ -622,7 +845,11 @@
         };
         commentBtn.onclick = addComment; commentIn.onkeypress = e => { if (e.key === 'Enter') addComment(); };
     }
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     const locPickerModal = document.getElementById('location-picker-modal');
     const locSearchIn = document.getElementById('location-search-input');
     const selLocTxt = document.getElementById('selected-location-text');
@@ -643,7 +870,11 @@
             });
         leafletMap.on('click', e => { leafletMarker.setLatLng(e.latlng).fire('dragend', {target:leafletMarker}); });
     }
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     async function searchLocationLeaflet() {
         const q = locSearchIn.value; if (!q) return;
         try {
@@ -657,7 +888,11 @@
         } catch (e) { console.error("Error búsqueda ubicación:", e); }
     }
     locSearchIn?.addEventListener('keypress', e => { if (e.key === 'Enter') searchLocationLeaflet(); });
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     function openLocationPicker() {
         currentPickedLoc = activeCardContext.tempLocation ? {...activeCardContext.tempLocation} : null;
         selLocTxt.textContent = currentPickedLoc?.text || "Ninguna ubicación seleccionada.";
@@ -681,13 +916,21 @@
         closeLocationPicker();
     }
     function closeLocationPicker() { if (leafletMap) leafletMap.remove(); leafletMap = null; locPickerModal.classList.add('hidden'); }
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     function updateStaticMapPreview(container, loc) {
         if (!container || !loc || typeof loc.lat === 'undefined') {
             if(staticPreviewMap) staticPreviewMap.remove(); staticPreviewMap = null; container.innerHTML = ''; return;
         }
         if (staticPreviewMap) staticPreviewMap.remove();
+<<<<<<< jules_wip_9827308482249772926
+        container.innerHTML = '';
+=======
         container.innerHTML = ''; 
+>>>>>>> main
         staticPreviewMap = L.map(container, { dragging: false, zoomControl: false, scrollWheelZoom: false }).setView([loc.lat, loc.lng], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(staticPreviewMap);
         L.marker([loc.lat, loc.lng]).addTo(staticPreviewMap);
@@ -698,7 +941,11 @@
     document.getElementById('cancel-location-button')?.addEventListener('click', closeLocationPicker);
 
     const viewBtns = document.querySelectorAll('.view-toggle-btn');
+<<<<<<< jules_wip_9827308482249772926
+    const views = { 'board-view': document.getElementById('board-view'), 'calendar-view': document.getElementById('calendar-view'),
+=======
     const views = { 'board-view': document.getElementById('board-view'), 'calendar-view': document.getElementById('calendar-view'), 
+>>>>>>> main
                     'timeline-view': document.getElementById('timeline-view'), 'dashboard-view': document.getElementById('dashboard-view') };
     viewBtns.forEach(btn => btn.addEventListener('click', () => {
         const target = btn.dataset.view;
@@ -707,7 +954,11 @@
         viewBtns.forEach(b => b.classList.replace('bg-blue-600', 'bg-blue-500')?.classList.remove('active-view-btn'));
         btn.classList.replace('bg-blue-500', 'bg-blue-600'); btn.classList.add('active-view-btn');
     }));
+<<<<<<< jules_wip_9827308482249772926
+
+=======
     
+>>>>>>> main
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('close-modal-button')?.addEventListener('click', closeCardModal);
         document.getElementById('save-card-changes-button')?.addEventListener('click', saveCardChanges);
