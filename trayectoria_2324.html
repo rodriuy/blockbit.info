@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Trayectoria 2023-24: Desafío WRO</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .card-style {
+            background-color: #1d1d1f;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card-style:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+
+        /* Interactive Robot Card */
+        .robot-card-container {
+            perspective: 1000px;
+        }
+        .robot-card {
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+        }
+        .robot-card-container:hover .robot-card {
+            transform: rotateY(180deg);
+        }
+        .robot-card-front, .robot-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .robot-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Timeline Style for Preparation */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            height: 100%;
+            width: 4px;
+            background: #1d1d1f;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 3rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            height: 3rem;
+            width: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1d1d1f;
+            border: 4px solid #000;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-dot-inner {
+            height: 1.5rem;
+            width: 1.5rem;
+            background-color: #2563eb;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover .timeline-dot-inner {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
+                <a href="index.html#trayectoria" class="hover:text-white transition-colors"><span class="lang-es">Volver a Trayectoria</span><span class="lang-en hidden">Back to Journey</span></a>
+                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+            <div class="md:hidden">
+                <a href="index.html#trayectoria" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO SECTION 2023-24 ===== -->
+        <section id="inicio" class="pt-32 pb-16 md:pt-48 md:pb-24 text-center relative overflow-hidden" 
+            style="background-image: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.1), transparent 70%);">
+            
+            <div class="reveal-on-scroll px-4">
+                <p class="text-blue-400 font-bold mb-2">2023 - 2024</p>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4">
+                    <span class="lang-es">Resiliencia y <span class="text-white">Adaptación</span>.</span>
+                    <span class="lang-en hidden">Resilience & <span class="text-white">Adaptation</span>.</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                    <span class="lang-es">Un nuevo desafío, una nueva competencia y solo cuatro meses para prepararnos. El año que probó nuestra capacidad para superar lo imposible.</span>
+                    <span class="lang-en hidden">A new challenge, a new competition, and only four months to prepare. The year that tested our ability to overcome the impossible.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== THE CHALLENGE SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">Un giro <span class="gradient-text">inesperado</span></span>
+                            <span class="lang-en hidden">An unexpected <span class="gradient-text">turn</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">Tras obtener el 3er lugar nacional en FLL y el 1er puesto en el Juego del Robot, se nos presentó una oportunidad única: representar a Uruguay en la World Robot Olympiad (WRO) en Puerto Rico. El reto era enorme: pasar de una competencia que dominábamos a una completamente nueva y mucho más difícil, con solo cuatro meses de preparación, de junio a octubre.</span>
+                            <span class="lang-en hidden">After securing 3rd place nationally in FLL and 1st place in the Robot Game, a unique opportunity arose: to represent Uruguay at the World Robot Olympiad (WRO) in Puerto Rico. The challenge was immense: moving from a competition we mastered to a completely new and much more difficult one, with only four months to prepare, from June to October.</span>
+                        </p>
+                    </div>
+                    <div class="reveal-on-scroll card-style p-4">
+                        <img src="foto _pr.jpg" alt="El equipo en Puerto Rico" class="rounded-xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BEHIND THE CHALLENGE SECTION (REDESIGNED) ===== -->
+        <section id="preparacion" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">El espíritu del <span class="gradient-text">"Equipo de Garage"</span></span>
+                            <span class="lang-en hidden">The Spirit of a <span class="gradient-text">"Garage Team"</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">Este año nos obligó a reinventarnos. Nos mudamos a un nuevo espacio de trabajo, un taller cedido por la empresa Cerramientos del Norte. Este cambio nos convirtió en un verdadero "equipo de garage", donde la creatividad y el ingenio florecieron en un entorno más íntimo. Aprendimos a optimizar cada recurso y a trabajar más unidos que nunca, demostrando que la pasión no necesita grandes lujos para generar grandes ideas.</span>
+                            <span class="lang-en hidden">This year forced us to reinvent ourselves. We moved to a new workspace, a workshop provided by the company Cerramientos del Norte. This change turned us into a true "garage team," where creativity and ingenuity flourished in a more intimate setting. We learned to optimize every resource and work more closely than ever, proving that passion doesn't need great luxuries to generate great ideas.</span>
+                        </p>
+                    </div>
+                    <div class="reveal-on-scroll">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                                <h3 class="text-xl font-bold mb-1"><span class="lang-es">A Contrarreloj</span><span class="lang-en hidden">Against the Clock</span></h3>
+                                <p class="text-gray-400"><span class="lang-es">El tiempo era nuestro mayor enemigo. Nos dividimos en subgrupos y nos adaptamos a un nuevo lugar de trabajo. Cada día contaba.</span><span class="lang-en hidden">Time was our biggest enemy. We split into subgroups and adapted to a new workspace. Every day counted.</span></p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                                <h3 class="text-xl font-bold mb-1"><span class="lang-es">Nuevo Terreno</span><span class="lang-en hidden">New Ground</span></h3>
+                                <p class="text-gray-400"><span class="lang-es">Tuvimos que aprender las reglas, mecánica y filosofía de una competencia completamente nueva en tiempo récord.</span><span class="lang-en hidden">We had to learn the rules, mechanics, and philosophy of a completely new competition in record time.</span></p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+                                <h3 class="text-xl font-bold mb-1"><span class="lang-es">Prueba de Fuego</span><span class="lang-en hidden">Trial by Fire</span></h3>
+                                <p class="text-gray-400"><span class="lang-es">Fue un test para nuestra organización, compromiso y capacidad de ejecutar bajo presión. Dejamos todo en cada sesión.</span><span class="lang-en hidden">It was a test of our organization, commitment, and ability to execute under pressure. We gave our all in every session.</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== THE WRO ROBOT SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll robot-card-container h-[450px]">
+                        <div class="robot-card relative w-full h-full">
+                            <div class="robot-card-front absolute w-full h-full card-style p-4 flex items-center justify-center">
+                                <img src="https://placehold.co/800x800/1d1d1f/3b82f6?text=WRO+Robot" alt="Robot de la competencia WRO" class="w-full h-full object-contain">
+                            </div>
+                            <div class="robot-card-back absolute w-full h-full card-style p-8 flex flex-col justify-center">
+                                <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Características Clave</span><span class="lang-en hidden">Key Features</span></h3>
+                                <ul class="list-disc list-inside text-gray-400 space-y-2">
+                                    <li><span class="lang-es">Diseño compacto y ágil para el campo WRO.</span><span class="lang-en hidden">Compact and agile design for the WRO field.</span></li>
+                                    <li><span class="lang-es">Mecanismos precisos para manipulación de objetos.</span><span class="lang-en hidden">Precise mechanisms for object manipulation.</span></li>
+                                    <li><span class="lang-es">Programación avanzada para navegación autónoma.</span><span class="lang-en hidden">Advanced programming for autonomous navigation.</span></li>
+                                    <li><span class="lang-es">Construido para la máxima fiabilidad y consistencia.</span><span class="lang-en hidden">Built for maximum reliability and consistency.</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">El Robot <span class="gradient-text">WRO</span></span>
+                            <span class="lang-en hidden">The <span class="gradient-text">WRO</span> Robot</span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">A diferencia de FLL, la WRO requiere construir un robot desde cero con piezas LEGO, pero con total libertad de diseño. Nuestro robot fue diseñado para ser rápido, preciso y robusto, capaz de resolver las complejas misiones de automatización portuaria que planteaba el desafío.</span>
+                            <span class="lang-en hidden">Unlike FLL, the WRO requires building a robot from scratch with LEGO parts, but with complete design freedom. Our robot was designed to be fast, precise, and robust, capable of solving the complex port automation missions posed by the challenge.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CEIBAL SUPPORT SECTION ===== -->
+        <section class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">Un <span class="gradient-text">Agradecimiento</span> Especial</span>
+                    <span class="lang-en hidden">A Special <span class="gradient-text">Thanks</span></span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-8">
+                    <span class="lang-es">Esta temporada no hubiera sido posible sin el apoyo incondicional de Ceibal. Desde las piezas de LEGO para nuestro robot, los viajes a Montevideo para mentorías, hasta el viaje a Puerto Rico, su respaldo fue total. Más allá de lo material, nos brindaron un apoyo psicológico que fue clave para manejar la presión del proceso. Estamos profundamente agradecidos por creer en nosotros y darnos las herramientas para competir al más alto nivel.</span>
+                    <span class="lang-en hidden">This season would not have been possible without the unconditional support of Ceibal. From the LEGO parts for our robot, the trips to Montevideo for mentoring, to the trip to Puerto Rico, their backing was total. Beyond the material, they provided us with psychological support that was key to managing the pressure of the process. We are deeply grateful for their belief in us and for giving us the tools to compete at the highest level.</span>
+                </p>
+            </div>
+        </section>
+        
+        <!-- ===== ROBO PAMPA & VLOGS SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                           <span class="lang-es">Doble Desafío: <span class="gradient-text">Robo Pampa</span></span>
+                           <span class="lang-en hidden">Double Challenge: <span class="gradient-text">Robo Pampa</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">En medio de la preparación para la WRO, participamos por segunda vez en la Robo Pampa. Competimos en la categoría de Sumo de robots y volvimos a presentar nuestro proyecto de la planta, ahora mejorado con IA, notificaciones y nuevas luces. Fue una gran instancia para seguir aprendiendo y puliendo nuestras habilidades.</span>
+                            <span class="lang-en hidden">In the midst of preparing for the WRO, we participated for the second time in Robo Pampa. We competed in the Robot Sumo category and once again presented our plant project, now enhanced with AI, notifications, and new lights. It was a great opportunity to continue learning and honing our skills.</span>
+                        </p>
+                    </div>
+                    <div class="reveal-on-scroll card-style p-8 text-center flex flex-col justify-center items-center h-full">
+                         <h3 class="text-2xl font-bold mb-2"><span class="lang-es">Nuestros Vlogs</span><span class="lang-en hidden">Our Vlogs</span></h3>
+                         <p class="text-gray-400 mb-4"><span class="lang-es">Documentamos todo el proceso de esta increíble temporada.</span><span class="lang-en hidden">We documented the entire process of this incredible season.</span></p>
+                         <span class="bg-blue-500 text-white font-bold py-2 px-4 rounded-full"><span class="lang-es">¡Próximamente!</span><span class="lang-en hidden">Coming Soon!</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BEYOND THE COMPETITION SECTION ===== -->
+        <section id="experiencia" class="py-20 md:py-32 bg-[#111111]">
+             <div class="max-w-7xl mx-auto px-6">
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll md:order-2">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">Más allá de la <span class="gradient-text">Competencia</span></span>
+                            <span class="lang-en hidden">Beyond the <span class="gradient-text">Competition</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">El viaje fue también una recompensa. Cumplimos el sueño de conocer el mar Caribe y vivir la experiencia de un resort. Cada momento fortaleció nuestros lazos y nos dejó recuerdos para siempre. Un agradecimiento especial a Rafael, el padre de Felicia, que nos acompañó e hizo de guía y apoyo fundamental ante la ausencia de nuestro profe Guille.</span>
+                            <span class="lang-en hidden">The trip was also a reward. We fulfilled our dream of seeing the Caribbean Sea and experiencing a resort. Every moment strengthened our bonds and left us with memories forever. A special thanks to Rafael, Felicia's father, who accompanied us and was a fundamental guide and support in the absence of our coach Guille.</span>
+                        </p>
+                        <a href="memorias-puerto-rico.html" class="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-500 transition-colors">
+                            <span class="lang-es">Ver Nuestro Diario de Viaje</span>
+                            <span class="lang-en hidden">See Our Travel Diary</span>
+                        </a>
+                    </div>
+                    <div class="reveal-on-scroll md:order-1 card-style p-4">
+                        <img src="https://placehold.co/1200x800/1d1d1f/3b82f6?text=Mar+Caribe" alt="El equipo disfrutando del mar Caribe en Puerto Rico" class="rounded-xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== NEW PERSPECTIVE SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">Una Nueva <span class="gradient-text">Perspectiva</span></span>
+                    <span class="lang-en hidden">A New <span class="gradient-text">Perspective</span></span>
+                </h2>
+                <p class="text-lg text-gray-400">
+                    <span class="lang-es">Este año nos enseñó a ver la robótica desde otro lado. Nos acostumbramos a espacios y tiempos que no siempre eran los ideales, pero aprendimos que la capacidad de adaptación es tan importante como la ingeniería. Crecimos no solo como técnicos, sino como equipo y como personas.</span>
+                    <span class="lang-en hidden">This year taught us to see robotics from another angle. We got used to spaces and timelines that were not always ideal, but we learned that adaptability is as important as engineering. We grew not only as technicians, but as a team and as people.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== ACHIEVEMENTS SECTION ===== -->
+        <section id="logros" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Un resultado <span class="gradient-text">histórico</span>.</span>
+                        <span class="lang-en hidden">A historic <span class="gradient-text">result</span>.</span>
+                    </h2>
+                     <p class="text-lg text-gray-400">
+                        <span class="lang-es">A pesar de todo, una vez más, dejamos el nombre de Uruguay en lo más alto.</span>
+                        <span class="lang-en hidden">Despite everything, once again, we left Uruguay's name at the top.</span>
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="card-style p-8 reveal-on-scroll">
+                        <h3 class="text-2xl font-bold mb-2"><span class="lang-es">3er Puesto Nacional</span><span class="lang-en hidden">3rd Place National</span></h3>
+                        <p class="text-blue-400 font-semibold">First Lego League Uruguay</p>
+                    </div>
+                    <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <h3 class="text-2xl font-bold mb-2"><span class="lang-es">1er Puesto Juego del Robot</span><span class="lang-en hidden">1st Place Robot Game</span></h3>
+                        <p class="text-blue-400 font-semibold">First Lego League Uruguay</p>
+                    </div>
+                    <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <h3 class="text-2xl font-bold mb-2"><span class="lang-es">Top 20 Mundial</span><span class="lang-en hidden">Top 20 Worldwide</span></h3>
+                        <p class="text-blue-400 font-semibold">World Robot Olympiad - Puerto Rico</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#111111] text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+            <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                setLanguage(newLang);
+            });
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>

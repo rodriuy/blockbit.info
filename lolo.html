@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>3D Logo - Extrude from SVG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html,body { height:100%; margin:0; background:#f5f5f5; }
+    #app { width:100%; height:100%; display:block; }
+    .hint {
+      position: absolute; left: 12px; top: 12px;
+      background: rgba(255,255,255,0.85); padding:8px 10px;
+      border-radius:8px; font-family: sans-serif; font-size:13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div class="hint">Usá el mouse para orbitar / mover / hacer zoom. Archivo SVG esperado: <strong>logo.svg</strong> (misma forma).</div>
+
+  <!-- Three.js desde CDN (module build) -->
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.159.0/build/three.module.js';
+    import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
+    import { SVGLoader } from 'https://unpkg.com/three@0.159.0/examples/jsm/loaders/SVGLoader.js';
+
+    // Escena y renderer
+    const container = document.getElementById('app');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf5f7fb);
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Cámara
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 40, 90);
+
+    // Controles
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+
+    // Luzes
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    scene.add(hemi);
+
+    const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+    dir.position.set(50, 80, 50);
+    dir.castShadow = true;
+    dir.shadow.camera.left = -100;
+    dir.shadow.camera.right = 100;
+    dir.shadow.camera.top = 100;
+    dir.shadow.camera.bottom = -100;
+    scene.add(dir);
+
+    // Suelo sutil para sombra
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.12 });
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(1000,1000), groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = -1;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // Grupo para el logo
+    const logoGroup = new THREE.Group();
+    scene.add(logoGroup);
+
+    // Parámetros de extrusión (sin bevel para NO cambiar la forma)
+    const extrudeOptions = {
+      depth: 6,            // altura del relieve; cambiá si querés más o menos profundidad
+      bevelEnabled: false, // IMPORTANTÍSIMO: sin bevel para no alterar contornos
+      curveSegments: 12
+    };
+
+    // Material principal — mantené el color parecido al original
+    const material = new THREE.MeshStandardMaterial({
+      color: 0x00a8ff,    // cambiá si querés
+      metalness: 0.15,
+      roughness: 0.25,
+      flatShading: false
+    });
+
+    // Cargar el SVG (debe ser vectorial y conservar la forma exacta)
+    // PONÉ tu archivo vectorial: logo.svg en la misma carpeta
+    const loader = new SVGLoader();
+    loader.load('logo.svg', function(data) {
+      // data.paths -> array de paths (curvas) en el SVG
+      const paths = data.paths;
+
+      // Determinar el bounding box para centrar y escalar si hace falta
+      // Aquí no escalamos por defecto — mantené la forma 1:1 del SVG
+      // Convertimos cada path en shapes y extruimos
+      paths.forEach(function(path) {
+        const shapes = SVGLoader.createShapes(path);
+        shapes.forEach(function(shape) {
+          const geom = new THREE.ExtrudeGeometry(shape, extrudeOptions);
+          // Girar la geometría para que la cara plana quede verticalmente orientada hacia el +Y
+          geom.rotateX(Math.PI); // ajustar si la orientación sale invertida
+          geom.computeVertexNormals();
+
+          const mesh = new THREE.Mesh(geom, material);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+
+          logoGroup.add(mesh);
+        });
+      });
+
+      // Opcional: mejorar posición/escala del grupo para que quede centrado y visible
+      // Calculamos caja englobante y centramos en origen sin modificar la forma.
+      const box = new THREE.Box3().setFromObject(logoGroup);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+
+      // Mover para centrar en 0, y elevar un poco sobre el suelo
+      logoGroup.position.x -= center.x;
+      logoGroup.position.y -= center.y;
+      logoGroup.position.z -= center.z;
+
+      // Ajuste de escala opcional: descomentá si querés que ocupe más pantalla
+      // const desiredHeight = 40;
+      // const scale = desiredHeight / size.y;
+      // logoGroup.scale.set(scale, scale, scale);
+
+      // Rotación inicial y animación suave
+      logoGroup.rotation.y = -0.15;
+    }, undefined, function(err){
+      console.error('Error cargando logo.svg:', err);
+      alert('No se pudo cargar logo.svg. Asegurate que el archivo exista en la misma carpeta y sea un SVG válido.');
+    });
+
+    // Pequeña reflexión/ambiente (envMap alternativo no usado para mantener simple)
+    // Bucles de render
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Manejo resize
+    window.addEventListener('resize', onWindowResize, false);
+    function onWindowResize(){
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w/h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w,h);
+    }
+  </script>
+</body>
+</html>

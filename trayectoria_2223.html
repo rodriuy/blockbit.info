@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Trayectoria 2022-23: Escenario Mundial</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .card-style {
+            background-color: #1d1d1f;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .cta-button {
+            background-color: #2563eb;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+
+        /* --- Polaroid Gallery Styles --- */
+        .polaroid-card {
+            background-color: #f0eada;
+            padding: 1rem;
+            padding-bottom: 4rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            width: 250px;
+        }
+        .polaroid-card:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+        .polaroid-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+        }
+        .polaroid-card-large {
+            background-color: #f0eada;
+            padding: 1rem;
+            padding-bottom: 4rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            width: 100%;
+            max-width: 540px;
+        }
+        .polaroid-card-large:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+        }
+        .polaroid-img-large {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+        }
+        .clothespin {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 30px;
+            background: #d1d5db;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border: 1px solid #6b7280;
+            box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.2);
+        }
+        .clothespin::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 2px solid #4b5563; }
+        .clothespin::after { content: ''; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 100%; height: 2px; background: #4b5563; }
+
+        /* --- Tribute Note Style --- */
+        .tribute-note {
+            background-color: #fffae1;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            transform: rotate(-2deg);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            width: fit-content;
+            margin: 2rem auto 0 auto;
+        }
+        .tribute-note::before, .tribute-note::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 30px;
+            background-color: rgba(160, 215, 255, 0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            border-left: 1px solid rgba(160, 215, 255, 0.6);
+            border-right: 1px solid rgba(160, 215, 255, 0.6);
+            z-index: 10;
+        }
+        .tribute-note::before {
+            top: -15px;
+            left: -30px;
+            transform: rotate(-35deg);
+        }
+        .tribute-note::after {
+            top: -15px;
+            right: -30px;
+            transform: rotate(25deg);
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- Facebook SDK Script -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v20.0" nonce="AIT12s7X"></script>
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
+                <a href="index.html#trayectoria" class="hover:text-white transition-colors"><span class="lang-es">Volver a Trayectoria</span><span class="lang-en hidden">Back to Journey</span></a>
+                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+            <div class="md:hidden">
+                <a href="index.html#trayectoria" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO SECTION 2022-23 ===== -->
+        <section id="inicio" class="pt-32 pb-16 md:pt-48 md:pb-24 text-center relative overflow-hidden" 
+            style="background-image: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.15), transparent 70%);">
+            
+            <div class="reveal-on-scroll px-4">
+                <p class="text-blue-400 font-bold mb-2">2022 - 2023</p>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4">
+                    <span class="lang-es">Conquistando el <span class="text-white">Mundo</span>.</span>
+                    <span class="lang-en hidden">Conquering the <span class="text-white">World</span>.</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                    <span class="lang-es">De Artigas a Houston, Texas. El año en que cruzamos fronteras para medirnos con los mejores y dejamos una huella imborrable.</span>
+                    <span class="lang-en hidden">From Artigas to Houston, Texas. The year we crossed borders to compete with the best and left an indelible mark.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== MEMORIES GALLERY SECTION ===== -->
+        <section id="recuerdos" class="py-20 md:py-32 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-24 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Una galería de <span class="gradient-text">recuerdos</span>.</span>
+                        <span class="lang-en hidden">A gallery of <span class="gradient-text">memories</span>.</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Algunos momentos que capturamos durante nuestra aventura en Houston.</span>
+                        <span class="lang-en hidden">Some moments we captured during our adventure in Houston.</span>
+                    </p>
+                </div>
+                <div class="relative py-12">
+                    <!-- The string -->
+                    <div class="absolute top-12 left-0 w-full h-0.5 bg-gray-700/50"></div>
+                    
+                    <div class="flex justify-center items-start flex-wrap gap-8 md:gap-12 relative">
+                        <!-- Photo 1 -->
+                        <div class="polaroid-card reveal-on-scroll" style="transform: rotate(-3deg);">
+                            <div class="clothespin"></div>
+                            <img src="recuerdo1.JPG" alt="Recuerdo de Houston 1" class="polaroid-img">
+                        </div>
+                        <!-- Photo 2 -->
+                        <div class="polaroid-card reveal-on-scroll" style="transform: rotate(2deg); transition-delay: 100ms;">
+                             <div class="clothespin"></div>
+                            <img src="recuerdo5(2).JPG" alt="Recuerdo de Houston 2" class="polaroid-img">
+                        </div>
+                        <!-- Photo 3 -->
+                        <div class="polaroid-card reveal-on-scroll" style="transform: rotate(-1deg); transition-delay: 200ms;">
+                             <div class="clothespin"></div>
+                            <img src="recuerdo3.JPG" alt="Recuerdo de Houston 3" class="polaroid-img">
+                        </div>
+                        <!-- Photo 4 -->
+                        <div class="polaroid-card reveal-on-scroll" style="transform: rotate(4deg); transition-delay: 300ms;">
+                             <div class="clothespin"></div>
+                            <img src="recuerdo4.JPG" alt="Recuerdo de Houston 4" class="polaroid-img">
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-12 reveal-on-scroll" style="transition-delay: 400ms;">
+                        <!-- Large horizontal photo -->
+                        <div class="polaroid-card-large" style="transform: rotate(1deg);">
+                             <div class="clothespin"></div>
+                             <img src="recuerdo2(5).JPG" alt="Recuerdo de Houston 5" class="polaroid-img-large">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE PREPARATION SECTION ===== -->
+        <section id="preparacion" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">La <span class="gradient-text">Preparación</span></span>
+                            <span class="lang-en hidden">The <span class="gradient-text">Preparation</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">De febrero a abril trabajamos intensamente junto a Fer, Nico y Ceibal para llegar al mundial en las mejores condiciones. Fue una experiencia increíble donde aprendimos cómo funciona Ceibal por dentro y, gracias a las clases de inglés con la genia de la profe Gabrielita, pulimos un idioma clave para la competencia. Para muchos, fue nuestra primera vez en el exterior y en un avión, una aventura en todo sentido.</span>
+                            <span class="lang-en hidden">From February to April, we worked intensively with Fer, Nico and Ceibal to arrive at the world championship in the best possible condition. It was an incredible experience where we learned how Ceibal works from the inside and, thanks to English classes with the brilliant teacher Gabrielita, we polished a key language for the competition. For many of us, it was our first time abroad and on a plane, an adventure in every sense.</span>
+                        </p>
+                        <div class="tribute-note">
+                            <img src="foto_congabi.JPG" alt="Foto de la profe Gabrielita" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-white/50">
+                            <p class="font-semibold italic text-gray-800 text-lg">We love you Gabbi &lt;3</p>
+                        </div>
+                    </div>
+                    <div class="reveal-on-scroll card-style p-4">
+                        <img src="ferynico.jpg" alt="El equipo durante la preparación con Ceibal" class="rounded-xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE TEAM FORMATION SECTION ===== -->
+        <section id="formacion" class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">El <span class="gradient-text">Combo Invencible</span></span>
+                    <span class="lang-en hidden">The <span class="gradient-text">Invincible Combo</span></span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-8">
+                    <span class="lang-es">Inspirados por la experiencia del equipo anterior, "Fit&Teens", quisimos dar un paso más. En esta etapa se sumaron Nahuel y Julián, ambos con experiencia en programación. Su talento, combinado con nuestra fortaleza en la creación de proyectos (Belén, Felicia y Rodrigo), formó el equipo perfecto. Siempre trabajamos para representar a Artigas, sin esperar realmente ganar el viaje; lo veíamos como algo lejano. Sentir que el esfuerzo valió la pena fue una satisfacción inmensa.</span>
+                    <span class="lang-en hidden">Inspired by the experience of the previous team, "Fit&Teens," we wanted to take it a step further. At this stage, Nahuel and Julián joined, both with programming experience. Their talent, combined with our strength in project creation (Belén, Felicia, and Rodrigo), formed the perfect team. We always worked to represent Artigas, never really expecting to win the trip; we saw it as something distant. Feeling that the effort paid off was an immense satisfaction.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== INNOVATION PROJECT SUMMARY SECTION ===== -->
+        <section id="proyecto" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll md:order-2">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">El Proyecto de <span class="gradient-text">Innovación</span></span>
+                            <span class="lang-en hidden">The <span class="gradient-text">Innovation</span> Project</span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">Abordamos el problema de la sobreexposición a los rayos UV, una causa importante de cáncer de piel en Uruguay. Nuestra solución fue una pulsera inteligente con un sensor UV que, conectada a una app, alerta al usuario cuando los niveles de radiación se vuelven peligrosos, promoviendo un cuidado consciente de la piel.</span>
+                            <span class="lang-en hidden">We tackled the problem of overexposure to UV rays, a significant cause of skin cancer in Uruguay. Our solution was a smart bracelet with a UV sensor that, connected to an app, alerts the user when radiation levels become dangerous, promoting conscious skin care.</span>
+                        </p>
+                        <a href="proyecto-2022-superpowered.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
+                            <span class="lang-es">Conocer el proyecto a fondo</span>
+                            <span class="lang-en hidden">Learn more about the project</span>
+                        </a>
+                    </div>
+                    <div class="reveal-on-scroll md:order-1 card-style p-8 flex items-center justify-center aspect-square">
+                        <img src="pulsera.png" alt="Ilustración del proyecto de la Pulsera Inteligente UV" class="w-full h-full object-contain">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== VLOG SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">Nuestro <span class="gradient-text">Vlog</span></span>
+                    <span class="lang-en hidden">Our <span class="gradient-text">Vlog</span></span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-8">
+                    <span class="lang-es">Documentamos nuestra aventura para compartirla con todos. Reviví el viaje a Houston con nosotros.</span>
+                    <span class="lang-en hidden">We documented our adventure to share it with everyone. Relive the trip to Houston with us.</span>
+                </p>
+                <div class="card-style aspect-video">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/tPSryeqodv0" title="Vlog de Blockbit en Houston" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== AUH SUPPORT SECTION ===== -->
+        <section class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                 <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll md:order-2">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">Un apoyo <span class="gradient-text">invaluable</span></span>
+                            <span class="lang-en hidden">Invaluable <span class="gradient-text">Support</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">Nuestra experiencia en Houston no hubiera sido la misma sin la Asociación de Uruguayos en Houston (AUH). Desde que llegamos, nos hicieron sentir como en casa. Nos recibieron con un kit de bienvenida, regalos, y estuvieron siempre presentes para nosotros. Nos llevaron a conocer la ciudad y compartieron su tiempo, haciendo de nuestro viaje una experiencia mucho más rica y humana. Estamos inmensamente agradecidos por su calidez y apoyo incondicional.</span>
+                            <span class="lang-en hidden">Our experience in Houston would not have been the same without the Association of Uruguayans in Houston (AUH). From the moment we arrived, they made us feel at home. They welcomed us with a welcome kit, gifts, and were always there for us. They showed us the city and shared their time, making our trip a much richer and more human experience. We are immensely grateful for their warmth and unconditional support.</span>
+                        </p>
+                    </div>
+                    <div class="reveal-on-scroll md:order-1 card-style p-4">
+                        <img src="foto_AUH.JPG" alt="El equipo con miembros de la Asociación de Uruguayos en Houston" class="rounded-xl">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== MEDIA SECTION ===== -->
+        <section id="medios" class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Blockbit en los <span class="gradient-text">Medios</span>.</span>
+                        <span class="lang-en hidden">Blockbit in the <span class="gradient-text">Media</span>.</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">El apoyo de nuestra comunidad y la prensa local fue fundamental. Acá te dejamos algunas de las entrevistas y publicaciones.</span>
+                        <span class="lang-en hidden">The support from our community and local press was fundamental. Here are some of the interviews and posts.</span>
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card-style p-4 reveal-on-scroll">
+                        <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2FANArtigasNoticias%2Fvideos%2F271299458561616%2F&show_text=false&width=560&t=0" class="w-full aspect-video" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+                        <h3 class="font-bold mt-4 text-center p-4">Artigas Noticias (Video)</h3>
+                    </div>
+                    <div class="card-style p-4 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <div class="fb-post" data-href="https://www.facebook.com/US.Embassy.Montevideo/posts/pfbid026uLSvGCz9RMmHohfiE6KJB1WcJwGSNHXupqCGgNCPimJmp5fA3bnium79JoA8ksLl" data-width="auto" data-show-text="true"></div>
+                         <h3 class="font-bold mt-4 text-center p-4">Embajada de EE.UU.</h3>
+                    </div>
+                    <div class="card-style p-4 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <div class="fb-post" data-href="https://www.facebook.com/ANArtigasNoticias/posts/pfbid0SC5uqccRoBeouy99wdaK5k8ryMSGHkvG5nhv4yqe9nyLTq5wY9Dz5E9pTKRT6i6hl" data-width="auto" data-show-text="true"></div>
+                        <h3 class="font-bold mt-4 text-center p-4">Artigas Noticias (Post)</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ACHIEVEMENTS SECTION (Existing) ===== -->
+        <section id="logros" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Haciendo historia en <span class="gradient-text">Houston</span>.</span>
+                        <span class="lang-en hidden">Making history in <span class="gradient-text">Houston</span>.</span>
+                    </h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="card-style p-8 reveal-on-scroll">
+                        <h3 class="text-2xl font-bold mb-2"><span class="lang-es">1er Puesto Nacional</span><span class="lang-en hidden">1st Place National</span></h3>
+                        <p class="text-blue-400 font-semibold mb-4">First Lego League Uruguay</p>
+                        <p class="text-gray-400">
+                            <span class="lang-es">Nos consagramos campeones nacionales, obteniendo el pasaje directo al FIRST Championship, el mundial de robótica en Houston.</span>
+                            <span class="lang-en hidden">We became national champions, earning a direct ticket to the FIRST Championship, the robotics world cup in Houston.</span>
+                        </p>
+                    </div>
+                    <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <h3 class="text-2xl font-bold mb-2"><span class="lang-es">Top 10 Mundial en Alianza</span><span class="lang-en hidden">Top 10 Worldwide in Alliance</span></h3>
+                        <p class="text-blue-400 font-semibold mb-4">FIRST Championship - Houston, TX</p>
+                        <p class="text-gray-400">
+                            <span class="lang-es">En el escenario más grande de todos, formamos una alianza estratégica con el equipo "Programming Pickles" de Utah y alcanzamos un resultado histórico para Uruguay.</span>
+                            <span class="lang-en hidden">On the biggest stage of all, we formed a strategic alliance with the "Programming Pickles" team from Utah and achieved a historic result for Uruguay.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#111111] text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+            <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                setLanguage(newLang);
+            });
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
