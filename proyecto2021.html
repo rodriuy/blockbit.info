@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Proyecto 2021: Macetas Inteligentes</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .card-style {
+            background-color: #1d1d1f;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
+                <a href="trayectoria_2021.html" class="hover:text-white transition-colors"><span class="lang-es">Volver a 2021</span><span class="lang-en hidden">Back to 2021</span></a>
+                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+            <div class="md:hidden">
+                <a href="trayectoria-2021.html" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO SECTION PROJECT ===== -->
+        <section id="inicio" class="pt-32 pb-16 md:pt-48 md:pb-24 text-center relative overflow-hidden" 
+            style="background-image: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.15), transparent 70%);">
+            
+            <div class="reveal-on-scroll px-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4">
+                    <span class="lang-es">Macetas <span class="text-white">Inteligentes</span>.</span>
+                    <span class="lang-en hidden">Smart <span class="text-white">Pots</span>.</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                    <span class="lang-es">El proyecto que combinó tecnología y naturaleza para dar voz a las plantas y que nos coronó en nuestro primer año.</span>
+                    <span class="lang-en hidden">The project that combined technology and nature to give plants a voice and crowned us in our first year.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== THE PROBLEM SECTION ===== -->
+        <section class="py-12 md:py-20">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">El <span class="gradient-text">Problema</span></span>
+                    <span class="lang-en hidden">The <span class="gradient-text">Problem</span></span>
+                </h2>
+                <p class="text-lg text-gray-400">
+                    <span class="lang-es">"Desde que nacemos, estamos pendientes de las plantas. Producen el oxígeno vital para nosotros y, además, son estéticamente bellas. Un lugar sin plantas puede sentirse triste y poco llamativo. Las plantas son parte del arte del mundo, pero... ¿sabemos realmente cómo cuidarlas?"</span>
+                    <span class="lang-en hidden">"From the moment we are born, we are aware of plants. They produce the oxygen vital for us and are also aesthetically beautiful. A place without plants can feel sad and uninviting. Plants are part of the world's art, but... do we really know how to care for them?"</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== THE SOLUTION SECTION ===== -->
+        <section id="solucion" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Nuestra <span class="gradient-text">Solución</span></span>
+                        <span class="lang-en hidden">Our <span class="gradient-text">Solution</span></span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Creamos un sistema dual: una placa Micro:Bit que monitorea la planta y una aplicación móvil que traduce esos datos en un lenguaje que todos podemos entender.</span>
+                        <span class="lang-en hidden">We created a dual system: a Micro:Bit board that monitors the plant and a mobile app that translates that data into a language we can all understand.</span>
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <!-- Micro:Bit Column -->
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-3xl font-bold tracking-tighter mb-6">
+                            <span class="lang-es">El Cerebro: Micro:Bit</span>
+                            <span class="lang-en hidden">The Brain: Micro:Bit</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <p class="text-gray-400">
+                                <span class="lang-es">Usando sus sensores y la extensión Bluetooth, la placa mide <strong>temperatura, luminosidad y humedad</strong>. Estos datos se comunican en tiempo real al celular y se representan con cuatro simples emoticones en la pantalla de la placa:</span>
+                                <span class="lang-en hidden">Using its sensors and the Bluetooth extension, the board measures <strong>temperature, light, and humidity</strong>. This data is communicated in real-time to the phone and represented by four simple emoticons on the board's screen:</span>
+                            </p>
+                            <div class="grid grid-cols-2 gap-4 text-center">
+                                <div class="card-style p-4"><span class="text-4xl">😞</span><p class="text-sm mt-2"><span class="lang-es">Cara Triste: Temperatura Alta</span><span class="lang-en hidden">Sad Face: High Temperature</span></p></div>
+                                <div class="card-style p-4"><span class="text-4xl">🥵</span><p class="text-sm mt-2"><span class="lang-es">Cara Sudando: Baja Humedad</span><span class="lang-en hidden">Sweating Face: Low Humidity</span></p></div>
+                                <div class="card-style p-4"><span class="text-4xl">😴</span><p class="text-sm mt-2"><span class="lang-es">Cara Dormida: Baja Luz</span><span class="lang-en hidden">Sleeping Face: Low Light</span></p></div>
+                                <div class="card-style p-4"><span class="text-4xl">😊</span><p class="text-sm mt-2"><span class="lang-es">Cara Feliz: ¡Todo bien!</span><span class="lang-en hidden">Happy Face: All Good!</span></p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- App Inventor Column -->
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-3xl font-bold tracking-tighter mb-6">
+                            <span class="lang-es">La Voz: App Inventor</span>
+                            <span class="lang-en hidden">The Voice: App Inventor</span>
+                        </h3>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">Desarrollamos una app en MIT App Inventor para interactuar con la planta. Al tocar el micrófono, podías hacerle preguntas y recibir respuestas sobre su estado y cuidados.</span>
+                            <span class="lang-en hidden">We developed an app in MIT App Inventor to interact with the plant. By tapping the microphone, you could ask it questions and receive answers about its status and care.</span>
+                        </p>
+                        <div class="card-style p-8 flex items-center justify-center aspect-square bg-black">
+                            <!-- Placeholder for App UI -->
+                            <img src="proyecto2021_mockup.png" alt="Mockup de la aplicación móvil" class="h-full w-auto rounded-xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PODCAST SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">La <span class="gradient-text">Voz</span> de la Experiencia</span>
+                    <span class="lang-en hidden">The <span class="gradient-text">Voice</span> of Experience</span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-8">
+                    <span class="lang-es">Para entender más sobre el mundo de las plantas, entrevistamos al dueño de un vivero local. Escuchá la charla completa acá.</span>
+                    <span class="lang-en hidden">To understand more about the world of plants, we interviewed the owner of a local nursery. Listen to the full chat here.</span>
+                </p>
+                <!-- Spotify Embed -->
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/66Me1ekvMmL2qRisqP1JdJ?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <!-- ===== RECOGNITION SECTION ===== -->
+        <section id="reconocimiento" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Un proyecto <span class="gradient-text">reconocido</span>.</span>
+                        <span class="lang-en hidden">A <span class="gradient-text">recognized</span> project.</span>
+                    </h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="card-style p-8 reveal-on-scroll">
+                        <img src="https://www.anep.edu.uy/sites/default/files/images/logos/2025/ANEP/v3/Logo%20ANEP%20Vertical%20DIAPO.png" class="h-8 mb-4" alt="Logo ANEP">
+                        <blockquote class="text-gray-400 italic">
+                            <span class="lang-es">"El Liceo N.° 2 de Artigas fue galardonado en la categoría innovador del público en la VIII Edición del Premio Nova. Su proyecto Macetas inteligentes se posicionó como el favorito, con más de 40.000 votos... El proyecto fue realizado en forma interdisciplinaria, con la colaboración de docentes de diferentes asignaturas."</span>
+                            <span class="lang-en hidden">"Liceo N.° 2 of Artigas was awarded in the public's innovator category at the VIII Edition of the Nova Award. Their Smart Pots project was positioned as the favorite, with over 40,000 votes... The project was carried out in an interdisciplinary manner, with the collaboration of teachers from different subjects."</span>
+                        </blockquote>
+                        <p class="text-right mt-4 font-semibold text-white">- ANEP</p>
+                    </div>
+                    <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <img src="logos/Manual ANII.pdf.png" class="h-8 mb-4" alt="Logo ANII Premios Nova">
+                         <blockquote class="text-gray-400 italic">
+                            <span class="lang-es">"Para cerrar la ceremonia, los conductores entregaron el premio al Innovador del Público... Más de 40 mil personas votaron por su proyecto favorito, y el más votado fue el Liceo Nº 2 de Artigas."</span>
+                            <span class="lang-en hidden">"To close the ceremony, the hosts presented the Public's Innovator award... More than 40,000 people voted for their favorite project, and the most voted was Liceo Nº 2 of Artigas."</span>
+                        </blockquote>
+                        <p class="text-right mt-4 font-semibold text-white">- Premios Nova (ANII)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#111111] text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+            <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                setLanguage(newLang);
+            });
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>

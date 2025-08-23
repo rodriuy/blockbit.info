@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Proyecto 2022-23: Pulsera Inteligente UV</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .card-style {
+            background-color: #1d1d1f;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
+                <a href="trayectoria-2022-2023.html" class="hover:text-white transition-colors"><span class="lang-es">Volver a 2022-23</span><span class="lang-en hidden">Back to 2022-23</span></a>
+                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+            <div class="md:hidden">
+                <a href="trayectoria-2022-2023.html" class="text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO SECTION PROJECT ===== -->
+        <section id="inicio" class="pt-32 pb-16 md:pt-48 md:pb-24 text-center relative overflow-hidden" 
+            style="background-image: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.15), transparent 70%);">
+            
+            <div class="reveal-on-scroll px-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4">
+                    <span class="lang-es">Pulsera <span class="text-white">Inteligente UV</span>.</span>
+                    <span class="lang-en hidden">Smart <span class="text-white">UV Bracelet</span>.</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+                    <span class="lang-es">Nuestra solución para un problema invisible pero peligroso: la sobreexposición a la radiación ultravioleta.</span>
+                    <span class="lang-en hidden">Our solution to an invisible but dangerous problem: overexposure to ultraviolet radiation.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== THE PROBLEM SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
+                            <span class="lang-es">El <span class="gradient-text">Problema</span></span>
+                            <span class="lang-en hidden">The <span class="gradient-text">Problem</span></span>
+                        </h2>
+                        <p class="text-gray-400 mb-6">
+                            <span class="lang-es">La radiación ultravioleta (UV) del sol, aunque invisible, presenta serios riesgos para la salud. En Uruguay, se registran casi 3.000 casos de cáncer de piel por año, y aproximadamente tres personas fallecen por esta causa cada semana. A pesar de que la protección solar existe, a menudo no se toma conciencia de su importancia hasta que es tarde.</span>
+                            <span class="lang-en hidden">The sun's ultraviolet (UV) radiation, though invisible, poses serious health risks. In Uruguay, nearly 3,000 cases of skin cancer are reported annually, and approximately three people die from this cause every week. Although sun protection is available, awareness of its importance often comes too late.</span>
+                        </p>
+                    </div>
+                    <div class="reveal-on-scroll card-style p-8 text-center">
+                        <p class="text-7xl font-bold text-blue-400">90%</p>
+                        <p class="text-lg font-semibold mt-2">
+                            <span class="lang-es">de los casos de cáncer de piel son curables si se detectan a tiempo.</span>
+                            <span class="lang-en hidden">of skin cancer cases are curable if detected early.</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mt-4">
+                            <span class="lang-es">La prevención y la detección temprana son claves.</span>
+                            <span class="lang-en hidden">Prevention and early detection are key.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE SOLUTION SECTION ===== -->
+        <section id="solucion" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Nuestra <span class="gradient-text">Solución</span></span>
+                        <span class="lang-en hidden">Our <span class="gradient-text">Solution</span></span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Desarrollamos una pulsera inteligente que te avisa cuando la exposición al sol deja de ser beneficiosa y se vuelve peligrosa. Se conecta a una app exclusiva, creada por nosotros, que envía notificaciones para buscar sombra o aplicar protector solar.</span>
+                        <span class="lang-en hidden">We developed a smart bracelet that notifies you when sun exposure stops being beneficial and becomes dangerous. It connects to an exclusive app, created by us, that sends notifications to seek shade or apply sunscreen.</span>
+                    </p>
+                </div>
+                <div class="card-style p-4 md:p-8">
+                    <img src="prototipo_2022-23.gif" alt="Render de la pulsera inteligente y la aplicación móvil" class="rounded-xl">
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== TECHNOLOGY SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">La <span class="gradient-text">Tecnología</span> detrás</span>
+                        <span class="lang-en hidden">The <span class="gradient-text">Technology</span> Behind It</span>
+                    </h2>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="card-style p-6 reveal-on-scroll">
+                        <h3 class="text-xl font-bold mb-2">Micro:Bit v2</h3>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">El cerebro del dispositivo. Procesa los datos del sensor y se comunica por Bluetooth con la app.</span><span class="lang-en hidden">The device's brain. It processes sensor data and communicates via Bluetooth with the app.</span></p>
+                    </div>
+                    <div class="card-style p-6 reveal-on-scroll" style="transition-delay: 100ms;">
+                        <h3 class="text-xl font-bold mb-2">Sensor UV Keystudio</h3>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">Un sensor específico para radiación ultravioleta que nos permite obtener mediciones precisas del nivel de UV en tiempo real.</span><span class="lang-en hidden">A specific ultraviolet radiation sensor that allows us to get accurate real-time UV level readings.</span></p>
+                    </div>
+                    <div class="card-style p-6 reveal-on-scroll" style="transition-delay: 200ms;">
+                        <h3 class="text-xl font-bold mb-2">MakeCode</h3>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">El software de programación por bloques que usamos para dar las instrucciones a la placa Micro:Bit.</span><span class="lang-en hidden">The block-based programming software we used to give instructions to the Micro:Bit board.</span></p>
+                    </div>
+                    <div class="card-style p-6 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <h3 class="text-xl font-bold mb-2">MIT App Inventor</h3>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">La plataforma con la que desarrollamos nuestra aplicación para Android, permitiendo la comunicación con la pulsera.</span><span class="lang-en hidden">The platform we used to develop our Android application, enabling communication with the bracelet.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== EXPERT VOICES SECTION ===== -->
+        <section id="expertos" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Voces <span class="gradient-text">Expertas</span>.</span>
+                        <span class="lang-en hidden">Expert <span class="gradient-text">Voices</span>.</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Para validar y enriquecer nuestro proyecto, hablamos con profesionales y pacientes.</span>
+                        <span class="lang-en hidden">To validate and enrich our project, we spoke with professionals and patients.</span>
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="card-style p-8 reveal-on-scroll">
+                        <img src="luisa-bueno.png" alt="Foto de Luisa Bueno" class="w-24 h-24 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-xl font-bold mb-2">Luisa Bueno</h3>
+                        <p class="text-blue-400 font-semibold mb-4"><span class="lang-es">Farmacéutica</span><span class="lang-en hidden">Pharmacist</span></p>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">Nos confirmó que la gente compra más protector solar (y de mayor factor) entre primavera y verano, validando la necesidad de recordatorios constantes.</span><span class="lang-en hidden">She confirmed that people buy more sunscreen (and with higher SPF) between spring and summer, validating the need for constant reminders.</span></p>
+                    </div>
+                    <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <img src="sofia-patiño.png" alt="Foto de Sofia Patiño" class="w-24 h-24 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-xl font-bold mb-2">Sofia Patiño</h3>
+                        <p class="text-blue-400 font-semibold mb-4"><span class="lang-es">Profesora de Biología</span><span class="lang-en hidden">Biology Teacher</span></p>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">Nos explicó la importancia de evitar el sol en horas pico (10 a 16 hs) y que el cáncer de piel es causado por la irritación constante por exposición solar.</span><span class="lang-en hidden">She explained the importance of avoiding the sun during peak hours (10 am to 4 pm) and that skin cancer is caused by constant irritation from sun exposure.</span></p>
+                    </div>
+                     <div class="card-style p-8 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <img src="gloria-paz.png" alt="Foto de Gloria Paz" class="w-24 h-24 rounded-full mx-auto mb-6 object-cover">
+                        <h3 class="text-xl font-bold mb-2">Gloria Paz</h3>
+                        <p class="text-blue-400 font-semibold mb-4"><span class="lang-es">EX Paciente de Cáncer de Piel</span><span class="lang-en hidden">EX Skin Cancer Patient</span></p>
+                        <p class="text-gray-400 text-sm"><span class="lang-es">Compartió su experiencia, ayudándonos a entender las señales principales de la enfermedad y cómo transformó una vivencia difícil en un paso adelante positivo.</span><span class="lang-en hidden">She shared her experience, helping us understand the main signs of the disease and how she turned a difficult experience into a positive step forward.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#111111] text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+            <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                setLanguage(newLang);
+            });
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
