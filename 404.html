@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Señal Perdida</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .cta-button {
+            background-color: #2563eb;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        canvas#gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- Canvas for the background game -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="flex items-center text-sm text-gray-300">
+                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="relative z-10 h-screen flex flex-col justify-center items-center text-center p-8">
+        
+        <div class="bg-black/50 backdrop-blur-sm p-8 rounded-2xl">
+            <h1 class="text-8xl md:text-9xl font-black tracking-tighter text-blue-500">404</h1>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-4">
+                <span class="lang-es">Señal Perdida en el Espacio</span>
+                <span class="lang-en hidden">Signal Lost in Space</span>
+            </h2>
+            <p class="max-w-md mx-auto text-lg text-gray-400 mt-4">
+                <span class="lang-es">Parece que te desviaste de la órbita. Nuestro robot no pudo encontrar esta página, pero podés ayudarlo a despejar el camino de asteroides mientras volvemos a la base.</span>
+                <span class="lang-en hidden">It seems you've drifted off orbit. Our robot couldn't find this page, but you can help it clear the path of asteroids while we head back to base.</span>
+            </p>
+            <p class="text-sm text-gray-500 mt-6">
+                <span class="lang-es"><strong>Controles:</strong> Flechas para mover, Espacio para disparar.</span>
+                <span class="lang-en hidden"><strong>Controls:</strong> Arrow keys to move, Spacebar to shoot.</span>
+            </p>
+            <div class="mt-8">
+                <a href="index.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
+                    <span class="lang-es">Volver a la Base</span>
+                    <span class="lang-en hidden">Return to Base</span>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- LANGUAGE SWITCHER ---
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            langSwitcher.addEventListener('click', () => {
+                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                setLanguage(newLang);
+            });
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            // --- ASTEROIDS GAME LOGIC ---
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Game settings
+            const SHIP_SIZE = 30;
+            const SHIP_THRUST = 5;
+            const SHIP_TURN_SPEED = 360; // degrees per second
+            const FRICTION = 0.7;
+            const ASTEROID_NUM = 5;
+            const ASTEROID_SPEED = 50; // pixels per second
+            const ASTEROID_SIZE = 100;
+            const ASTEROID_VERTICES = 10;
+            const ASTEROID_JAG = 0.4; // jaggedness of the asteroids
+            const LASER_MAX = 10;
+            const LASER_SPEED = 500; // pixels per second
+            const LASER_DIST = 0.6; // max distance laser can travel as fraction of screen width
+
+            // Ship object
+            let ship = {
+                x: canvas.width / 2,
+                y: canvas.height / 2,
+                r: SHIP_SIZE / 2,
+                a: 90 / 180 * Math.PI, // angle in radians
+                rot: 0,
+                thrusting: false,
+                thrust: {
+                    x: 0,
+                    y: 0
+                },
+                lasers: []
+            };
+
+            // Asteroids array
+            let asteroids = [];
+            createAsteroidBelt();
+
+            // Event listeners
+            document.addEventListener("keydown", keyDown);
+            document.addEventListener("keyup", keyUp);
+
+            // Game loop
+            setInterval(update, 1000 / 60);
+
+            function keyDown(/** @type {KeyboardEvent} */ ev) {
+                switch(ev.keyCode) {
+                    case 32: // space bar (shoot laser)
+                        shootLaser();
+                        break;
+                    case 37: // left arrow (rotate ship left)
+                        ship.rot = SHIP_TURN_SPEED / 180 * Math.PI / 60;
+                        break;
+                    case 38: // up arrow (thrust)
+                        ship.thrusting = true;
+                        break;
+                    case 39: // right arrow (rotate ship right)
+                        ship.rot = -SHIP_TURN_SPEED / 180 * Math.PI / 60;
+                        break;
+                }
+            }
+
+            function keyUp(/** @type {KeyboardEvent} */ ev) {
+                switch(ev.keyCode) {
+                    case 32: // space bar (allow shooting again)
+                        // ship.canShoot = true;
+                        break;
+                    case 37: // left arrow (stop rotating)
+                        ship.rot = 0;
+                        break;
+                    case 38: // up arrow (stop thrusting)
+                        ship.thrusting = false;
+                        break;
+                    case 39: // right arrow (stop rotating)
+                        ship.rot = 0;
+                        break;
+                }
+            }
+            
+            function createAsteroidBelt() {
+                asteroids = [];
+                let x, y;
+                for (let i = 0; i < ASTEROID_NUM; i++) {
+                    do {
+                        x = Math.floor(Math.random() * canvas.width);
+                        y = Math.floor(Math.random() * canvas.height);
+                    } while (distBetweenPoints(ship.x, ship.y, x, y) < ASTEROID_SIZE * 2 + ship.r);
+                    asteroids.push(newAsteroid(x, y));
+                }
+            }
+
+            function distBetweenPoints(x1, y1, x2, y2) {
+                return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            }
+
+            function shootLaser() {
+                // create the laser object
+                if (ship.lasers.length < LASER_MAX) {
+                    ship.lasers.push({ // from the nose of the ship
+                        x: ship.x + 4 / 3 * ship.r * Math.cos(ship.a),
+                        y: ship.y - 4 / 3 * ship.r * Math.sin(ship.a),
+                        xv: LASER_SPEED * Math.cos(ship.a) / 60,
+                        yv: -LASER_SPEED * Math.sin(ship.a) / 60,
+                        dist: 0
+                    });
+                }
+            }
+
+            function newAsteroid(x, y) {
+                let roid = {
+                    x: x,
+                    y: y,
+                    xv: Math.random() * ASTEROID_SPEED / 60 * (Math.random() < 0.5 ? 1 : -1),
+                    yv: Math.random() * ASTEROID_SPEED / 60 * (Math.random() < 0.5 ? 1 : -1),
+                    r: ASTEROID_SIZE / 2,
+                    a: Math.random() * Math.PI * 2, // in radians
+                    vert: Math.floor(Math.random() * (ASTEROID_VERTICES + 1) + ASTEROID_VERTICES / 2),
+                    offs: []
+                };
+
+                // create the vertex offsets array
+                for (let i = 0; i < roid.vert; i++) {
+                    roid.offs.push(Math.random() * ASTEROID_JAG * 2 + 1 - ASTEROID_JAG);
+                }
+
+                return roid;
+            }
+
+            function update() {
+                // draw space
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // thrust the ship
+                if (ship.thrusting) {
+                    ship.thrust.x += SHIP_THRUST * Math.cos(ship.a) / 60;
+                    ship.thrust.y -= SHIP_THRUST * Math.sin(ship.a) / 60;
+                } else {
+                    ship.thrust.x -= FRICTION * ship.thrust.x / 60;
+                    ship.thrust.y -= FRICTION * ship.thrust.y / 60;
+                }
+
+                // draw the ship (a triangle)
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = SHIP_SIZE / 20;
+                ctx.beginPath();
+                ctx.moveTo( // nose of the ship
+                    ship.x + 4 / 3 * ship.r * Math.cos(ship.a),
+                    ship.y - 4 / 3 * ship.r * Math.sin(ship.a)
+                );
+                ctx.lineTo( // rear left
+                    ship.x - ship.r * (2 / 3 * Math.cos(ship.a) + Math.sin(ship.a)),
+                    ship.y + ship.r * (2 / 3 * Math.sin(ship.a) - Math.cos(ship.a))
+                );
+                ctx.lineTo( // rear right
+                    ship.x - ship.r * (2 / 3 * Math.cos(ship.a) - Math.sin(ship.a)),
+                    ship.y + ship.r * (2 / 3 * Math.sin(ship.a) + Math.cos(ship.a))
+                );
+                ctx.closePath();
+                ctx.stroke();
+
+                // rotate ship
+                ship.a += ship.rot;
+
+                // move the ship
+                ship.x += ship.thrust.x;
+                ship.y += ship.thrust.y;
+
+                // handle edge of screen
+                if (ship.x < 0 - ship.r) {
+                    ship.x = canvas.width + ship.r;
+                } else if (ship.x > canvas.width + ship.r) {
+                    ship.x = 0 - ship.r;
+                }
+                if (ship.y < 0 - ship.r) {
+                    ship.y = canvas.height + ship.r;
+                } else if (ship.y > canvas.height + ship.r) {
+                    ship.y = 0 - ship.r;
+                }
+
+                // move the lasers
+                for (let i = ship.lasers.length - 1; i >= 0; i--) {
+                    // check distance travelled
+                    if (ship.lasers[i].dist > LASER_DIST * canvas.width) {
+                        ship.lasers.splice(i, 1);
+                        continue;
+                    }
+
+                    // move the laser
+                    ship.lasers[i].x += ship.lasers[i].xv;
+                    ship.lasers[i].y += ship.lasers[i].yv;
+
+                    // calculate the distance
+                    ship.lasers[i].dist += Math.sqrt(Math.pow(ship.lasers[i].xv, 2) + Math.pow(ship.lasers[i].yv, 2));
+
+                    // handle edge of screen
+                    if (ship.lasers[i].x < 0) {
+                        ship.lasers[i].x = canvas.width;
+                    } else if (ship.lasers[i].x > canvas.width) {
+                        ship.lasers[i].x = 0;
+                    }
+                    if (ship.lasers[i].y < 0) {
+                        ship.lasers[i].y = canvas.height;
+                    } else if (ship.lasers[i].y > canvas.height) {
+                        ship.lasers[i].y = 0;
+                    }
+                }
+
+                // draw the lasers
+                for (let i = 0; i < ship.lasers.length; i++) {
+                    ctx.fillStyle = "salmon";
+                    ctx.beginPath();
+                    ctx.arc(ship.lasers[i].x, ship.lasers[i].y, SHIP_SIZE / 15, 0, Math.PI * 2, false);
+                    ctx.fill();
+                }
+                
+                // detect laser hits on asteroids
+                let ax, ay, ar, lx, ly;
+                for (let i = asteroids.length - 1; i >= 0; i--) {
+                    ax = asteroids[i].x;
+                    ay = asteroids[i].y;
+                    ar = asteroids[i].r;
+
+                    for (let j = ship.lasers.length - 1; j >= 0; j--) {
+                        lx = ship.lasers[j].x;
+                        ly = ship.lasers[j].y;
+
+                        if (distBetweenPoints(ax, ay, lx, ly) < ar) {
+                            // remove the laser
+                            ship.lasers.splice(j, 1);
+
+                            // remove the asteroid and respawn
+                            asteroids.splice(i, 1);
+                            
+                            // respawn
+                            let x, y;
+                            do {
+                                x = Math.floor(Math.random() * canvas.width);
+                                y = Math.floor(Math.random() * canvas.height);
+                            } while (distBetweenPoints(ship.x, ship.y, x, y) < ASTEROID_SIZE * 2 + ship.r);
+                            asteroids.push(newAsteroid(x, y));
+
+                            break;
+                        }
+                    }
+                }
+
+                // draw the asteroids
+                ctx.strokeStyle = "slategrey";
+                ctx.lineWidth = SHIP_SIZE / 20;
+                let x, y, r, a, vert, offs;
+                for (let i = 0; i < asteroids.length; i++) {
+                    x = asteroids[i].x;
+                    y = asteroids[i].y;
+                    r = asteroids[i].r;
+                    a = asteroids[i].a;
+                    vert = asteroids[i].vert;
+                    offs = asteroids[i].offs;
+                    
+                    // draw a path
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        x + r * offs[0] * Math.cos(a),
+                        y + r * offs[0] * Math.sin(a)
+                    );
+
+                    // draw the polygon
+                    for (let j = 1; j < vert; j++) {
+                        ctx.lineTo(
+                            x + r * offs[j] * Math.cos(a + j * Math.PI * 2 / vert),
+                            y + r * offs[j] * Math.sin(a + j * Math.PI * 2 / vert)
+                        );
+                    }
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+
+                // move the asteroids
+                for (let i = 0; i < asteroids.length; i++) {
+                    asteroids[i].x += asteroids[i].xv;
+                    asteroids[i].y += asteroids[i].yv;
+
+                    // handle asteroid edge of screen
+                    if (asteroids[i].x < 0 - asteroids[i].r) {
+                        asteroids[i].x = canvas.width + asteroids[i].r;
+                    } else if (asteroids[i].x > canvas.width + asteroids[i].r) {
+                        asteroids[i].x = 0 - asteroids[i].r
+                    }
+                    if (asteroids[i].y < 0 - asteroids[i].r) {
+                        asteroids[i].y = canvas.height + asteroids[i].r;
+                    } else if (asteroids[i].y > canvas.height + asteroids[i].r) {
+                        asteroids[i].y = 0 - asteroids[i].r
+                    }
+                }
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                ship.x = canvas.width / 2;
+                ship.y = canvas.height / 2;
+                createAsteroidBelt();
+            });
+        });
+    </script>
+
+</body>
+</html>
