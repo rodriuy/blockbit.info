@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit Board: Tesoros de Artigas</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK CDN (v8 compatibility) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 10px;} /* slate-900 with opacity */
+        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.4); border-radius: 10px;} /* sky-400 with opacity */
+        ::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.6); }
+
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(14, 116, 144, 0.3); } /* sky-700 related */
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.5); } /* sky-400 related */
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(56, 189, 248, 0.7); }
+        
+        .board-list { min-width: 300px; max-width: 320px; }
+        .dragging { opacity: 0.6; transform: rotate(1deg); background-color: #0ea5e9; /* sky-500 for dragging item */ }
+        .drag-over-list { background-color: rgba(12, 74, 110, 0.9) !important; /* sky-800, slightly darker than list bg */ border-color: rgba(56, 189, 248, 0.7);}
+        
+        .active-view-btn { background-color: #0369a1 !important; /* sky-700 */ box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body class="bg-sky-900 text-sky-100 font-sans antialiased">
+
+    <div id="app-container" class="h-screen flex flex-col overflow-hidden">
+
+        <header id="main-header" class="fixed top-0 left-0 right-0 z-30 bg-sky-800/80 backdrop-blur-md shadow-lg print:hidden">
+            <div class="container mx-auto px-4 h-16 flex justify-between items-center">
+                <h1 id="board-title-main" class="text-xl font-bold text-sky-50">Blockbit Board: Tesoros de Artigas</h1>
+                <nav id="view-switcher" class="flex space-x-1">
+                    <button id="board-view-btn" class="px-3 py-1.5 rounded-md text-sm font-medium text-sky-100 hover:bg-sky-700/60 hover:text-white transition-all duration-150 ease-in-out transform hover:scale-105"><i class="fas fa-th-large mr-1.5"></i>Tablero</button>
+                    <button id="calendar-view-btn" class="px-3 py-1.5 rounded-md text-sm font-medium text-sky-200 hover:bg-sky-700/60 hover:text-white transition-all duration-150 ease-in-out transform hover:scale-105"><i class="fas fa-calendar-alt mr-1.5"></i>Calendario</button>
+                    <button id="timeline-view-btn" class="px-3 py-1.5 rounded-md text-sm font-medium text-sky-200 hover:bg-sky-700/60 hover:text-white transition-all duration-150 ease-in-out transform hover:scale-105"><i class="fas fa-chart-gantt mr-1.5"></i>Cronograma</button>
+                    <button id="dashboard-view-btn" class="px-3 py-1.5 rounded-md text-sm font-medium text-sky-200 hover:bg-sky-700/60 hover:text-white transition-all duration-150 ease-in-out transform hover:scale-105"><i class="fas fa-tachometer-alt mr-1.5"></i>Panel</button>
+                </nav>
+            </div>
+        </header>
+
+        <main id="main-content-area" class="flex-1 flex flex-col pt-16 overflow-hidden">
+            <div id="contextual-sub-header" class="bg-sky-800 py-2.5 px-4 md:px-6 shadow-sm flex items-center print:hidden"> {/* Visible by default for board view, JS will hide for others */}
+                 <button id="filter-btn" class="bg-sky-700 hover:bg-sky-600 text-white text-sm font-medium py-1.5 px-3 rounded-lg transition-all duration-150 ease-in-out flex items-center transform hover:scale-102 active:scale-98 shadow-sm hover:shadow">
+                    <i class="fas fa-filter mr-2"></i>Filtrar
+                </button>
+            </div>
+
+            <div id="board-view-content" class="flex-1 p-4 md:p-6 overflow-hidden">
+                <div id="lists-container" class="flex space-x-4 h-full overflow-x-auto pb-4 custom-scrollbar">
+                     <div id="add-list-button-container" class="flex-shrink-0">
+                        <button id="add-list-button" class="bg-sky-700/70 hover:bg-sky-600/80 text-sky-50 font-medium py-2.5 px-4 rounded-xl shadow-md w-80 h-12 flex items-center justify-center transform transition-all duration-150 ease-in-out hover:scale-102 active:scale-98 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            <i class="fas fa-plus mr-2"></i>Añadir otra lista
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="calendar-view-content" class="hidden p-4 md:p-6 h-full"><h2 class="text-2xl text-sky-200">Vista Calendario</h2></div>
+            <div id="timeline-view-content" class="hidden p-4 md:p-6 h-full"><h2 class="text-2xl text-sky-200">Vista Cronograma</h2></div>
+            <div id="dashboard-view-content" class="hidden p-4 md:p-6 h-full"><h2 class="text-2xl text-sky-200">Vista Panel</h2></div>
+        </main>
+    </div>
+
+<script>
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAtdEzxyRKpKZmfk0ZufXcxHI98K5F2GlQ",
+        authDomain: "blockbit-board.firebaseapp.com",
+        projectId: "blockbit-board",
+        storageBucket: "blockbit-board.appspot.com",
+        messagingSenderId: "136718217448",
+        appId: "1:136718217448:web:5c4d38a4bf506ebac4995d",
+        measurementId: "G-3ZH8ER31CY"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+    const boardDocRef = db.collection('artifacts').doc('blockbit-board').collection('public').doc('data').collection('boards').doc('main_board');
+
+    let currentBoardData = null;
+
+    function generateUniqueId() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 9); }
+
+    auth.onAuthStateChanged(async user => {
+        if (user) { 
+            console.log("Usuario autenticado anónimamente:", user.uid);
+            await initializeAppLogic();
+        } else {
+            console.log("Usuario no autenticado. Intentando iniciar sesión anónimamente...");
+            auth.signInAnonymously().catch(e => console.error("Error sign-in anónimo:", e));
+        }
+    });
+
+    async function initializeAppLogic() {
+        console.log("Inicializando lógica de la aplicación...");
+        try {
+            const docSnap = await boardDocRef.get();
+            if (!docSnap.exists) {
+                console.log("El documento del tablero no existe. Creando datos iniciales...");
+                await setupInitialData();
+            } else {
+                console.log("Documento del tablero encontrado.");
+            }
+        } catch (e) { console.error("Error verificando/obteniendo el documento del tablero:", e); }
+
+        boardDocRef.onSnapshot(docSnap => {
+            if (docSnap.exists) {
+                console.log("Datos del tablero recibidos/actualizados desde Firestore.");
+                currentBoardData = docSnap.data();
+                renderBoard();
+            } else {
+                console.log("El documento del tablero ya no existe.");
+            }
+        }, e => console.error("Error al escuchar cambios en el tablero:", e));
+    }
+
+    async function setupInitialData() {
+        console.log("Configurando datos iniciales del tablero 'Tesoros de Artigas'...");
+        const uid = generateUniqueId;
+        const team = [
+            { id: uid(), name: "Tú", avatarColorClass: "bg-sky-500" },
+            { id: uid(), name: "Belén", avatarColorClass: "bg-emerald-500" },
+            { id: uid(), name: "Micaela", avatarColorClass: "bg-amber-500" }
+        ];
+        const labels = [
+            { id: uid(), name: "Tech", color: "bg-indigo-500" }, { id: uid(), name: "Investigación", color: "bg-purple-500" },
+            { id: uid(), name: "Diseño", color: "bg-pink-500" }, { id: uid(), name: "Gestión", color: "bg-yellow-400" },
+            { id: uid(), name: "Estrategia", color: "bg-teal-500" }, { id: uid(), name: "Comunicación", color: "bg-cyan-500" },
+            { id: uid(), name: "Marketing", color: "bg-green-500" }, { id: uid(), name: "Infraestructura", color: "bg-slate-500" },
+            { id: uid(), name: "Producción", color: "bg-orange-500" }, { id: uid(), name: "Web", color: "bg-sky-600" },
+            { id: uid(), name: "Lanzamiento", color: "bg-rose-500" }, { id: uid(), name: "Logística", color: "bg-lime-500" },
+            { id: uid(), name: "Ventas", color: "bg-emerald-600" }, { id: uid(), name: "Comunidad", color: "bg-fuchsia-500" },
+            { id: uid(), name: "Producto", color: "bg-violet-500" }
+        ];
+        const idMap = { "ID_VOS": team[0].id, "ID_BELEN": team[1].id, "ID_MICAELA": team[2].id };
+        const lblMap = labels.reduce((acc,lbl) => (acc[lbl.name.toLowerCase()]=lbl.id, acc), {});
+        
+        const tesorosDeArtigasRawData = {
+            lists: [
+                { title: "JUNIO: Planificación y Diseño (Mes 1)", cards: [
+                    { title: "Definición del MVP (Semana 1: 16-22 jun)", description: `Tareas (Todo el Equipo): Reunión clave. Definir las 5 "Tarjetas de Tesoro" iniciales (ej: Geoda, Boleadora, Estación AFE, Moneda, Carnaval). Definir la "cuota simbólica" del Programa Fundadores (sugiero $500 UYU por kit).`, dueDate: "2025-06-22T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["gestion", "estrategia"], startDate: "2025-06-16T09:00:00Z", createdAt: "2025-06-16T09:00:00Z", updatedAt: "2025-06-16T09:00:00Z"},
+                    { title: "Diseño de Identidad Visual (Semana 2: 23-29 jun)", description: `Tareas (Gurisas): Crear logo y paleta de colores para "Tesoros de Artigas". Diseñar las primeras 5 "Tarjetas de Tesoro" (frente y dorso). Preparar un diseño base para el "Mapa del Tesoro" (A4 plegable).`, dueDate: "2025-06-29T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño"], startDate: "2025-06-23T09:00:00Z", createdAt: "2025-06-23T09:00:00Z", updatedAt: "2025-06-23T09:00:00Z"},
+                    { title: "Plan de Comunicación Inicial (Semana 3: 30 jun - 6 jul)", description: `Tareas (Vos): Redactar borrador del Manifiesto Fundador (1 pág). Definir el mensaje clave y el "tono de voz" de la marca. Crear calendario de contenidos para el primer mes de RRSS.`, dueDate: "2025-07-06T23:59:59Z", members: ["ID_VOS"], labels: ["comunicacion", "marketing"], startDate: "2025-06-30T09:00:00Z", createdAt: "2025-06-30T09:00:00Z", updatedAt: "2025-06-30T09:00:00Z"},
+                    { title: "Setup Técnico Inicial (Semana 4: 7-13 jul)", description: `Tareas (Vos): Comprar dominio web (ej: tesorosdeartigas.uy). Crear cuentas de RRSS (Instagram, Facebook, TikTok). Configurar lista de correo en Mailchimp (o similar).`, dueDate: "2025-07-13T23:59:59Z", members: ["ID_VOS"], labels: ["tech", "infraestructura"], startDate: "2025-07-07T09:00:00Z", createdAt: "2025-07-07T09:00:00Z", updatedAt: "2025-07-07T09:00:00Z"}
+                ]},
+                { title: "JULIO: Construcción (Mes 2)", cards: [
+                    { title: "Producción de Material Gráfico (Semanas 5-6: 14-27 jul)", description: `Tareas (Gurisas): Finalizar diseños de las 5 tarjetas y el mapa. Preparar archivos para imprenta. Buscar presupuestos de imprentas locales.`, dueDate: "2025-07-27T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño", "produccion"], startDate: "2025-07-14T09:00:00Z", createdAt: "2025-07-14T09:00:00Z", updatedAt: "2025-07-14T09:00:00Z"},
+                    { title: "Desarrollo Web - Landing Page (Semanas 7-8: 28 jul - 10 ago)", description: `Tareas (Vos): Construir landing page simple (puede ser con Carrd, Wix, o similar). Incluir: Manifiesto, cómo funciona, formulario de pre-registro para Fundadores.`, dueDate: "2025-08-10T23:59:59Z", members: ["ID_VOS"], labels: ["tech", "web"], startDate: "2025-07-28T09:00:00Z", createdAt: "2025-07-28T09:00:00Z", updatedAt: "2025-07-28T09:00:00Z"}
+                ]},
+                { title: "AGOSTO: Lanzamiento (Mes 3)", cards: [
+                    { title: "Pre-Lanzamiento RRSS (Semanas 9-10: 11-24 ago)", description: `Tareas (Todo el Equipo): Iniciar publicaciones en RRSS (fotos de Artigas, pistas, Manifiesto). Anunciar Programa Fundadores. Captar primeros pre-registros.`, dueDate: "2025-08-24T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["marketing", "lanzamiento"], startDate: "2025-08-11T09:00:00Z", createdAt: "2025-08-11T09:00:00Z", updatedAt: "2025-08-11T09:00:00Z"},
+                    { title: "Producción y Logística Kits (Semanas 11-12: 25 ago - 7 sep)", description: `Tareas (Gurisas): Confirmar imprenta y enviar archivos. Definir packaging básico para los kits de Fundadores. Investigar opciones de envío local/nacional.`, dueDate: "2025-09-07T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["produccion", "logistica"], startDate: "2025-08-25T09:00:00Z", createdAt: "2025-08-25T09:00:00Z", updatedAt: "2025-08-25T09:00:00Z"}
+                ]},
+                { title: "SEPTIEMBRE: Crecimiento (Mes 4)", cards: [
+                    { title: "Lanzamiento Oficial Programa Fundadores (Semana 13: 8-14 sep)", description: `Tareas (Todo el Equipo): Abrir inscripciones al Programa Fundadores (link a formulario/MercadoPago). Enviar kits a los primeros Fundadores.`, dueDate: "2025-09-14T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["lanzamiento", "ventas"], startDate: "2025-09-08T09:00:00Z", createdAt: "2025-09-08T09:00:00Z", updatedAt: "2025-09-08T09:00:00Z"},
+                    { title: "Contenido y Comunidad (Semanas 14-16: 15 sep - 5 oct)", description: `Tareas (Vos): Mantener flujo de contenido en RRSS. Interactuar con la comunidad. Recopilar feedback de Fundadores.`, dueDate: "2025-10-05T23:59:59Z", members: ["ID_VOS"], labels: ["marketing", "comunidad"], startDate: "2025-09-15T09:00:00Z", createdAt: "2025-09-15T09:00:00Z", updatedAt: "2025-09-15T09:00:00Z"}
+                ]},
+                { title: "OCTUBRE: Preparación Final (Mes 5)", cards: [
+                    { title: "Diseño Expansión (Semanas 17-18: 6-19 oct)", description: `Tareas (Gurisas): Diseñar las siguientes 5-10 "Tarjetas de Tesoro" basadas en feedback y popularidad.`, dueDate: "2025-10-19T23:59:59Z", members: ["ID_BELEN", "ID_MICAELA"], labels: ["diseño", "producto"], startDate: "2025-10-06T09:00:00Z", createdAt: "2025-10-06T09:00:00Z", updatedAt: "2025-10-06T09:00:00Z"},
+                    { title: "Plan de Lanzamiento Público (Semanas 19-20: 20 oct - 2 nov)", description: `Tareas (Todo el Equipo): Definir estrategia para lanzamiento al público general (post-Fundadores). Planificar eventos o colaboraciones locales.`, dueDate: "2025-11-02T23:59:59Z", members: ["ID_VOS", "ID_BELEN", "ID_MICAELA"], labels: ["estrategia", "lanzamiento"], startDate: "2025-10-20T09:00:00Z", createdAt: "2025-10-20T09:00:00Z", updatedAt: "2025-10-20T09:00:00Z"}
+                ]}
+            ]
+        };
+
+        const processedLists = tesorosDeArtigasRawData.lists.map(listRaw => ({
+            id: uid(), title: listRaw.title,
+            cards: listRaw.cards.map(c => ({
+                id: uid(), title: c.title, description: c.description, dueDate: c.dueDate,
+                members: (c.members || []).map(mKey => idMap[mKey]).filter(Boolean),
+                labels: (c.labels || []).map(lKey => lblMap[lKey.toLowerCase()]).filter(Boolean),
+                startDate: c.startDate, 
+                createdAt: c.createdAt || c.startDate || new Date().toISOString(), 
+                updatedAt: c.updatedAt || new Date().toISOString(),
+                attachments: c.attachments || [], 
+                activity: c.activity || [{user: team.find(tm => tm.id === idMap["ID_VOS"])?.name || "Sistema", text:"Tarjeta creada.", timestamp: c.createdAt || c.startDate || new Date().toISOString()}],
+                location: c.location || null, coverImage: c.coverImage || null, checklists: c.checklists || []
+            }))
+        }));
+        const boardData = { title: "Tesoros de Artigas - Plan de Proyecto", teamMembers: team, availableLabels: labels, lists: processedLists, 
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+        try { await boardDocRef.set(boardData); console.log("Datos iniciales 'Tesoros de Artigas' escritos."); } 
+        catch (e) { console.error("Error escribiendo datos iniciales:", e); }
+    }
+
+    function renderBoard() {
+        if (!currentBoardData?.lists) { 
+            const listsContainerNull = document.getElementById('lists-container');
+            if(listsContainerNull) { // Ensure container exists before trying to clear it
+                const addListBtnContainer = listsContainerNull.querySelector('#add-list-button-container');
+                listsContainerNull.innerHTML = ''; // Clear only if it exists
+                if(addListBtnContainer) listsContainerNull.appendChild(addListBtnContainer); // Re-add button if it was there
+            }
+            console.log("No hay listas para mostrar o currentBoardData no está listo.");
+            return;
+        }
+        const container = document.getElementById('lists-container');
+        const addBtnCont = document.getElementById('add-list-button-container');
+        
+        let currentChild = container.firstChild;
+        while(currentChild) {
+            if (currentChild.id !== 'add-list-button-container') {
+                const nextChild = currentChild.nextSibling; container.removeChild(currentChild); currentChild = nextChild;
+            } else { currentChild = currentChild.nextSibling; }
+        }
+        currentBoardData.lists.forEach(list => {
+            const listEl = renderList(list);
+            if (addBtnCont) container.insertBefore(listEl, addBtnCont);
+            else container.appendChild(listEl);
+        });
+    }
+
+    function renderList(listData) {
+        const el = document.createElement('div');
+        el.id = `list-${listData.id}`;
+        el.className = 'board-list w-80 bg-sky-800 rounded-xl shadow-lg flex flex-col flex-shrink-0 h-full max-h-full';
+        
+        const listTitleHTML = `
+            <div class="p-3.5 border-b border-sky-700/50 flex justify-between items-center">
+                <h2 class="text-sky-100 font-semibold text-base">${listData.title}</h2>
+                <span class="text-sm text-sky-300">${listData.cards?.length || 0}</span>
+            </div>`;
+        
+        const cardsContainerEl = document.createElement('div');
+        cardsContainerEl.className = 'cards-container flex-grow space-y-2.5 overflow-y-auto px-2.5 pt-3 pb-1.5 dark-custom-scrollbar';
+        cardsContainerEl.dataset.listId = listData.id;
+
+        if (listData.cards?.length) {
+            listData.cards.forEach(card => cardsContainerEl.appendChild(renderCard(card, listData.id)));
+        } else {
+            cardsContainerEl.innerHTML = '<p class="text-xs text-sky-400 p-2 text-center italic">Ninguna tarjeta aún.</p>';
+        }
+        
+        const addCardButtonHTML = `
+            <button class="add-card-btn mt-auto p-2.5 text-sky-300 hover:text-sky-100 hover:bg-sky-700/60 rounded-lg text-sm w-full transition-all duration-150 ease-in-out flex items-center justify-center transform hover:scale-102 active:scale-98 focus:outline-none focus:ring-1 focus:ring-sky-500">
+                <i class="fas fa-plus mr-1.5"></i>Añadir tarjeta
+            </button>`;
+        
+        el.innerHTML = listTitleHTML;
+        el.appendChild(cardsContainerEl);
+        el.innerHTML += addCardButtonHTML;
+        
+        ['dragover','dragleave','drop'].forEach(evt => cardsContainerEl.addEventListener(evt, window[`handle${evt.charAt(0).toUpperCase() + evt.slice(1)}`]));
+        el.querySelector('.add-card-btn').addEventListener('click', () => {
+            const title = prompt(`Nueva tarjeta para "${listData.title}":`); if (title) addNewCardToList(listData.id, title);
+        });
+        return el;
+    }
+    
+    function renderCard(cardData, listId) { 
+        const cardEl = document.createElement('div');
+        cardEl.id = `card-${cardData.id}`;
+        cardEl.className = 'kanban-card bg-sky-700 p-3 rounded-lg shadow-md hover:shadow-lg hover:transform hover:-translate-y-px transition-all duration-200 ease-in-out cursor-pointer flex flex-col space-y-2.5'; 
+        cardEl.draggable = true;
+        cardEl.dataset.cardId = cardData.id;
+        // cardEl.addEventListener('click', () => openCardModal(cardData, listId)); // Card click disabled for Step 1
+        cardEl.addEventListener('dragstart', e => handleDragStart(e, cardData.id, listId));
+        
+        const titleEl = document.createElement('h4');
+        titleEl.className = 'text-sm font-semibold text-sky-50 break-words';
+        titleEl.textContent = cardData.title;
+        cardEl.appendChild(titleEl);
+        
+        return cardEl; 
+    }
+
+    document.getElementById('add-list-button')?.addEventListener('click', async () => {
+        const title = prompt("Nombre de la nueva lista:");
+        if (title && currentBoardData) {
+            const newList = { id: generateUniqueId(), title, cards: [] };
+            try { await boardDocRef.update({ lists: firebase.firestore.FieldValue.arrayUnion(newList) }); } 
+            catch (e) { console.error("Error añadiendo lista:", e); }
+        }
+    });
+
+    async function addNewCardToList(listId, cardTitle) {
+        if (!currentBoardData) return;
+        const newCard = {
+            id: generateUniqueId(), title: cardTitle, description: "", members: [], labels: [],
+            dueDate: null, startDate: null, checklists: [], location: null, attachments: [], activity: [],
+            coverImage: null, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+        };
+        
+        const listsCopy = JSON.parse(JSON.stringify(currentBoardData.lists));
+        const listIndex = listsCopy.findIndex(l => l.id === listId);
+        if (listIndex !== -1) {
+            listsCopy[listIndex].cards = listsCopy[listIndex].cards || [];
+            listsCopy[listIndex].cards.push(newCard);
+            try { await boardDocRef.update({ lists: listsCopy }); }
+            catch (e) { console.error("Error añadiendo tarjeta:", e); }
+        }
+    }
+
+    let draggedItemId = null, originalListId = null;
+    function handleDragStart(e, cardId, listId) {
+        draggedItemId = cardId; originalListId = listId;
+        e.dataTransfer.setData('text/plain', cardId);
+        e.target.classList.add('dragging');
+    }
+    function handleDragOver(e) { e.preventDefault(); e.target.closest('.cards-container')?.classList.add('drag-over-list'); }
+    function handleDragLeave(e) { e.target.closest('.cards-container')?.classList.remove('drag-over-list'); }
+    async function handleDrop(e) {
+        e.preventDefault();
+        const targetCont = e.target.closest('.cards-container');
+        targetCont?.classList.remove('drag-over-list');
+        document.querySelector('.dragging')?.classList.remove('dragging');
+        const targetListId = targetCont?.dataset.listId;
+
+        if (!draggedItemId || !originalListId || targetListId === originalListId) {
+            draggedItemId = null; originalListId = null; return;
+        }
+        let cardToMove;
+        let newListsData = JSON.parse(JSON.stringify(currentBoardData.lists)); 
+
+        let sourceList = newListsData.find(l => l.id === originalListId);
+        if (sourceList) {
+            cardToMove = sourceList.cards.find(c => c.id === draggedItemId);
+            if (cardToMove) {
+                sourceList.cards = sourceList.cards.filter(c => c.id !== draggedItemId);
+                let targetList = newListsData.find(l => l.id === targetListId);
+                if (targetList) {
+                    targetList.cards.push(cardToMove); 
+                }
+            }
+        }
+        
+        if (cardToMove) {
+            try { await boardDocRef.update({ lists: newListsData }); }
+            catch (err) { console.error("Error moviendo tarjeta:", err); renderBoard(); } 
+        }
+        draggedItemId = null; originalListId = null;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const viewButtons = document.querySelectorAll('#view-switcher button');
+        const mainContentArea = document.getElementById('main-content-area');
+        const header = document.getElementById('main-header');
+        const contextualSubHeader = document.getElementById('contextual-sub-header');
+
+        const contentAreas = {
+            'board-view-btn': document.getElementById('board-view-content'),
+            'calendar-view-btn': document.getElementById('calendar-view-content'),
+            'timeline-view-btn': document.getElementById('timeline-view-content'),
+            'dashboard-view-btn': document.getElementById('dashboard-view-content'),
+        };
+        
+        function updateMainContentPadding() {
+            if (!header || !mainContentArea || !contextualSubHeader) return;
+            const headerHeight = header.offsetHeight;
+            const subHeaderHeight = contextualSubHeader.classList.contains('hidden') ? 0 : contextualSubHeader.offsetHeight;
+            mainContentArea.style.paddingTop = `${headerHeight + subHeaderHeight}px`;
+            contextualSubHeader.style.top = `${headerHeight}px`;
+        }
+
+        if (header && mainContentArea && contextualSubHeader) {
+            updateMainContentPadding(); 
+            new ResizeObserver(updateMainContentPadding).observe(header);
+            new ResizeObserver(updateMainContentPadding).observe(contextualSubHeader);
+            new MutationObserver((mutationsList) => {
+                for(let mutation of mutationsList) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        updateMainContentPadding();
+                        break; 
+                    }
+                }
+            }).observe(contextualSubHeader, { attributes: true });
+        }
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                viewButtons.forEach(btn => {
+                    btn.classList.remove('bg-sky-700', 'text-white', 'active-view-btn');
+                    btn.classList.add('text-sky-200', 'hover:bg-sky-700/60', 'hover:text-white');
+                });
+                button.classList.add('bg-sky-700', 'text-white', 'active-view-btn');
+                button.classList.remove('text-sky-200');
+                
+                Object.values(contentAreas).forEach(area => area.classList.add('hidden'));
+                contextualSubHeader.classList.add('hidden');
+                
+                const targetContentArea = contentAreas[button.id];
+                if (targetContentArea) {
+                    targetContentArea.classList.remove('hidden');
+                    if (button.id === 'board-view-btn') {
+                        contextualSubHeader.classList.remove('hidden');
+                    }
+                }
+                updateMainContentPadding(); 
+            });
+        });
+        document.getElementById('board-view-btn')?.click(); 
+    });
+</script>
+</body>
+</html>
+
+[end of board.html]
+
+[end of board.html]
+
+[end of board.html]
+
+[end of board.html]
