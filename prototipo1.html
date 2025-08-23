@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora | La Memoria Viva de Artigas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet.js para el mapa interactivo -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+        /* Estilos personalizados */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #E5E7EB;
+            scroll-behavior: smooth;
+        }
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        #map-container {
+            height: 60vh;
+            border-radius: 1rem;
+            background-color: #0c121e;
+        }
+        .leaflet-tile-pane {
+            filter: grayscale(1) contrast(1.2) brightness(0.6);
+        }
+        .leaflet-marker-icon {
+            transition: transform 0.3s ease;
+        }
+        .leaflet-marker-icon:hover {
+            transform: scale(1.2);
+        }
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .btn-filter.active {
+            background-color: #DAA520;
+            color: #111827;
+        }
+        /* Estilo para el spinner de carga */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #DAA520;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Animación de pulso para el icono del marcador */
+        @keyframes pulse-marker {
+            0% { box-shadow: 0 0 0 0 rgba(218, 165, 32, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(218, 165, 32, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(218, 165, 32, 0); }
+        }
+        .marker-pulse {
+            animation: pulse-marker 2s infinite;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="app" class="min-h-screen flex flex-col">
+
+        <header class="w-full p-4 sm:p-6 flex justify-between items-center z-20 sticky top-0 bg-[#111827]/80 backdrop-blur-sm">
+            <div class="flex items-center space-x-3">
+                <svg class="w-8 h-8 text-[#DAA520]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                <h1 class="text-2xl font-bold text-white">Memora</h1>
+            </div>
+            <a href="#contribuir" class="bg-[#DAA520] text-[#111827] font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors">
+                Contribuí tu Historia
+            </a>
+        </header>
+
+        <main class="flex-grow flex flex-col items-center text-center p-4 relative">
+            
+            <div class="z-10 my-12 max-w-4xl w-full">
+                <h2 class="font-display text-4xl sm:text-6xl font-bold text-white leading-tight">
+                    Artigas, contada por su gente.
+                </h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                    Un archivo comunitario vivo. Explorá el mapa, filtrá por épocas o temas, y escuchá las historias que construyen nuestra identidad.
+                </p>
+            </div>
+
+            <!-- Controles y Filtros -->
+            <div class="z-10 w-full max-w-6xl p-4 bg-[#1F2937]/50 rounded-xl mb-8">
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <input id="search-input" type="text" placeholder="Buscar por palabra clave..." class="bg-[#111827] border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-[#DAA520] w-full sm:w-auto">
+                    <div id="filter-tags" class="flex flex-wrap justify-center gap-2">
+                        <button class="btn-filter bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm" data-tag="all">Todos</button>
+                        <button class="btn-filter bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm" data-tag="#Trabajo">#Trabajo</button>
+                        <button class="btn-filter bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm" data-tag="#Familia">#Familia</button>
+                        <button class="btn-filter bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm" data-tag="#Juventud">#Juventud</button>
+                        <button class="btn-filter bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm" data-tag="#Campo">#Campo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenedor del Mapa Interactivo -->
+            <div id="map-container" class="w-full max-w-6xl z-10 shadow-2xl"></div>
+            
+            <!-- Sección para Contribuir Historia -->
+            <section id="contribuir" class="w-full max-w-4xl mt-24 mb-12 scroll-mt-20">
+                <h3 class="font-display text-4xl font-bold text-white mb-4">Contribuí a la Memoria Colectiva</h3>
+                <p class="text-gray-400 mb-8">¿Tenés una historia para compartir? Escribí tu relato acá. Nuestra IA te puede ayudar a darle forma.</p>
+                <div class="bg-[#1F2937] p-8 rounded-2xl shadow-lg">
+                    <textarea id="story-input" rows="8" class="w-full bg-[#111827] border border-gray-600 rounded-lg p-4 text-white focus:outline-none focus:ring-2 focus:ring-[#DAA520] mb-4" placeholder="Escribí acá tu recuerdo... por ejemplo, 'Me acuerdo cuando con mi padre íbamos a pescar al arroyo...'"></textarea>
+                    <button id="gemini-suggest-btn" class="bg-[#DAA520] text-[#111827] font-bold py-3 px-6 rounded-lg hover:bg-yellow-500 transition-colors w-full sm:w-auto flex items-center justify-center gap-2">
+                        <span id="gemini-suggest-btn-text">✨ Sugerir Título y Etiquetas con IA</span>
+                        <div id="gemini-suggest-loader" class="loader hidden"></div>
+                    </button>
+                    <div id="suggestions" class="mt-6 text-left hidden">
+                        <input id="suggested-title" type="text" placeholder="Título sugerido" class="w-full bg-[#111827] border border-gray-600 rounded-lg p-4 text-white mb-4">
+                        <input id="suggested-tags" type="text" placeholder="Etiquetas sugeridas" class="w-full bg-[#111827] border border-gray-600 rounded-lg p-4 text-white">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="story-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none modal-backdrop">
+        <div id="modal-content" class="bg-[#1F2937] rounded-2xl shadow-2xl w-full max-w-md p-6 sm:p-8 text-left relative transform scale-95 opacity-0 modal-content">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 id="story-title" class="font-display text-3xl font-bold text-white mb-2"></h3>
+            <div id="story-tags" class="flex flex-wrap gap-2 mb-4"></div>
+            <p id="story-snippet" class="text-gray-300 mb-6"></p>
+            <div class="w-full mb-6">
+                <p class="text-sm text-gray-400 mb-2">Escuchá el relato:</p>
+                <audio id="story-audio" controls class="w-full"></audio>
+            </div>
+            <div class="border-t border-gray-700 pt-6">
+                 <button id="gemini-deepen-btn" class="border border-[#DAA520] text-[#DAA520] font-bold py-3 px-6 rounded-lg hover:bg-[#DAA520] hover:text-[#111827] transition-colors w-full flex items-center justify-center gap-2">
+                    <span id="gemini-deepen-btn-text">✨ Profundizar en la Historia</span>
+                    <div id="gemini-deepen-loader" class="loader hidden"></div>
+                </button>
+                <div id="deepen-content" class="mt-4 text-gray-400 text-sm bg-black/20 p-4 rounded-lg hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Base de Datos de Historias con Coordenadas Reales ---
+        const stories = [
+            { id: 1, title: "El primer sueldo", snippet: "Tenía 17, fue en un taller del centro de Artigas. Con esa plata le compré un regalo a mi vieja...", tags: ["#Trabajo", "#Familia", "#1970s"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.4065, -56.4755], new: true },
+            { id: 2, title: "La receta del estofado", snippet: "Mi abuela en Bella Unión no usaba medidas, era todo a ojo. El secreto, decía, era un chorrito de vino tinto...", tags: ["#Cocina", "#Abuelos", "#Familia"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.2754, -57.6002] },
+            { id: 3, title: "El baile en el club", snippet: "Era el único lugar para salir los sábados en Tomás Gomensoro. La música sonaba fuerte y todos nos conocíamos...", tags: ["#Juventud", "#Música", "#Amor"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.6333, -57.4333] },
+            { id: 4, title: "La cosecha de caña", snippet: "El trabajo en el campo era duro, bo. Desde el amanecer hasta que se iba el sol, pero había una camaradería única.", tags: ["#Trabajo", "#Campo", "#1960s"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.31, -57.55] },
+            { id: 5, title: "El viaje en tren", snippet: "Era toda una aventura. El ruido de las vías, el paisaje que cambiaba lento... Íbamos a visitar a los parientes al campo.", tags: ["#Viajes", "#Familia", "#Nostalgia"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.55, -56.9] },
+            { id: 6, title: "Carnaval en la avenida", snippet: "Artigas se transformaba. Las escolas de samba, la gente en la calle... una alegría que contagiaba a todo el mundo.", tags: ["#Juventud", "#Fiesta", "#Cultura"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.408, -56.48] },
+            { id: 7, title: "La frontera", snippet: "Crecer en la frontera con Brasil es otra cosa. Hablás dos idiomas sin darte cuenta y tenés amigos de los dos lados.", tags: ["#Cultura", "#Infancia", "#Frontera"], audio: "https://placehold.co/audio/1f2937/daa520.mp3", coords: [-30.40, -56.46], new: true },
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('story-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal');
+            const searchInput = document.getElementById('search-input');
+            const filterContainer = document.getElementById('filter-tags');
+            const geminiSuggestBtn = document.getElementById('gemini-suggest-btn');
+            const geminiDeepenBtn = document.getElementById('gemini-deepen-btn');
+            const storyInput = document.getElementById('story-input');
+            let currentStoryId = null;
+            let activeFilter = 'all';
+
+            // --- Inicialización del Mapa Leaflet ---
+            const map = L.map('map-container').setView([-30.45, -57.0], 9); // Centrado en el departamento de Artigas
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const markersLayer = L.layerGroup().addTo(map);
+
+            // --- Icono personalizado para los marcadores ---
+            const goldIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style='background-color:#DAA520;width:12px;height:12px;border-radius:50%;border:2px solid white;'></div>`,
+                iconSize: [12, 12],
+                iconAnchor: [6, 6]
+            });
+            
+            const newIcon = L.divIcon({
+                className: 'custom-div-icon marker-pulse',
+                html: `<div style='background-color:#DAA520;width:12px;height:12px;border-radius:50%;border:2px solid white;'></div>`,
+                iconSize: [12, 12],
+                iconAnchor: [6, 6]
+            });
+
+            // --- Lógica de la Aplicación (adaptada para Leaflet) ---
+            function renderPoints() {
+                markersLayer.clearLayers();
+                const searchTerm = searchInput.value.toLowerCase();
+                const filteredStories = stories.filter(story => {
+                    const matchesFilter = activeFilter === 'all' || story.tags.includes(activeFilter);
+                    const matchesSearch = story.title.toLowerCase().includes(searchTerm) || story.snippet.toLowerCase().includes(searchTerm);
+                    return matchesFilter && matchesSearch;
+                });
+
+                filteredStories.forEach(story => {
+                    const marker = L.marker(story.coords, { icon: story.new ? newIcon : goldIcon })
+                        .addTo(markersLayer)
+                        .bindTooltip(story.title);
+                    
+                    marker.on('click', () => openModal(story.id));
+                });
+            }
+            
+            async function callGemini(prompt, jsonSchema = null) {
+                const apiKey = ""; 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                let payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+                if (jsonSchema) {
+                    payload.generationConfig = {
+                        responseMimeType: "application/json",
+                        responseSchema: jsonSchema
+                    };
+                }
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`API call failed with status: ${response.status}`);
+                    const result = await response.json();
+                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
+                        return result.candidates[0].content.parts[0].text;
+                    }
+                    console.error("Respuesta inesperada de la API:", result);
+                    return null;
+                } catch (error) {
+                    console.error("Error al llamar a la API de Gemini:", error);
+                    return null;
+                }
+            }
+
+            geminiSuggestBtn.addEventListener('click', async () => {
+                const storyText = storyInput.value;
+                if (storyText.trim().length < 20) {
+                    alert("Por favor, escribí un relato un poco más largo para que la IA pueda ayudarte.");
+                    return;
+                }
+                const loader = document.getElementById('gemini-suggest-loader');
+                const btnText = document.getElementById('gemini-suggest-btn-text');
+                loader.classList.remove('hidden');
+                btnText.classList.add('hidden');
+                geminiSuggestBtn.disabled = true;
+
+                const prompt = `Basado en el siguiente relato de un habitante de Artigas, Uruguay, genera un título corto y atractivo, y 3 etiquetas relevantes en formato de hashtag. El relato es: "${storyText}"`;
+                const schema = { type: "OBJECT", properties: { "title": { "type": "STRING" }, "tags": { "type": "ARRAY", "items": { "type": "STRING" } } }, required: ["title", "tags"] };
+                const resultText = await callGemini(prompt, schema);
+                
+                if (resultText) {
+                    try {
+                        const resultJson = JSON.parse(resultText);
+                        document.getElementById('suggested-title').value = resultJson.title;
+                        document.getElementById('suggested-tags').value = resultJson.tags.join(', ');
+                        document.getElementById('suggestions').classList.remove('hidden');
+                    } catch (e) { console.error("Error al parsear la respuesta JSON:", e); alert("Hubo un error al procesar la sugerencia."); }
+                } else { alert("No se pudo obtener una sugerencia."); }
+                
+                loader.classList.add('hidden');
+                btnText.classList.remove('hidden');
+                geminiSuggestBtn.disabled = false;
+            });
+
+            geminiDeepenBtn.addEventListener('click', async () => {
+                if (currentStoryId === null) return;
+                const story = stories.find(s => s.id === currentStoryId);
+                if (!story) return;
+                const loader = document.getElementById('gemini-deepen-loader');
+                const btnText = document.getElementById('gemini-deepen-btn-text');
+                const deepenContent = document.getElementById('deepen-content');
+                loader.classList.remove('hidden');
+                btnText.classList.add('hidden');
+                geminiDeepenBtn.disabled = true;
+                deepenContent.innerHTML = '';
+                deepenContent.classList.add('hidden');
+
+                const prompt = `Basado en este breve relato de Artigas, Uruguay: "${story.snippet}". Dame un poco más de contexto histórico sobre esa época o tema en la región. Además, generá dos preguntas interesantes que alguien podría hacer para seguir explorando esta historia. Mantené un tono cercano y nostálgico. Formateá la respuesta con un título para el contexto y otro para las preguntas.`;
+                const resultText = await callGemini(prompt);
+
+                if (resultText) {
+                    deepenContent.innerHTML = resultText.replace(/\n/g, '<br>');
+                    deepenContent.classList.remove('hidden');
+                } else {
+                    deepenContent.textContent = "No se pudo obtener más información en este momento.";
+                    deepenContent.classList.remove('hidden');
+                }
+                loader.classList.add('hidden');
+                btnText.classList.remove('hidden');
+                geminiDeepenBtn.disabled = false;
+            });
+
+            function openModal(storyId) {
+                currentStoryId = storyId;
+                const story = stories.find(s => s.id === storyId);
+                if (!story) return;
+                document.getElementById('story-title').textContent = story.title;
+                document.getElementById('story-snippet').textContent = story.snippet;
+                document.getElementById('story-audio').src = story.audio;
+                const tagsContainer = document.getElementById('story-tags');
+                tagsContainer.innerHTML = '';
+                story.tags.forEach(tag => {
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'bg-[#374151] text-xs font-medium text-[#DAA520] px-2 py-1 rounded-full';
+                    tagEl.textContent = tag;
+                    tagsContainer.appendChild(tagEl);
+});
+                document.getElementById('deepen-content').classList.add('hidden');
+                document.getElementById('deepen-content').innerHTML = '';
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none');
+                    const audioPlayer = document.getElementById('story-audio');
+                    if (audioPlayer) {
+                        audioPlayer.pause();
+                        audioPlayer.currentTime = 0;
+                    }
+                    currentStoryId = null;
+                }, 300);
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => e.target === modal && closeModal());
+            document.addEventListener('keydown', (e) => e.key === 'Escape' && closeModal());
+            searchInput.addEventListener('input', renderPoints);
+            filterContainer.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    const tag = e.target.dataset.tag;
+                    activeFilter = tag;
+                    filterContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderPoints();
+                }
+            });
+
+            filterContainer.querySelector('[data-tag="all"]').classList.add('active');
+            renderPoints();
+        });
+    </script>
+</body>
+</html>
