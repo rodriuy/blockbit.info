@@ -88,13 +88,23 @@
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
+        
+        /* Transición para el menú móvil */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        #mobile-menu.open {
+            max-height: 500px; /* Un valor suficientemente grande */
+        }
     </style>
 </head>
 
 <body class="bg-black text-gray-200">
 
     <!-- ===== HEADER ===== -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#inicio" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
             <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
@@ -103,15 +113,28 @@
                 <a href="#sumate" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full transition-colors">
                     <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
                 </a>
-                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+                <button id="lang-switcher-desktop" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
             </div>
-            <div class="md:hidden">
+            <div class="md:hidden flex items-center space-x-4">
+                <!-- Visual Language Switcher for Mobile -->
+                <button id="lang-switcher-mobile-en" class="lang-es p-2 rounded-full hover:bg-gray-800 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512"><path fill="#fff" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512z"/><path fill="#333" d="M256 0c-21 0-41.2 2.7-60.4 7.8L256 256l60.4-248.2C297.2 2.7 277 0 256 0zM176.4 16.2c-17.7 6.4-34.4 14.7-50 24.8l72.4 214.8L176.4 16.2zM107.5 50c-14.2 11.2-27.2 24-38.8 38L196 256l-88.5-206zM51.5 99.4c-9.3 13.5-17.5 28-24.2 43.2l198.2 113.4-174-156.6zM20.4 154c-4.2 15.2-7.2 30.8-8.8 46.8l243.2 55.2-234.4-102zM11.2 212.8c-.8 8-1.2 16.2-1.2 24.4s.4 16.4 1.2 24.4l244.8-19.2-244.8-29.6zM20.4 358c4.2-15.2 7.2-30.8 8.8-46.8L263.6 256l-243.2 102zM51.5 412.6c9.3-13.5 17.5-28 24.2-43.2L87.5 256l174 156.6zM107.5 462c14.2-11.2 27.2-24 38.8-38L127.2 256l88.5 206zM176.4 495.8c17.7-6.4 34.4-14.7 50-24.8L201.2 256l22.4 215zM256 512c21 0 41.2-2.7 60.4-7.8L256 256l-60.4 248.2C214.8 509.3 235 512 256 512zM335.6 495.8c17.7 6.4 34.4 14.7 50 24.8l-72.4-214.8 22.4 215zM404.5 462c14.2 11.2 27.2 24 38.8 38L284.8 256l119.7 206zM460.5 412.6c9.3 13.5 17.5 28 24.2 43.2l-198.2-113.4 174 156.6zM491.6 358c4.2 15.2 7.2 30.8 8.8 46.8L248.4 256l243.2 102zM500.8 299.2c.8-8 1.2-16.2 1.2-24.4s-.4-16.4-1.2-24.4L256 275.2l244.8 24zM491.6 154c-4.2-15.2-7.2-30.8-8.8-46.8L248.4 256l243.2-102zM460.5 99.4c-9.3-13.5-17.5-28-24.2-43.2l174 156.6-198.2-113.4zM404.5 50c-14.2-11.2-27.2-24-38.8-38l119.7 206L284.8 50zM335.6 16.2c-17.7-6.4-34.4-14.7-50-24.8l22.4 215 72.4-214.8z"/></svg>
+                </button>
+                <button id="lang-switcher-mobile-uy" class="lang-en hidden p-2 rounded-full hover:bg-gray-800 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 36 36"><path fill="#0052B4" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#FFF" d="M36 12.6H0v10.8h36z"/><path fill="#FCD116" d="M12.6 12.6a5.4 5.4 0 1 0 0 10.8 5.4 5.4 0 0 0 0-10.8z"/></svg>
+                </button>
                 <!-- Mobile Menu Button -->
-                <button class="text-white focus:outline-none">
+                <button id="mobile-menu-button" class="text-white focus:outline-none p-2 rounded-full hover:bg-gray-800 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="md:hidden bg-black/80 backdrop-blur-lg border-t border-gray-800">
+             <a href="#trayectoria" class="block text-white py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">Trayectoria</span><span class="lang-en hidden">Journey</span></a>
+             <a href="#equipo" class="block text-white py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span></a>
+             <a href="#sumate" class="block text-blue-400 font-semibold py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span></a>
+        </div>
     </header>
 
     <main>
@@ -166,7 +189,7 @@
                             <span class="lang-es">Debutamos en las Olimpiadas de Robótica de Ceibal y ganamos en nuestra primera participación. Un inicio que marcó nuestro camino y nos impulsó a soñar en grande.</span>
                             <span class="lang-en hidden">We debuted in the Ceibal Robotics Olympics and won in our first participation. A beginning that marked our path and drove us to dream big.</span>
                         </p>
-                        <a href="trayectoria_2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
+                        <a href="trayectoria-2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
                             <span class="lang-es">Ver más de esta etapa</span>
                             <span class="lang-en hidden">More about this stage</span>
                         </a>
@@ -185,7 +208,7 @@
                             <span class="lang-es">Ganamos la First Lego League en Uruguay y viajamos a Houston, Texas. Allí, nos medimos con los mejores, logrando un Top 10 mundial en Alianza y poniendo a Artigas en el mapa global de la robótica.</span>
                             <span class="lang-en hidden">We won the First Lego League in Uruguay and traveled to Houston, Texas. There, we competed against the best, achieving a Top 10 worldwide in Alliance and putting Artigas on the global robotics map.</span>
                         </p>
-                        <a href="trayectoria_2223.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
+                        <a href="trayectoria-2022-2023.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
                             <span class="lang-es">Explorar la temporada FLL</span>
                             <span class="lang-en hidden">Explore the FLL season</span>
                         </a>
@@ -204,7 +227,7 @@
                             <span class="lang-es">Con solo 4 meses de preparación, nos enfrentamos a la WRO en Puerto Rico, una de las competencias más difíciles. Nos adaptamos, trabajamos sin descanso y alcanzamos un Top 20 mundial, demostrando nuestra fortaleza ante la adversidad.</span>
                             <span class="lang-en hidden">With only 4 months of preparation, we faced the WRO in Puerto Rico, one of the toughest competitions. We adapted, worked tirelessly, and reached a Top 20 worldwide, proving our strength against adversity.</span>
                         </p>
-                        <a href="trayectoria_2324.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
+                        <a href="trayectoria-2023-2024.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
                             <span class="lang-es">Conocer el reto WRO</span>
                             <span class="lang-en hidden">Learn about the WRO challenge</span>
                         </a>
@@ -344,32 +367,56 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const langSwitcher = document.getElementById('lang-switcher');
+            const langSwitcherDesktop = document.getElementById('lang-switcher-desktop');
+            const langSwitcherMobileEs = document.getElementById('lang-switcher-mobile-es');
+            const langSwitcherMobileEn = document.getElementById('lang-switcher-mobile-uy'); // Corrected ID
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
             const htmlTag = document.documentElement;
 
             const setLanguage = (lang) => {
                 htmlTag.lang = lang;
                 localStorage.setItem('userLanguage', lang);
 
-                // Ocultar/mostrar spans de idioma
+                // Toggle visibility for all language-specific elements
                 document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
 
-                // Actualizar texto del botón
-                langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+                // Update desktop button text
+                if (langSwitcherDesktop) {
+                    langSwitcherDesktop.textContent = lang === 'es' ? 'EN' : 'ES';
+                }
             };
 
-            // --- Evento del botón de idioma ---
-            langSwitcher.addEventListener('click', () => {
-                const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
-                setLanguage(newLang);
+            // --- Language Switcher Events ---
+            if (langSwitcherDesktop) {
+                langSwitcherDesktop.addEventListener('click', () => {
+                    const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                    setLanguage(newLang);
+                });
+            }
+            if (langSwitcherMobileEs) {
+                langSwitcherMobileEs.addEventListener('click', () => setLanguage('en'));
+            }
+            if (langSwitcherMobileEn) {
+                langSwitcherMobileEn.addEventListener('click', () => setLanguage('es'));
+            }
+            
+            // --- Mobile Menu Logic ---
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
             });
 
-            // --- Cargar idioma al iniciar ---
+            // --- Initial Language Load ---
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             setLanguage(savedLang);
 
-            // --- Animaciones de scroll ---
+            // --- Scroll Animations ---
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -383,7 +430,7 @@
             const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
             elementsToReveal.forEach(el => observer.observe(el));
 
-            // --- Estilo del header al hacer scroll ---
+            // --- Header Style on Scroll ---
             const header = document.getElementById('main-header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 20) {
@@ -393,10 +440,10 @@
                 }
             });
 
-            // --- Actualizar año en el footer ---
+            // --- Footer Year ---
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            // --- Placeholder para la funcionalidad de 'Ver más' del equipo ---
+            // --- Team Member Click Placeholder ---
             document.querySelectorAll('.group[data-member-id]').forEach(card => {
                 card.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -406,7 +453,6 @@
                         ? `Próximamente: Más información sobre ${memberId}.`
                         : `Coming soon: More information about ${memberId}.`;
                     alert(message);
-                    // Futura navegación: window.location.href = `/${lang}/equipo/${memberId}.html`;
                 });
             });
         });
