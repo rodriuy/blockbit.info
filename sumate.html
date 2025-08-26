@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Invertí en el Futuro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #000;
+            color: #f5f5f7;
+        }
+        .header-glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .cta-button {
+            background-color: #2563eb;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .secondary-button {
+            background-color: #1d1d1f;
+            border: 1px solid #374151;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .secondary-button:hover {
+            background-color: #374151;
+        }
+        .heading-massive {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+        .info-card {
+            background: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .is-in-view .reveal-on-scroll {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #pie-chart {
+            --p60: 0;
+            --p20: 0;
+            --p10a: 0;
+            --p10b: 0;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #005f73 calc(var(--p60) * 1%),
+                #00a0b1 0 calc(var(--p60) * 1% + var(--p20) * 1%),
+                #00b4c5 0 calc(var(--p60) * 1% + var(--p20) * 1% + var(--p10a) * 1%),
+                #00879e 0 100%
+            );
+            transition: --p60 1.5s, --p20 1.5s, --p10a 1.5s, --p10b 1.5s;
+            transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+    </style>
+</head>
+
+<body class="bg-black text-gray-200">
+
+    <!-- ===== HEADER ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="hidden md:block text-sm text-gray-300 hover:text-white transition-colors">
+                    <span class="lang-es">Volver al Inicio</span><span class="lang-en hidden">Back to Home</span>
+                </a>
+                <button id="lang-switcher" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
+                    <span class="lang-es">🇺🇸</span>
+                    <span class="lang-en hidden">🇺🇾</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- ===== HERO SECTION ===== -->
+        <section class="h-screen min-h-[700px] flex flex-col justify-center items-center text-center relative overflow-hidden p-8">
+            <div id="hero-content">
+                <h1 class="heading-massive text-white">
+                    <span class="lang-es">INVERTÍ</span>
+                    <span class="lang-en hidden">INVEST</span>
+                </h1>
+                <h1 class="heading-massive text-gray-600">
+                    <span class="lang-es">EN EL FUTURO</span>
+                    <span class="lang-en hidden">IN THE FUTURE</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mt-8 mb-12">
+                    <span class="lang-es">Somos más que un equipo de robótica. Somos un semillero de talento, un motor de cambio para nuestra comunidad y una prueba de que con ingenio y apoyo, no hay límites. Tu colaboración nos impulsa a seguir compitiendo, innovando e inspirando a la próxima generación.</span>
+                    <span class="lang-en hidden">We are more than a robotics team. We are a seedbed of talent, an engine of change for our community, and proof that with ingenuity and support, there are no limits. Your collaboration drives us to continue competing, innovating, and inspiring the next generation.</span>
+                </p>
+                <div>
+                    <a href="#aportar" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
+                        <span class="lang-es">Apoyar el Proyecto</span>
+                        <span class="lang-en hidden">Support the Project</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE PROBLEM SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl text-center mx-auto reveal-on-scroll">
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight">
+                        <span class="lang-es">Un tesoro que se desvanece: <span class="gradient-text">nuestra memoria</span>.</span>
+                        <span class="lang-en hidden">A fading treasure: <span class="gradient-text">our memory</span>.</span>
+                    </h2>
+                </div>
+                <div class="mt-16 grid md:grid-cols-2 gap-16 items-center">
+                    <div class="reveal-on-scroll">
+                        <h3 class="text-2xl font-bold mb-6">
+                            <span class="lang-es">¿CUÁNTO SENTÍS QUE CONOCÉS SOBRE LA HISTORIA DE VIDA DE TUS ABUELOS?</span>
+                            <span class="lang-en hidden">HOW MUCH DO YOU FEEL YOU KNOW ABOUT YOUR GRANDPARENTS' LIFE STORY?</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="flex-shrink-0 w-16 h-16 bg-[#005f73] rounded-full flex items-center justify-center text-xl font-bold">60%</div>
+                                <div><span class="lang-es">Sé muy poco, casi nada.</span><span class="lang-en hidden">I know very little, almost nothing.</span></div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-shrink-0 w-16 h-16 bg-[#00a0b1] rounded-full flex items-center justify-center text-xl font-bold">20%</div>
+                                <div><span class="lang-es">Conozco algunas anécdotas, pero siento que me falta mucho.</span><span class="lang-en hidden">I know a few anecdotes, but I feel I'm missing a lot.</span></div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="flex-shrink-0 w-16 h-16 bg-[#00b4c5] rounded-full flex items-center justify-center text-xl font-bold">10%</div>
+                                <div><span class="lang-es">No tuve la oportunidad de conocerlos.</span><span class="lang-en hidden">I didn't have the opportunity to meet them.</span></div>
+                            </div>
+                             <div class="flex items-center gap-4">
+                                <div class="flex-shrink-0 w-16 h-16 bg-[#00879e] rounded-full flex items-center justify-center text-xl font-bold">10%</div>
+                                <div><span class="lang-es">Lo sé casi todo, con mucho detalle.</span><span class="lang-en hidden">I know almost everything, in great detail.</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-center items-center reveal-on-scroll">
+                        <div id="pie-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== THE SOLUTION & VIDEO SECTION ===== -->
+        <section class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl text-center mx-auto reveal-on-scroll">
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                        <span class="lang-es">Nuestra Solución: <span class="gradient-text">Tesoros de Artigas</span>.</span>
+                        <span class="lang-en hidden">Our Solution: <span class="gradient-text">Treasures of Artigas</span>.</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Creamos un ecosistema que fusiona lo físico y lo digital para preservar estas memorias. Una caja interactiva y tarjetas que, al tocarlas, reviven las voces y las historias de nuestros seres queridos a través de un avatar. Es tecnología con alma.</span>
+                        <span class="lang-en hidden">We created an ecosystem that merges the physical and digital to preserve these memories. An interactive box and cards that, when touched, bring back the voices and stories of our loved ones through an avatar. It's technology with a soul.</span>
+                    </p>
+                </div>
+                <div class="mt-16 reveal-on-scroll">
+                    <div class="aspect-video rounded-2xl overflow-hidden border border-gray-800 shadow-2xl shadow-blue-500/10">
+                        <video id="project-video-es" class="w-full h-full object-cover lang-es" controls muted poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Tesoros+de+Artigas">
+                            <source src="ProblemPresentation_ES.mp4" type="video/mp4">
+                        </video>
+                        <video id="project-video-en" class="w-full h-full object-cover lang-en hidden" controls muted poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Treasures+of+Artigas">
+                            <source src="ProblemPresentation_EN.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WHY WE NEED SUPPORT SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl text-center mx-auto reveal-on-scroll">
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                        <span class="lang-es">¿Por qué <span class="gradient-text">pedimos tu colaboración</span>?</span>
+                        <span class="lang-en hidden">Why we <span class="gradient-text">ask for your support</span>?</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Para que "Tesoros de Artigas" pase de ser un prototipo a una realidad tangible, necesitamos tu apoyo. Cada aporte se destina directamente a los pilares que sostienen este sueño.</span>
+                        <span class="lang-en hidden">For "Tesoros de Artigas" to go from a prototype to a tangible reality, we need your support. Every contribution goes directly to the pillars that sustain this dream.</span>
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mt-16">
+                    <div class="info-card p-8 reveal-on-scroll">
+                        <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Lo que Necesitamos</span><span class="lang-en hidden">What We Need</span></h3>
+                        <ul class="list-disc list-inside text-gray-400 space-y-2">
+                            <li><span class="lang-es"><strong>Componentes Electrónicos:</strong> Raspberry Pi, lectores NFC, pantallas y baterías para construir las Cajas de Recuerdos.</span><span class="lang-en hidden"><strong>Electronic Components:</strong> Raspberry Pi, NFC readers, screens, and batteries to build the Memory Boxes.</span></li>
+                            <li><span class="lang-es"><strong>Materiales de Prototipado:</strong> Filamento ecológico para la impresora 3D con la que creamos las cajas personalizadas.</span><span class="lang-en hidden"><strong>Prototyping Materials:</strong> Eco-friendly filament for the 3D printer we use to create the custom boxes.</span></li>
+                            <li><span class="lang-es"><strong>Desarrollo y Competiciones:</strong> Fondos para poder viajar, representar a Uruguay y seguir aprendiendo en las competencias nacionales e internacionales.</span><span class="lang-en hidden"><strong>Development and Competitions:</strong> Funds to travel, represent Uruguay, and continue learning at national and international competitions.</span></li>
+                        </ul>
+                    </div>
+                    <div class="info-card p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Nuestra Proyección</span><span class="lang-en hidden">Our Projection</span></h3>
+                        <ul class="list-disc list-inside text-gray-400 space-y-2">
+                            <li><span class="lang-es"><strong>Fase 1 (Actual):</strong> Desarrollar y validar 5 prototipos funcionales con familias pioneras en Artigas.</span><span class="lang-en hidden"><strong>Phase 1 (Current):</strong> Develop and validate 5 functional prototypes with pioneer families in Artigas.</span></li>
+                            <li><span class="lang-es"><strong>Fase 2 (2026):</strong> Lanzamiento a nivel local, con talleres en escuelas y centros comunitarios para expandir el archivo de historias.</span><span class="lang-en hidden"><strong>Phase 2 (2026):</strong> Local launch, with workshops in schools and community centers to expand the story archive.</span></li>
+                            <li><span class="lang-es"><strong>Fase 3 (2027):</strong> Expansión nacional, llevando "Tesoros de Artigas" a todo el país como una herramienta para preservar la identidad uruguaya.</span><span class="lang-en hidden"><strong>Phase 3 (2027):</strong> National expansion, taking "Tesoros de Artigas" throughout the country as a tool to preserve Uruguayan identity.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HOW TO SUPPORT SECTION ===== -->
+        <section id="aportar" class="py-20 md:py-32 bg-[#111111]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl text-center mx-auto reveal-on-scroll">
+                    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+                        <span class="lang-es">Sumate a la <span class="gradient-text">misión</span>.</span>
+                        <span class="lang-en hidden">Join the <span class="gradient-text">mission</span>.</span>
+                    </h2>
+                    <p class="text-lg text-gray-400">
+                        <span class="lang-es">Elegí la forma de colaborar que te quede más cómoda. Cada aporte, sin importar el tamaño, nos acerca a nuestro próximo objetivo.</span>
+                        <span class="lang-en hidden">Choose the way to collaborate that is most convenient for you. Every contribution, regardless of size, brings us closer to our next goal.</span>
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 mt-16">
+                    <!-- Option 1: Mercado Pago -->
+                    <div class="info-card p-8 reveal-on-scroll">
+                        <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Aportar con Mercado Pago</span><span class="lang-en hidden">Contribute with Mercado Pago</span></h3>
+                        <p class="text-gray-400 mb-6"><span class="lang-es">La forma más rápida y segura de colaborar online.</span><span class="lang-en hidden">The fastest and most secure way to collaborate online.</span></p>
+                        <!-- Mercado Pago Embed Placeholder -->
+                        <div class="bg-black p-4 rounded-lg text-center">
+                            <p class="font-semibold"><span class="lang-es">Botón de Donación de Mercado Pago</span><span class="lang-en hidden">Mercado Pago Donation Button</span></p>
+                            <p class="text-sm text-gray-500 mt-2"><span class="lang-es">(Aquí iría el código embed de tu botón o link de donación)</span><span class="lang-en hidden">(Your donation button or link embed code would go here)</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Option 2: PayPal -->
+                    <div class="info-card p-8 reveal-on-scroll" style="transition-delay: 150ms;">
+                        <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Donar con PayPal</span><span class="lang-en hidden">Donate with PayPal</span></h3>
+                        <p class="text-gray-400 mb-6"><span class="lang-es">Ideal para aportes internacionales.</span><span class="lang-en hidden">Ideal for international contributions.</span></p>
+                        <!-- PayPal Embed Placeholder -->
+                        <div class="bg-black p-4 rounded-lg text-center">
+                            <p class="font-semibold"><span class="lang-es">Botón de Donación de PayPal</span><span class="lang-en hidden">PayPal Donation Button</span></p>
+                            <p class="text-sm text-gray-500 mt-2"><span class="lang-es">(Aquí iría el código embed de tu botón de PayPal)</span><span class="lang-en hidden">(Your PayPal button embed code would go here)</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Option 3: Abitab / Redes de cobranza -->
+                    <div class="info-card p-8 reveal-on-scroll" style="transition-delay: 300ms;">
+                        <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Depósito en Redes de Cobranza</span><span class="lang-en hidden">Deposit at Collection Networks</span></h3>
+                        <p class="text-gray-400 mb-6"><span class="lang-es">Podés hacer tu aporte en cualquier local de Abitab o RedPagos del país.</span><span class="lang-en hidden">You can make your contribution at any Abitab or RedPagos location in the country.</span></p>
+                        <div class="bg-black p-6 rounded-lg">
+                            <p class="text-gray-400 text-sm"><span class="lang-es">Indicá que querés hacer un depósito a la cuenta:</span><span class="lang-en hidden">Indicate that you want to make a deposit to the account:</span></p>
+                            <p class="text-3xl font-mono font-bold text-center text-white mt-2">123-456789</p>
+                            <p class="text-gray-400 text-sm mt-2"><span class="lang-es">A nombre de: <strong>Asociación Civil Blockbit</strong></span><span class="lang-en hidden">To the name of: <strong>Asociación Civil Blockbit</strong></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Corporate Sponsorship -->
+                <div class="mt-24 text-center reveal-on-scroll">
+                     <h3 class="text-2xl font-bold mb-4"><span class="lang-es">¿Sos una empresa?</span><span class="lang-en hidden">Are you a company?</span></h3>
+                     <p class="text-gray-400 max-w-2xl mx-auto mb-6"><span class="lang-es">Asociá tu marca a un proyecto de innovación, educación y cultura con visibilidad nacional e internacional. Tenemos planes de sponsoreo a medida.</span><span class="lang-en hidden">Associate your brand with a project of innovation, education, and culture with national and international visibility. We have custom sponsorship plans.</span></p>
+                     <a href="mailto:blockbituy@gmail.com?subject=Interés en Sponsoreo Corporativo" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block">
+                        <span class="lang-es">Contactar para Sponsoreo</span>
+                        <span class="lang-en hidden">Contact for Sponsorship</span>
+                     </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="bg-[#111111] text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+            <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+            };
+            
+            if (langSwitcher) {
+                langSwitcher.addEventListener('click', () => {
+                    const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                    setLanguage(newLang);
+                });
+            }
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            // Animate elements on scroll
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                gsap.fromTo(el, 
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.2,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 90%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+
+            // Animate hero content on load
+            gsap.fromTo("#hero-content", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power4.out', delay: 0.2 });
+            
+            // Animate Pie Chart
+            const pieChart = document.getElementById('pie-chart');
+            gsap.to(pieChart, {
+                '--p60': 60,
+                '--p20': 20,
+                '--p10a': 10,
+                '--p10b': 10,
+                duration: 1.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: pieChart,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none',
+                }
+            });
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
