@@ -198,10 +198,10 @@
                 </div>
                 <div class="mt-16 reveal-on-scroll">
                     <div class="aspect-video rounded-2xl overflow-hidden border border-gray-800 shadow-2xl shadow-blue-500/10">
-                        <video id="project-video-es" class="w-full h-full object-cover lang-es" controls muted poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Tesoros+de+Artigas">
+                        <video id="project-video-es" class="w-full h-full object-cover lang-es" controls playsinline poster="Tesoros_del_Pasado.png">
                             <source src="ProblemPresentation_ES.mp4" type="video/mp4">
                         </video>
-                        <video id="project-video-en" class="w-full h-full object-cover lang-en hidden" controls muted poster="https://placehold.co/1920x1080/000000/FFFFFF?text=Treasures+of+Artigas">
+                        <video id="project-video-en" class="w-full h-full object-cover lang-en hidden" controls playsinline poster="Treasures_of_the_past.png">
                             <source src="ProblemPresentation_EN.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -273,10 +273,21 @@
                     <div class="info-card p-8 reveal-on-scroll" style="transition-delay: 150ms;">
                         <h3 class="text-2xl font-bold mb-4"><span class="lang-es">Donar con PayPal</span><span class="lang-en hidden">Donate with PayPal</span></h3>
                         <p class="text-gray-400 mb-6"><span class="lang-es">Ideal para aportes internacionales.</span><span class="lang-en hidden">Ideal for international contributions.</span></p>
-                        <!-- PayPal Embed Placeholder -->
-                        <div class="bg-black p-4 rounded-lg text-center">
-                            <p class="font-semibold"><span class="lang-es">Botón de Donación de PayPal</span><span class="lang-en hidden">PayPal Donation Button</span></p>
-                            <p class="text-sm text-gray-500 mt-2"><span class="lang-es">(Aquí iría el código embed de tu botón de PayPal)</span><span class="lang-en hidden">(Your PayPal button embed code would go here)</span></p>
+                        <!-- PayPal Button -->
+                        <div id="donate-button-container" class="text-center">
+                            <div id="donate-button"></div>
+                            <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+                            <script>
+                            PayPal.Donation.Button({
+                            env:'production',
+                            hosted_button_id:'374GHZWYM3GS2',
+                            image: {
+                            src:'https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif',
+                            alt:'Donate with PayPal button',
+                            title:'PayPal - The safer, easier way to pay online!',
+                            }
+                            }).render('#donate-button');
+                            </script>
                         </div>
                     </div>
 
