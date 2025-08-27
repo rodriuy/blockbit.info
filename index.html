@@ -8,45 +8,40 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter (similar to Apple's San Francisco font) -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
-        /* Aplicamos la fuente Inter a todo el cuerpo */
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: #000;
             color: #f5f5f7;
+            overflow-x: hidden;
         }
-
-        /* Estilo del Header con efecto 'glass' */
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
         .header-glass {
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* Animaciones de entrada */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+        .lang-en.hidden, .lang-es.hidden {
+            display: none;
         }
-
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Clases para el texto con gradiente */
         .gradient-text {
             background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
             -webkit-background-clip: text;
@@ -54,16 +49,6 @@
             background-clip: text;
             text-fill-color: transparent;
         }
-
-        /* Estilo para las tarjetas de la trayectoria */
-        .timeline-card {
-            background-color: #1d1d1f;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Estilo para el botón principal */
         .cta-button {
             background-color: #2563eb;
             color: white;
@@ -73,20 +58,62 @@
             background-color: #3b82f6;
             transform: scale(1.05);
         }
-        
-        /* Estilo para los botones secundarios */
         .secondary-button {
-            background-color: #333;
+            background-color: #1d1d1f;
+            border: 1px solid #374151;
             color: white;
             transition: background-color 0.3s ease;
         }
         .secondary-button:hover {
-            background-color: #444;
+            background-color: #374151;
+        }
+        .heading-massive {
+            font-size: clamp(3rem, 12vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.05em;
+        }
+        
+        /* Horizontal Scroll Section */
+        #pin-container {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        #slide-container {
+            height: 100vh;
+            display: flex;
+            flex-wrap: nowrap;
+            width: 300vw; /* 3 panels * 100vw */
+        }
+        .panel {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 2rem;
         }
 
-        /* Clase para ocultar elementos de idioma */
-        .lang-en.hidden, .lang-es.hidden {
-            display: none;
+        /* Scroll down indicator */
+        .scroll-down {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
         }
     </style>
 </head>
@@ -94,151 +121,109 @@
 <body class="bg-black text-gray-200">
 
     <!-- ===== HEADER ===== -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#inicio" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
-            <div class="hidden md:flex space-x-8 items-center text-sm text-gray-300">
-                <a href="#trayectoria" class="hover:text-white transition-colors"><span class="lang-es">Trayectoria</span><span class="lang-en hidden">Journey</span></a>
-                <a href="#equipo" class="hover:text-white transition-colors"><span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span></a>
-                <a href="#sumate" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full transition-colors">
+            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <div class="flex items-center space-x-4">
+                <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-colors text-sm font-semibold">
                     <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
                 </a>
-                <button id="lang-switcher-desktop" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
-            </div>
-            <div class="md:hidden flex items-center space-x-4">
-                <!-- Visual Language Switcher for Mobile -->
-                <button id="lang-switcher-mobile" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
+                <button id="lang-switcher" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
                     <span class="lang-es">🇺🇸</span>
                     <span class="lang-en hidden">🇺🇾</span>
                 </button>
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-button" class="text-white focus:outline-none p-2 rounded-full hover:bg-gray-800 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
             </div>
         </nav>
-        <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-black/80 backdrop-blur-lg border-t border-gray-800">
-             <a href="#trayectoria" class="block text-white py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">Trayectoria</span><span class="lang-en hidden">Journey</span></a>
-             <a href="#equipo" class="block text-white py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span></a>
-             <a href="#sumate" class="block text-blue-400 font-semibold py-3 px-6 hover:bg-gray-800 transition-colors"><span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span></a>
-        </div>
     </header>
 
     <main>
 
         <!-- ===== HERO SECTION ===== -->
-        <section id="inicio" class="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden" 
-            style="background-image: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.15), transparent 70%);">
-            
-            <div class="reveal-on-scroll px-4">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-4">
-                    <span class="text-gray-400 lang-es">Ingeniería.</span><span class="text-gray-400 lang-en hidden">Engineering.</span>
-                    <span class="text-white lang-es">Resiliencia.</span><span class="text-white lang-en hidden">Resilience.</span>
-                    <span class="text-gray-400 lang-es">Futuro.</span><span class="text-gray-400 lang-en hidden">Future.</span>
+        <section id="inicio" class="h-screen min-h-[700px] flex flex-col justify-center items-center text-center relative overflow-hidden p-8">
+            <canvas id="hero-canvas"></canvas>
+            <div id="hero-content" class="relative z-10">
+                <h1 class="heading-massive text-white">
+                    <span class="lang-es">Ingeniería.</span><span class="lang-en hidden">Engineering.</span>
                 </h1>
-                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-8">
-                    <span class="lang-es">Desde Artigas, Uruguay, al mundo. Somos Blockbit, un equipo que transforma desafíos en hitos globales.</span>
-                    <span class="lang-en hidden">From Artigas, Uruguay, to the world. We are Blockbit, a team that turns challenges into global milestones.</span>
+                <h1 class="heading-massive text-gray-600">
+                    <span class="lang-es">Resiliencia.</span><span class="lang-en hidden">Resilience.</span>
+                </h1>
+                <h1 class="heading-massive text-white">
+                    <span class="lang-es">Futuro.</span><span class="lang-en hidden">Future.</span>
+                </h1>
+            </div>
+            <div class="scroll-down z-10">
+                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </section>
+
+        <!-- ===== INTRO TEXT SECTION ===== -->
+        <section class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <p id="intro-text" class="text-2xl md:text-4xl font-medium leading-relaxed">
+                    <span class="lang-es">Somos Blockbit. Un equipo de jóvenes de Artigas, Uruguay, que transforma desafíos en hitos globales. Esta es nuestra historia.</span>
+                    <span class="lang-en hidden">We are Blockbit. A team of young people from Artigas, Uruguay, turning challenges into global milestones. This is our story.</span>
                 </p>
-                <div>
-                    <a href="#trayectoria" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
-                        <span class="lang-es">Conocé nuestra historia</span>
-                        <span class="lang-en hidden">Discover our story</span>
-                    </a>
+            </div>
+        </section>
+        
+        <!-- ===== HORIZONTAL SCROLL TRAYECTORIA ===== -->
+        <section id="pin-container">
+            <div id="slide-container">
+                <!-- PANEL 1: 2021 -->
+                <div class="panel">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
+                        <img src="foto_equipo2021.jpg" alt="Equipo de Blockbit en 2021" class="rounded-3xl shadow-2xl">
+                        <div>
+                            <p class="text-blue-400 font-bold mb-2">2021</p>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">El Origen</span><span class="lang-en hidden">The Origin</span></h3>
+                            <p class="text-gray-400 mb-6"><span class="lang-es">Debutamos en las Olimpiadas de Robótica y ganamos en nuestra primera participación. Un inicio que marcó nuestro camino.</span><span class="lang-en hidden">We debuted in the Robotics Olympics and won on our first try. A start that defined our path.</span></p>
+                            <a href="trayectoria_2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PANEL 2: 2022-2023 -->
+                <div class="panel">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
+                        <img src="foto_houston_letrasfirst.webp" alt="Equipo de Blockbit en Houston" class="rounded-3xl shadow-2xl">
+                        <div>
+                            <p class="text-blue-400 font-bold mb-2">2022-2023</p>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Escenario Mundial</span><span class="lang-en hidden">World Stage</span></h3>
+                            <p class="text-gray-400 mb-6"><span class="lang-es">Viajamos a Houston, Texas, y logramos un Top 10 mundial en Alianza, poniendo a Artigas en el mapa global de la robótica.</span><span class="lang-en hidden">We traveled to Houston, Texas, and achieved a Top 10 worldwide in Alliance, putting Artigas on the global robotics map.</span></p>
+                            <a href="trayectoria_2223.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PANEL 3: 2023-2024 -->
+                <div class="panel">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
+                        <img src="foto_pr_puerta.webp" alt="Equipo de Blockbit en Puerto Rico" class="rounded-3xl shadow-2xl">
+                        <div>
+                            <p class="text-blue-400 font-bold mb-2">2023-2024</p>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Adaptación Extrema</span><span class="lang-en hidden">Extreme Adaptation</span></h3>
+                            <p class="text-gray-400 mb-6"><span class="lang-es">Con solo 4 meses de preparación, nos enfrentamos a la WRO en Puerto Rico y alcanzamos un Top 20 mundial.</span><span class="lang-en hidden">With only 4 months of preparation, we faced the WRO in Puerto Rico and reached the Top 20 worldwide.</span></p>
+                            <a href="trayectoria_2324.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== TRAYECTORIA SECTION ===== -->
-        <section id="trayectoria" class="py-20 md:py-32">
-            <div class="max-w-7xl mx-auto px-6">
-                
-                <div class="max-w-3xl mx-auto text-center mb-16 md:mb-24 reveal-on-scroll">
-                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-                        <span class="lang-es">Una trayectoria de <span class="gradient-text">impacto global</span>.</span>
-                        <span class="lang-en hidden">A journey of <span class="gradient-text">global impact</span>.</span>
-                    </h2>
-                    <p class="text-lg text-gray-400">
-                        <span class="lang-es">Cada año, un nuevo desafío. Cada desafío, una nueva cumbre alcanzada.</span>
-                        <span class="lang-en hidden">Every year, a new challenge. Every challenge, a new peak reached.</span>
-                    </p>
-                </div>
-
-                <!-- Hito 2021 -->
-                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-20 md:mb-32 reveal-on-scroll">
-                    <div class="timeline-card">
-                        <img src="foto_equipo2021.jpg" alt="Equipo de Blockbit en las Olimpiadas de Ceibal 2021" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <p class="text-blue-400 font-bold mb-2">2021</p>
-                        <h3 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4"><span class="lang-es">El Origen</span><span class="lang-en hidden">The Origin</span></h3>
-                        <p class="text-gray-400 mb-6">
-                            <span class="lang-es">Debutamos en las Olimpiadas de Robótica de Ceibal y ganamos en nuestra primera participación. Un inicio que marcó nuestro camino y nos impulsó a soñar en grande.</span>
-                            <span class="lang-en hidden">We debuted in the Ceibal Robotics Olympics and won in our first participation. A beginning that marked our path and drove us to dream big.</span>
-                        </p>
-                        <a href="trayectoria_2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
-                            <span class="lang-es">Ver más de esta etapa</span>
-                            <span class="lang-en hidden">More about this stage</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Hito 2022-2023 -->
-                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-20 md:mb-32 reveal-on-scroll">
-                    <div class="md:order-2 timeline-card">
-                        <img src="foto_houston_letrasfirst.webp" alt="Equipo de Blockbit en el World Championship de Houston" class="w-full h-full object-cover">
-                    </div>
-                    <div class="md:order-1">
-                        <p class="text-blue-400 font-bold mb-2">2022 - 2023</p>
-                        <h3 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4"><span class="lang-es">Escenario Mundial</span><span class="lang-en hidden">World Stage</span></h3>
-                        <p class="text-gray-400 mb-6">
-                            <span class="lang-es">Ganamos la First Lego League en Uruguay y viajamos a Houston, Texas. Allí, nos medimos con los mejores, logrando un Top 10 mundial en Alianza y poniendo a Artigas en el mapa global de la robótica.</span>
-                            <span class="lang-en hidden">We won the First Lego League in Uruguay and traveled to Houston, Texas. There, we competed against the best, achieving a Top 10 worldwide in Alliance and putting Artigas on the global robotics map.</span>
-                        </p>
-                        <a href="trayectoria_2223.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
-                            <span class="lang-es">Explorar la temporada FLL</span>
-                            <span class="lang-en hidden">Explore the FLL season</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Hito 2023-2024 -->
-                <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center mb-20 md:mb-32 reveal-on-scroll">
-                    <div class="timeline-card">
-                        <img src="foto_pr_puerta.webp" alt="Equipo de Blockbit en el WRO de Puerto Rico" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <p class="text-blue-400 font-bold mb-2">2023 - 2024</p>
-                        <h3 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4"><span class="lang-es">Resiliencia y Adaptación</span><span class="lang-en hidden">Resilience & Adaptation</span></h3>
-                        <p class="text-gray-400 mb-6">
-                            <span class="lang-es">Con solo 4 meses de preparación, nos enfrentamos a la WRO en Puerto Rico, una de las competencias más difíciles. Nos adaptamos, trabajamos sin descanso y alcanzamos un Top 20 mundial, demostrando nuestra fortaleza ante la adversidad.</span>
-                            <span class="lang-en hidden">With only 4 months of preparation, we faced the WRO in Puerto Rico, one of the toughest competitions. We adapted, worked tirelessly, and reached a Top 20 worldwide, proving our strength against adversity.</span>
-                        </p>
-                        <a href="trayectoria_2324.html" class="secondary-button font-semibold py-2 px-6 rounded-full">
-                            <span class="lang-es">Conocer el reto WRO</span>
-                            <span class="lang-en hidden">Learn about the WRO challenge</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Hito 2025 -->
-                <div class="max-w-4xl mx-auto text-center reveal-on-scroll">
-                    <p class="text-blue-400 font-bold mb-2">2025</p>
-                    <h3 class="text-3xl md:text-4xl font-bold tracking-tighter mb-4">
-                        <span class="lang-es">El Próximo Horizonte</span>
-                        <span class="lang-en hidden">The Next Horizon</span>
-                    </h3>
-                    <p class="text-gray-400 mb-6">
-                        <span class="lang-es">Este año, nos adentramos en una nueva categoría: STEM Avanzado. Estamos listos para aplicar todo lo aprendido y llevar la innovación a un nuevo nivel con nuestro proyecto sobre el cuidado de los adultos mayores.</span>
-                        <span class="lang-en hidden">This year, we are entering a new category: Advanced STEM. We are ready to apply everything we've learned and take innovation to a new level with our project on elderly care.</span>
-                    </p>
-                    <a href="#" class="secondary-button font-semibold py-2 px-6 rounded-full">
-                        <span class="lang-es">Descubrir el nuevo proyecto</span>
-                        <span class="lang-en hidden">Discover the new project</span>
-                    </a>
-                </div>
-
+        <!-- ===== CTA SECTION ===== -->
+        <section id="unite" class="py-20 md:py-32">
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
+                 <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                    <span class="lang-es">Sé parte del <span class="gradient-text">próximo capítulo</span>.</span>
+                    <span class="lang-en hidden">Be part of the <span class="gradient-text">next chapter</span>.</span>
+                </h2>
+                 <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+                    <span class="lang-es">Nuestra historia la escribimos juntos. Tu apoyo es el combustible que nos permite seguir compitiendo, innovando e inspirando desde Artigas para el mundo.</span>
+                    <span class="lang-en hidden">We write our story together. Your support is the fuel that allows us to keep competing, innovating, and inspiring from Artigas to the world.</span>
+                </p>
+                 <a href="sumate.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block text-lg">
+                    <span class="lang-es">Unite a la Misión</span>
+                    <span class="lang-en hidden">Join the Mission</span>
+                 </a>
             </div>
         </section>
 
@@ -250,13 +235,9 @@
                         <span class="lang-es">Las mentes detrás de la <span class="gradient-text">magia</span>.</span>
                         <span class="lang-en hidden">The minds behind the <span class="gradient-text">magic</span>.</span>
                     </h2>
-                    <p class="text-lg text-gray-400">
-                        <span class="lang-es">Somos individuos, pero juntos somos una fuerza imparable. Conocé a quienes hacen posible Blockbit.</span>
-                        <span class="lang-en hidden">We are individuals, but together we are an unstoppable force. Meet those who make Blockbit possible.</span>
-                    </p>
                 </div>
                 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
                     <!-- Integrantes del equipo -->
                     <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="rodrigo">
                         <img src="rodrigo.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Rodrigo">
@@ -287,32 +268,18 @@
             </div>
         </section>
         
-        <!-- ===== CTA / SPONSORS SECTION ===== -->
-        <section id="sumate" class="py-20 md:py-32">
+        <!-- ===== SPONSORS SECTION ===== -->
+        <section id="sponsors" class="py-20 md:py-32">
             <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
-                 <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-                    <span class="lang-es">Sé parte del <span class="gradient-text">futuro</span>.</span>
-                    <span class="lang-en hidden">Be part of the <span class="gradient-text">future</span>.</span>
-                </h2>
-                 <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-                    <span class="lang-es">Tu apoyo es el combustible que nos permite seguir compitiendo, innovando e inspirando. Invertí en el talento joven de Uruguay y asociá tu marca a una historia de éxito y superación.</span>
-                    <span class="lang-en hidden">Your support is the fuel that allows us to keep competing, innovating, and inspiring. Invest in Uruguay's young talent and associate your brand with a story of success and perseverance.</span>
+                <p class="text-sm text-gray-500 mb-8">
+                    <span class="lang-es">Quienes hacen posible nuestro sueño:</span>
+                    <span class="lang-en hidden">Those who make our dream possible:</span>
                 </p>
-                 <a href="mailto:blockbituy@gmail.com?subject=Interés en Apoyar a Blockbit" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
-                    <span class="lang-es">Sumate como Sponsor</span>
-                    <span class="lang-en hidden">Become a Sponsor</span>
-                 </a>
-                 <div class="mt-16">
-                    <p class="text-sm text-gray-500 mb-4">
-                        <span class="lang-es">Quienes ya confían en nosotros:</span>
-                        <span class="lang-en hidden">Those who already trust us:</span>
-                    </p>
-                    <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-6 opacity-60">
-                        <img src="logocerramientos.png" class="h-8" alt="Logo Sponsor Cerramientos">
-                        <img src="Iso Logotipo Ceibal - RGB.png" class="h-12" alt="Logo Sponsor Ceibal">
-                        <img src="logo-Ana'sFood.png.png" class="h-12" alt="Logo Ana's Food">
-                        <img src="logo_agromillan.png.png" class="h-12" alt="Logo Agromillan">
-                    </div>
+                <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-70">
+                    <img src="logocerramientos.png" class="h-8" alt="Logo Sponsor Cerramientos">
+                    <img src="Iso Logotipo Ceibal - RGB.png" class="h-12" alt="Logo Sponsor Ceibal">
+                    <img src="logo-Ana'sFood.png.png" class="h-12" alt="Logo Ana's Food">
+                    <img src="logo_agromillan.png.png" class="h-12" alt="Logo Agromillan">
                 </div>
             </div>
         </section>
@@ -321,127 +288,190 @@
 
     <!-- ===== FOOTER ===== -->
     <footer class="bg-[#111111] text-gray-400 text-sm">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="md:col-span-1">
-                    <a href="#inicio" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
-                    <p class="mt-2">
-                        <span class="lang-es">Desde Artigas, Uruguay para el mundo.</span>
-                        <span class="lang-en hidden">From Artigas, Uruguay to the world.</span>
-                    </p>
-                </div>
-                <div class="grid grid-cols-2 md:col-span-2 gap-8">
-                    <div>
-                        <h4 class="font-semibold text-white mb-3"><span class="lang-es">Navegación</span><span class="lang-en hidden">Navigation</span></h4>
-                        <ul class="space-y-2">
-                            <li><a href="#trayectoria" class="hover:text-white transition-colors"><span class="lang-es">Trayectoria</span><span class="lang-en hidden">Journey</span></a></li>
-                            <li><a href="#equipo" class="hover:text-white transition-colors"><span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span></a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-white mb-3"><span class="lang-es">Contacto</span><span class="lang-en hidden">Contact</span></h4>
-                        <ul class="space-y-2">
-                            <li><a href="mailto:blockbituy@gmail.com" class="hover:text-white transition-colors">Email</a></li>
-                            <li><a href="https://www.instagram.com/blockbit_" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Instagram</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
-                <p>&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
-            </div>
+        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
+             <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
+            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
         </div>
     </footer>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const langSwitcherDesktop = document.getElementById('lang-switcher-desktop');
-            const langSwitcherMobile = document.getElementById('lang-switcher-mobile');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+            gsap.registerPlugin(ScrollTrigger);
+
+            const langSwitcher = document.getElementById('lang-switcher');
             const htmlTag = document.documentElement;
 
             const setLanguage = (lang) => {
                 htmlTag.lang = lang;
                 localStorage.setItem('userLanguage', lang);
-
-                // Toggle visibility for all language-specific elements
                 document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
-
-                // Update desktop button text
-                if (langSwitcherDesktop) {
-                    langSwitcherDesktop.textContent = lang === 'es' ? 'EN' : 'ES';
-                }
             };
 
-            // --- Language Switcher Events ---
-            if (langSwitcherDesktop) {
-                langSwitcherDesktop.addEventListener('click', () => {
-                    const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
-                    setLanguage(newLang);
-                });
-            }
-            if (langSwitcherMobile) {
-                langSwitcherMobile.addEventListener('click', () => {
+            if(langSwitcher) {
+                langSwitcher.addEventListener('click', () => {
                     const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
                     setLanguage(newLang);
                 });
             }
             
-            // --- Mobile Menu Logic ---
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // --- Initial Language Load ---
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             setLanguage(savedLang);
 
-            // --- Scroll Animations ---
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
+            // GSAP Animations
+            gsap.fromTo("#hero-content", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power4.out', delay: 0.2 });
+            gsap.fromTo("#intro-text", { opacity: 0, y: 40 }, {
+                opacity: 1, y: 0, duration: 1, ease: 'power4.out',
+                scrollTrigger: { trigger: "#intro-text", start: "top 85%" }
             });
 
-            const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
-            elementsToReveal.forEach(el => observer.observe(el));
-
-            // --- Header Style on Scroll ---
-            const header = document.getElementById('main-header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('header-glass');
-                } else {
-                    header.classList.remove('header-glass');
+            // Horizontal Scroll
+            const container = document.querySelector("#slide-container");
+            gsap.to(container, {
+                x: () => -(container.scrollWidth - document.documentElement.clientWidth) + "px",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#pin-container",
+                    start: "top top",
+                    end: () => "+=" + (container.scrollWidth - document.documentElement.clientWidth),
+                    scrub: 1,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
                 }
             });
 
-            // --- Footer Year ---
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            
-            // --- Team Member Click Placeholder ---
-            document.querySelectorAll('.group[data-member-id]').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const memberId = card.getAttribute('data-member-id');
-                    const lang = document.documentElement.lang;
-                    const message = lang === 'es' 
-                        ? `Próximamente: Más información sobre ${memberId}.`
-                        : `Coming soon: More information about ${memberId}.`;
-                    alert(message);
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                gsap.fromTo(el, { opacity: 0, y: 50 }, {
+                    opacity: 1, y: 0, duration: 1, ease: 'power4.out',
+                    scrollTrigger: { trigger: el, start: 'top 85%' }
                 });
             });
+
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Interactive Particle Background
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particlesArray;
+
+            const mouse = {
+                x: null,
+                y: null,
+                radius: (canvas.height/120) * (canvas.width/120)
+            }
+
+            window.addEventListener('mousemove', function(event){
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color){
+                    this.x = x;
+                    this.y = y;
+                    this.directionX = directionX;
+                    this.directionY = directionY;
+                    this.size = size;
+                    this.color = color;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+                    ctx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) {
+                        this.directionX = -this.directionX;
+                    }
+                    if (this.y > canvas.height || this.y < 0) {
+                        this.directionY = -this.directionY;
+                    }
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+                    if (distance < mouse.radius + this.size){
+                        if (mouse.x < this.x && this.x < canvas.width - this.size * 10){
+                            this.x += 5;
+                        }
+                        if (mouse.x > this.x && this.x > this.size * 10){
+                            this.x -= 5;
+                        }
+                        if (mouse.y < this.y && this.y < canvas.height - this.size * 10){
+                            this.y += 5;
+                        }
+                        if (mouse.y > this.y && this.y > this.size * 10){
+                            this.y -= 5;
+                        }
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+
+            function init() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 5) + 1;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * 0.4) - 0.2;
+                    let directionY = (Math.random() * 0.4) - 0.2;
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size));
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0,0,innerWidth, innerHeight);
+
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connect();
+            }
+
+            function connect() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                        + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        if (distance < (canvas.width/7) * (canvas.height/7)) {
+                            opacityValue = 1 - (distance/20000);
+                            ctx.strokeStyle = `rgba(59, 130, 246, ${opacityValue * 0.3})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            window.addEventListener('resize', function(){
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+                mouse.radius = ((canvas.height/120) * (canvas.width/120));
+                init();
+            });
+
+            window.addEventListener('mouseout', function(){
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+
+            init();
+            animate();
         });
     </script>
 
