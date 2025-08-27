@@ -124,11 +124,17 @@
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
-            <div class="flex items-center space-x-4">
+            <div class="hidden md:flex items-center space-x-8 text-sm text-gray-300">
                 <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-colors text-sm font-semibold">
                     <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
                 </a>
-                <button id="lang-switcher" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
+                <button id="lang-switcher-desktop" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+            </div>
+            <div class="md:hidden flex items-center space-x-4">
+                 <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-colors text-sm font-semibold">
+                    <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
+                </a>
+                <button id="lang-switcher-mobile" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
                     <span class="lang-es">🇺🇸</span>
                     <span class="lang-en hidden">🇺🇾</span>
                 </button>
@@ -178,7 +184,7 @@
                             <p class="text-blue-400 font-bold mb-2">2021</p>
                             <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">El Origen</span><span class="lang-en hidden">The Origin</span></h3>
                             <p class="text-gray-400 mb-6"><span class="lang-es">Debutamos en las Olimpiadas de Robótica y ganamos en nuestra primera participación. Un inicio que marcó nuestro camino.</span><span class="lang-en hidden">We debuted in the Robotics Olympics and won on our first try. A start that defined our path.</span></p>
-                            <a href="trayectoria_2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <a href="trayectoria-2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
                         </div>
                     </div>
                 </div>
@@ -190,7 +196,7 @@
                             <p class="text-blue-400 font-bold mb-2">2022-2023</p>
                             <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Escenario Mundial</span><span class="lang-en hidden">World Stage</span></h3>
                             <p class="text-gray-400 mb-6"><span class="lang-es">Viajamos a Houston, Texas, y logramos un Top 10 mundial en Alianza, poniendo a Artigas en el mapa global de la robótica.</span><span class="lang-en hidden">We traveled to Houston, Texas, and achieved a Top 10 worldwide in Alliance, putting Artigas on the global robotics map.</span></p>
-                            <a href="trayectoria_2223.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <a href="trayectoria-2022-2023.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
                         </div>
                     </div>
                 </div>
@@ -202,7 +208,7 @@
                             <p class="text-blue-400 font-bold mb-2">2023-2024</p>
                             <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Adaptación Extrema</span><span class="lang-en hidden">Extreme Adaptation</span></h3>
                             <p class="text-gray-400 mb-6"><span class="lang-es">Con solo 4 meses de preparación, nos enfrentamos a la WRO en Puerto Rico y alcanzamos un Top 20 mundial.</span><span class="lang-en hidden">With only 4 months of preparation, we faced the WRO in Puerto Rico and reached the Top 20 worldwide.</span></p>
-                            <a href="trayectoria_2324.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <a href="trayectoria-2023-2024.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
                         </div>
                     </div>
                 </div>
@@ -300,7 +306,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             gsap.registerPlugin(ScrollTrigger);
 
-            const langSwitcher = document.getElementById('lang-switcher');
+            const langSwitcherDesktop = document.getElementById('lang-switcher-desktop');
+            const langSwitcherMobile = document.getElementById('lang-switcher-mobile');
             const htmlTag = document.documentElement;
 
             const setLanguage = (lang) => {
@@ -310,12 +317,12 @@
                 document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
             };
 
-            if(langSwitcher) {
-                langSwitcher.addEventListener('click', () => {
+            [langSwitcherDesktop, langSwitcherMobile].forEach(btn => {
+                if (btn) btn.addEventListener('click', () => {
                     const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
                     setLanguage(newLang);
                 });
-            }
+            });
             
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             setLanguage(savedLang);
