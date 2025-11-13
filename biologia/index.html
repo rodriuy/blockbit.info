@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Criminales: Se Nace o Se Hace? | Neurociencia del Comportamiento Criminal</title>
+    <meta name="description" content="Explora la ciencia detrás del comportamiento criminal: genética, neurobiología y ambiente. Casos reales, documentales y análisis científico profundo.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           SISTEMA DE DISEÑO PREMIUM - NEUROCIENCIA CRIMINAL
+           ============================================ */
+        
+        :root {
+            /* Paleta de Colores Científica y Dramática */
+            --color-fondo: #000000;
+            --color-fondo-seccion: #0a0a0a;
+            --color-fondo-tarjeta: #111111;
+            --color-texto: #e8e8e8;
+            --color-texto-secundario: #a0a0a0;
+            --color-primario: #ff2e63; /* Rojo dramático para criminalidad */
+            --color-secundario: #08ffc8; /* Cyan neuro-científico */
+            --color-acento: #ffd700; /* Dorado para destacados */
+            --color-peligro: #dc143c;
+            
+            /* Tipografías */
+            --font-titulo: 'Playfair Display', serif;
+            --font-subtitulo: 'Space Grotesk', sans-serif;
+            --font-cuerpo: 'Inter', sans-serif;
+            
+            /* Sombras y Efectos */
+            --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --sombra-media: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --sombra-fuerte: 0 20px 50px rgba(0, 0, 0, 0.7);
+            --glow-primario: 0 0 20px rgba(255, 46, 99, 0.5);
+            --glow-secundario: 0 0 20px rgba(8, 255, 200, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-cuerpo);
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ============================================
+           CANVAS DE PARTÍCULAS (Fondo Animado)
+           ============================================ */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           NAVEGACIÓN FLOTANTE PREMIUM
+           ============================================ */
+        header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 700px;
+            z-index: 1000;
+            
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* Glassmorphism */
+            background: rgba(10, 10, 10, 0.6);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--sombra-media);
+            
+            padding: 12px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            opacity: 0;
+            animation: fadeInDown 1s ease 0.5s forwards;
+            transition: all 0.3s ease;
+        }
+
+        header:hover {
+            background: rgba(15, 15, 15, 0.8);
+            border-color: rgba(255, 46, 99, 0.3);
+        }
+
+        .logo {
+            font-family: var(--font-subtitulo);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '🧠';
+            margin-left: 8px;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            font-family: var(--font-cuerpo);
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--color-texto-secundario);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primario), var(--color-secundario));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* ============================================
+           HERO SECTION - IMPACTO MÁXIMO
+           ============================================ */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Video de Fondo o Imagen Dramática */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.7) 50%,
+                rgba(0, 0, 0, 0.95) 100%);
+            z-index: 2;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) brightness(0.4);
+            animation: slowZoom 30s ease-in-out infinite alternate;
+        }
+
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1000px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s ease 0.3s forwards;
+        }
+
+        .hero h1 {
+            font-family: var(--font-titulo);
+            font-size: 5.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff, var(--color-primario), var(--color-secundario));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 46, 99, 0.3);
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-subtitulo);
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--color-secundario);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero .pregunta-problema {
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--color-texto);
+            max-width: 700px;
+            margin: 25px auto;
+            padding: 20px;
+            background: rgba(255, 46, 99, 0.1);
+            border-left: 4px solid var(--color-primario);
+            border-radius: 10px;
+        }
+
+        /* Stats Counter en Hero */
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+            margin-top: 50px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-subtitulo);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-primario);
+            display: block;
+            text-shadow: var(--glow-primario);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-texto-secundario);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+        
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 0 10px var(--color-secundario));
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* ============================================
+           CONTENEDORES Y SECCIONES
+           ============================================ */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        section:nth-of-type(even) {
+            background: linear-gradient(180deg, 
+                var(--color-fondo) 0%, 
+                var(--color-fondo-seccion) 50%, 
+                var(--color-fondo) 100%);
+        }
+
+        .section-badge {
+            display: inline-block;
+            font-family: var(--font-subtitulo);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-secundario);
+            background: rgba(8, 255, 200, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--color-secundario);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-family: var(--font-titulo);
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 50px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        h3 {
+            font-family: var(--font-subtitulo);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primario);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: var(--color-texto-secundario);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-center p,
+        .text-center h2 {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ============================================
+           SECCIÓN DEBATE INTERACTIVA
+           ============================================ */
+        .interactive-split {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .toggle-options {
+            position: sticky;
+            top: 150px;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, rgba(255, 46, 99, 0.05), rgba(8, 255, 200, 0.05));
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-texto-secundario);
+            padding: 25px 30px;
+            border-radius: 20px;
+            text-align: left;
+            font-family: var(--font-cuerpo);
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-bottom: 20px;
+            display: block;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toggle-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .toggle-btn:hover::before {
+            left: 100%;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--color-primario);
+            color: var(--color-primario);
+            transform: translateX(10px);
+            box-shadow: var(--sombra-media);
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, rgba(255, 46, 99, 0.2), rgba(8, 255, 200, 0.1));
+            border-color: var(--color-primario);
+            color: #fff;
+            transform: translateX(10px) scale(1.05);
+            box-shadow: var(--glow-primario), var(--sombra-media);
+        }
+        
+        .toggle-btn .emoji {
+            font-size: 2rem;
+            margin-right: 15px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .content-panel {
+            display: none;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9), rgba(25, 25, 25, 0.8));
+            padding: 50px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 400px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--sombra-fuerte);
+        }
+        
+        .content-panel.active {
+            display: block;
+            animation: slideInRight 0.6s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .content-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-panel li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: var(--color-texto);
+        }
+
+        .content-panel li::before {
+            content: '→';
+            color: var(--color-primario);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .content-panel li strong {
+            color: var(--color-secundario);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           SECCIÓN CASOS CRIMINALES
+           ============================================ */
+        .casos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .caso-card {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95), rgba(10, 10, 10, 0.95));
+            border: 1px solid rgba(255, 46, 99, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .caso-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--glow-primario), var(--sombra-fuerte);
+            border-color: var(--color-primario);
+        }
+
+        .caso-imagen {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: grayscale(80%);
+            transition: all 0.4s ease;
+        }
+
+        .caso-card:hover .caso-imagen {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .caso-content {
+            padding: 30px;
+        }
+
+        .caso-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-primario);
+            background: rgba(255, 46, 99, 0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+        }
+
+        .caso-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .caso-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .caso-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--color-texto-secundario);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        .caso-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ============================================
+           SECCIÓN VIDEOS / DOCUMENTALES
+           ============================================ */
+        .videos-section {
+            background: radial-gradient(circle at top right, rgba(255, 46, 99, 0.05), transparent 70%);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .video-card {
+            background: rgba(17, 17, 17, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--sombra-fuerte);
+            border-color: var(--color-secundario);
+        }
+
+        .video-embed {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .video-info p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* ============================================
+           TIMELINE INTERACTIVO
+           ============================================ */
+        .timeline {
+            position: relative;
+            margin: 80px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                var(--color-primario), 
+                var(--color-secundario));
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: rgba(17, 17, 17, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover .timeline-content {
+            transform: scale(1.05);
+            box-shadow: var(--sombra-media);
+            border-color: var(--color-primario);
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-subtitulo);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000;
+            box-shadow: var(--glow-primario);
+            z-index: 2;
+        }
+
+        /* ============================================
+           TARJETAS DE CONCEPTOS
+           ============================================ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95), rgba(25, 25, 25, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 25px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 46, 99, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) rotateZ(-1deg);
+            box-shadow: var(--glow-primario), var(--sombra-fuerte);
+            border-color: var(--color-primario);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 10px var(--color-primario));
+        }
+
+        /* ============================================
+           GALERÍA DE IMÁGENES CIENTÍFICAS
+           ============================================ */
+        .imagen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .imagen-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            cursor: pointer;
+            aspect-ratio: 1;
+        }
+
+        .imagen-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+            filter: grayscale(100%);
+        }
+
+        .imagen-item:hover img {
+            transform: scale(1.2);
+            filter: grayscale(0%);
+        }
+
+        .imagen-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .imagen-item:hover .imagen-overlay {
+            transform: translateY(0);
+        }
+
+        .imagen-overlay h4 {
+            font-family: var(--font-subtitulo);
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .imagen-overlay p {
+            font-size: 0.85rem;
+            color: var(--color-texto-secundario);
+            margin: 0;
+        }
+
+        /* ============================================
+           CONCLUSIÓN CTA
+           ============================================ */
+        .conclusion-cta {
+            background: linear-gradient(135deg, 
+                rgba(255, 46, 99, 0.2), 
+                rgba(8, 255, 200, 0.2));
+            border-radius: 30px;
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 46, 99, 0.3);
+        }
+
+        .conclusion-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05), transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .conclusion-cta h2 {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+        
+        .conclusion-cta p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.4rem;
+            color: var(--color-texto);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(180deg, transparent, rgba(10, 10, 10, 0.8));
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: var(--color-texto-secundario);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-primario);
+        }
+
+        /* ============================================
+           ANIMACIONES
+           ============================================ */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           RESPONSIVIDAD
+           ============================================ */
+        @media (max-width: 1024px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                flex-direction: row !important;
+            }
+
+            .timeline-content {
+                width: calc(100% - 100px);
+                margin-left: 100px;
+            }
+
+            .timeline-year {
+                left: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem !important; }
+            h2 { font-size: 2.5rem; }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .hero .pregunta-problema {
+                font-size: 1.2rem;
+            }
+
+            header {
+                width: 95%;
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .interactive-split {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .toggle-options {
+                position: static;
+            }
+
+            .video-grid,
+            .casos-grid,
+            .cards-grid,
+            .imagen-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                gap: 30px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .conclusion-cta {
+                padding: 50px 30px;
+            }
+
+            .conclusion-cta p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Canvas para efecto de partículas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navegación Flotante Premium -->
+    <header id="main-nav">
+        <a href="#" class="logo">GEN CRIMINAL</a>
+        <nav class="nav-links">
+            <a href="#debate">Debate</a>
+            <a href="#casos">Casos</a>
+            <a href="#ciencia">Ciencia</a>
+            <a href="#videos">Documentales</a>
+            <a href="#conclusion">Conclusión</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="top">
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=1920&q=80" alt="Brain Neural Network">
+        </div>
+        <div class="hero-content">
+            <span class="hero-subtitle">Un análisis desde la neurociencia</span>
+            <h1>¿Los asesinos:<br>nacen o se hacen?</h1>
+            <p class="pregunta-problema">
+                "O sea, ¿realmente alguien puede nacer predispuesto a ser violento? ¿O es todo el ambiente el que termina moldeando a una persona?"
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">40-50%</span>
+                    <span class="stat-label">Influencia Genética</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50-60%</span>
+                    <span class="stat-label">Influencia del Entorno</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Artículos Analizados</span>
+                </div>
+            </div>
+        </div>
+        <a href="#debate" class="scroll-indicator" aria-label="Scroll down">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                <path fill-rule="evenodd" d="M12 17.25a.75.75 0 01-.53-.22l-6-6a.75.75 0 111.06-1.06L12 15.44l5.47-5.47a.75.75 0 111.06 1.06l-6 6a.75.75 0 01-.53.22z" clip-rule="evenodd" />
+            </svg>
+        </a>
+    </section>
+
+    <main>
+
+        <!-- Sección Debate Interactivo -->
+        <section id="debate">
+            <div class="container animate-on-scroll">
+                <span class="section-badge">🧬 El Dilema Fundamental</span>
+                <div class="interactive-split">
+                    
+                    <div class="toggle-options">
+                        <h2>El gran debate: <br>Naturaleza vs. Crianza</h2>
+                        <p>La verdad es que no es tan simple como elegir uno u otro. Después de investigar un montón, me di cuenta de que es más complejo que eso.</p>
+                        
+                        <button id="naturaleza-btn" class="toggle-btn active">
+                            <span class="emoji">🧬</span> Lo Biológico (Genes)
+                        </button>
+                        <button id="crianza-btn" class="toggle-btn">
+                            <span class="emoji">🌱</span> El Ambiente (Crianza)
+                        </button>
+                        <button id="interaccion-btn" class="toggle-btn">
+                            <span class="emoji">⚡</span> La Interacción Real
+                        </button>
+                    </div>
+                    
+                    <div class="content-display">
+                        <div id="naturaleza-content" class="content-panel active">
+                            <h3>¿Se puede nacer con predisposición a la violencia?</h3>
+                            <p>Bueno, al principio pensaba que capaz sí, que alguien podía nacer "más propenso" a ser violento. Y resulta que algo de cierto hay, pero no es tan determinante como parece.</p>
+                            <ul>
+                                <li><strong>Los genes que influyen:</strong> No es que hay un "gen asesino", ¿no? Es más complicado. Son varios genes que interactúan entre sí y que pueden afectar cosas como el control de impulsos o la empatía. Los estudios con gemelos muestran que hay una heredabilidad del 40-50%, o sea que sí hay un componente genético.</li>
+                                <li><strong>El cerebro y sus estructuras:</strong> Hay partes del cerebro que están re involucradas en la agresividad. La amígdala procesa las emociones, la corteza prefrontal controla los impulsos, y el hipocampo tiene que ver con la memoria. Si algo anda mal ahí, puede haber problemas.</li>
+                                <li><strong>Los neurotransmisores:</strong> Básicamente son como mensajeros químicos en el cerebro. Si tenés un desbalance de serotonina (que regula el humor), dopamina (que tiene que ver con las recompensas) o testosterona, eso puede afectar cómo controlás tus impulsos.</li>
+                                <li><strong>El famoso gen MAO-A:</strong> Le dicen el "gen guerrero". Algunas variantes de este gen se relacionan con más riesgo de conducta antisocial, PERO solo si la persona además sufrió maltrato de chico. Ahí está la clave: el gen solo no alcanza.</li>
+                            </ul>
+                        </div>
+
+                        <div id="crianza-content" class="content-panel">
+                            <h3>El ambiente: lo que realmente te moldea</h3>
+                            <p>Acá es donde la cosa se pone interesante. El ambiente no solo influye, sino que puede literalmente "prender" o "apagar" ciertos genes. Es lo que llaman epigenética.</p>
+                            <ul>
+                                <li><strong>El trauma infantil es clave:</strong> Tipo, esto es súper importante. Si un niño sufre maltrato, abuso o negligencia, las chances de que tenga problemas de conducta después son altísimas. Los primeros años son críticos para el desarrollo del cerebro.</li>
+                                <li><strong>El contexto socioeconómico:</strong> Obvio que no todos los que crecen en la pobreza se vuelven criminales, pero la realidad es que la falta de oportunidades, estar expuesto a violencia y no tener educación crea un contexto que no ayuda para nada.</li>
+                                <li><strong>Aprender observando:</strong> Hay una teoría de un psicólogo llamado Bandura que dice que los chicos aprenden comportamientos violentos viendo a otros. Si crecés viendo violencia, es más probable que la reproduzcas.</li>
+                                <li><strong>La epigenética es loca:</strong> Básicamente, tu ambiente puede cambiar cómo se expresan tus genes SIN cambiar tu ADN. El estrés crónico puede "apagar" genes que te protegen o "prender" genes de riesgo. Es como que el ambiente te reprograma.</li>
+                                <li><strong>El cerebro se puede cambiar:</strong> Lo bueno es que el cerebro tiene neuroplasticidad, o sea que puede cambiar toda la vida. Incluso de adulto, con terapia y apoyo, podés cambiar patrones de comportamiento.</li>
+                            </ul>
+                        </div>
+
+                        <div id="interaccion-content" class="content-panel">
+                            <h3>La posta: todo interactúa</h3>
+                            <p>Después de leer banda de artículos, la conclusión es clara: no podés separar los genes del ambiente. Se necesitan los dos para entender el comportamiento violento.</p>
+                            <ul>
+                                <li><strong>El modelo diátesis-estrés:</strong> Suena complicado pero es re simple. Tenés una vulnerabilidad genética (diátesis) pero solo se manifiesta si pasa algo malo en tu ambiente (estrés). Los dos juntos = problema.</li>
+                                <li><strong>El ejemplo del gen MAO-A:</strong> Te dije antes del "gen guerrero", ¿no? Bueno, resulta que si tenés la variante "mala" de ese gen PERO no sufriste maltrato de chico, no pasa nada. Pero si tenés el gen Y maltrato, ahí sí aumenta el riesgo de violencia. O sea, se necesitan los dos factores.</li>
+                                <li><strong>Todo se acumula:</strong> No es solo un gen o una mala experiencia. Son múltiples genes de riesgo + múltiples experiencias negativas lo que aumenta las probabilidades de conducta criminal. Es acumulativo.</li>
+                                <li><strong>Hay factores protectores:</strong> Y acá viene algo bueno. Incluso si tenés genes de riesgo y viviste cosas feas, hay cosas que te pueden proteger: tener apoyo social, acceso a educación, terapia, un mentor. Eso puede cambiar todo.</li>
+                                <li><strong>Cada persona es única:</strong> No hay dos casos iguales. Cada uno responde diferente a la mezcla de genes y ambiente. Por eso no se puede generalizar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Casos Criminales Famosos -->
+        <section id="casos">
+            <div class="container text-center animate-on-scroll">
+                <span class="section-badge">🔍 Casos que estudiamos</span>
+                <h2>Asesinos Seriales Famosos</h2>
+                <p>Mirando casos reales podés entender mejor cómo funcionan estos conceptos en la vida real.</p>
+                
+                <div class="casos-grid">
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://media.cnn.com/api/v1/images/stellar/prod/181008172329-12-ted-bundy-how-it-really-happened.jpg?q=w_1600,h_900,x_0,y_0,c_fill" alt="Ted Bundy" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Psicópata Organizado</span>
+                            <h3>Ted Bundy</h3>
+                            <p>Este tipo era re inteligente y carismático, por eso es tan perturbador. Mató como mínimo 30 personas en los 70s, aunque se cree que fueron muchas más. Lo loco es que parecía súper normal, estudiaba derecho y todo.</p>
+                            <div class="caso-stats">
+                                <span>📅 1974-1978</span>
+                                <span>⚖️ Ejecutado 1989</span>
+                                <span>🧠 CI: 136</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://www.fbi.gov/image-repository/screen-shot-2016-06-16-at-6-01-15-pm.png/@@images/image/large" alt="Jeffrey Dahmer" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Trastorno de Personalidad</span>
+                            <h3>Jeffrey Dahmer</h3>
+                            <p>Le decían "El Carnicero de Milwaukee" y fue horrible. Entre 1978 y 1991 asesinó a 17 hombres. Su caso es interesante porque mezcla un montón de cosas: problemas mentales severos, alcoholismo y una infancia bastante complicada.</p>
+                            <div class="caso-stats">
+                                <span>📅 1978-1991</span>
+                                <span>⚖️ Cadena perpetua</span>
+                                <span>🧠 Esquizofrenia límite</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/images/print-edition/20171125_OBP001_0.jpg" alt="Charles Manson" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Líder de Culto</span>
+                            <h3>Charles Manson</h3>
+                            <p>Este lideró la "Familia Manson" y fue responsable de varios asesinatos en 1969. Lo que más me impactó de su historia es que tuvo una infancia terrible, con negligencia extrema y abuso. Es un ejemplo re claro de cómo el ambiente puede afectar.</p>
+                            <div class="caso-stats">
+                                <span>📅 1969</span>
+                                <span>⚖️ Cadena perpetua</span>
+                                <span>🧠 Trastorno antisocial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://dnm.nflximg.net/api/v6/2DuQlx0fM4wd1nzqm5BFBi6ILa8/AAAAQYlGH42zm3nPsGHCv0JbZka9fTTM9KF_QmFnKwrz-okrxqnqkCeR9D16YQgcyg47anQf7xzXosF7cRBsT7dRQ0vyuDpIhnR_uQFiK5gm31dBrajW_KVrEjBJ6wtPX_7l495NboKRRG6wLGCnimmySw3q.jpg?r=da0" alt="Aileen Wuornos" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Trauma Complejo</span>
+                            <h3>Aileen Wuornos</h3>
+                            <p>Fue la primera mujer asesina serial reconocida en Estados Unidos. Su historia es súper triste: abuso sexual de niña, abandono, prostitución forzada. Muestra cómo el trauma extremo puede moldear el comportamiento de una persona.</p>
+                            <div class="caso-stats">
+                                <span>📅 1989-1990</span>
+                                <span>⚖️ Ejecutada 2002</span>
+                                <span>🧠 TEPT Severo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://people.com/thmb/aO10QF0NeOzMCCNO1mcZq56tP8w=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(976x363:978x365)/ed-kemper-serial-killer-main-082625-ea5be515166f4572b4aff11c390efa66.jpg" alt="Ed Kemper" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Alto Funcionamiento</span>
+                            <h3>Edmund Kemper</h3>
+                            <p>Le decían "El Asesino de las Colegialas". Tenía un CI de 145, o sea era súper inteligente. Lo interesante de su caso es la relación abusiva que tenía con su madre, que fue clave en cómo se desarrolló su personalidad.</p>
+                            <div class="caso-stats">
+                                <span>📅 1972-1973</span>
+                                <span>⚖️ Cadena perpetua</span>
+                                <span>🧠 CI: 145</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="caso-card animate-on-scroll">
+                        <img src="https://images.foxtv.com/static.fox32chicago.com/www.fox32chicago.com/content/uploads/2019/08/1280/720/1aef359e-john-wayne-gacy-clown-pic-a-quarter-of-john-wayne-gacy-s-victims-are-still-unidentified-but-this-cold-case-investigator-is-bringing-them-j-jpeg-246214_1451168909990_664795_ver1.0.jpg?ve=1&tl=1" alt="John Wayne Gacy" class="caso-imagen">
+                        <div class="caso-content">
+                            <span class="caso-tag">Doble Vida</span>
+                            <h3>John Wayne Gacy</h3>
+                            <p>Le decían "El Payaso Asesino" y es re perturbador porque en la superficie era un empresario respetado, hasta hacía trabajo voluntario. Pero asesinó a 33 jóvenes. Es el ejemplo perfecto de cómo los psicópatas pueden vivir vidas "normales".</p>
+                            <div class="caso-stats">
+                                <span>📅 1972-1978</span>
+                                <span>⚖️ Ejecutado 1994</span>
+                                <span>🧠 Trastorno narcisista</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline de la Neurociencia Criminal -->
+        <section id="ciencia">
+            <div class="container animate-on-scroll">
+                <span class="section-badge">🔬 Un poco de historia</span>
+                <h2 class="text-center">Cómo evolucionó el estudio del comportamiento criminal</h2>
+                <p class="text-center">Es interesante ver cómo cambió la forma de entender a los criminales a lo largo del tiempo.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>Lombroso y la Frenología</h3>
+                            <p>Un tipo llamado Cesare Lombroso propuso que los criminales tenían ciertas características físicas. Hoy sabemos que estaba bastante equivocado, pero fue el inicio de estudiar el crimen desde lo biológico.</p>
+                        </div>
+                        <div class="timeline-year">1876</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>Los neurotransmisores</h3>
+                            <p>En los 50 se descubrió que hay sustancias químicas en el cerebro que controlan el comportamiento. La serotonina resultó ser re importante para controlar la agresividad.</p>
+                        </div>
+                        <div class="timeline-year">1950s</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>Primeros escaneos cerebrales</h3>
+                            <p>Se hizo la primera tomografía cerebral de un criminal violento y encontraron que tenía diferencias en la corteza prefrontal. Ahí empezó todo el tema de la neurociencia criminal moderna.</p>
+                        </div>
+                        <div class="timeline-year">1978</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>Estudios con gemelos</h3>
+                            <p>Compararon gemelos idénticos con fraternos y vieron que los idénticos tenían tasas de criminalidad más parecidas. Eso confirmó que hay un componente genético del 40-50%.</p>
+                        </div>
+                        <div class="timeline-year">1990s</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>El "gen guerrero" MAO-A</h3>
+                            <p>Un estudio mostró que el gen MAO-A interactúa con el maltrato infantil para predecir violencia. Fue tremendo descubrimiento porque confirmó que se necesitan AMBOS factores: gen + ambiente malo.</p>
+                        </div>
+                        <div class="timeline-year">2002</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>Epigenética y trauma</h3>
+                            <p>Se descubrió que el trauma puede cambiar cómo se expresan tus genes. O sea, el ambiente literalmente te reprograma a nivel molecular. Es una locura pero tiene mucho sentido.</p>
+                        </div>
+                        <div class="timeline-year">2010s</div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll">
+                        <div class="timeline-content">
+                            <h3>IA y predicción</h3>
+                            <p>Ahora hay inteligencia artificial que analiza patrones cerebrales para predecir si alguien va a reincidir. Genera banda de debates éticos sobre libre albedrío y si es justo juzgar a alguien por su cerebro.</p>
+                        </div>
+                        <div class="timeline-year">2020s</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conceptos Científicos Clave -->
+        <section>
+            <div class="container text-center animate-on-scroll">
+                <span class="section-badge">💡 Lo que aprendí</span>
+                <h2>Conceptos importantes para entender todo esto</h2>
+                <p>Acá te dejamos los puntos clave que nos ayudaron a entender el tema.</p>
+                
+                <div class="cards-grid">
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🧬</span>
+                        <h3>Los genes sí importan</h3>
+                        <p>No es que hay un "gen del crimen", pero varios genes juntos pueden afectar cosas como el control de impulsos o la empatía. Los estudios con gemelos lo confirman: hay un 40-50% de heredabilidad, pero no es determinante.</p>
+                    </div>
+                    
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🧠</span>
+                        <h3>El cerebro y sus partes</h3>
+                        <p>Hay zonas del cerebro que son clave. Si la amígdala, la corteza prefrontal o el hipocampo no funcionan bien, puede haber más tendencia a la violencia. Pero ojo, esto no significa que alguien vaya a ser criminal, son solo factores de riesgo.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">⚡</span>
+                        <h3>Química cerebral</h3>
+                        <p>Los neurotransmisores son como mensajeros en el cerebro. La serotonina controla impulsos, la dopamina tiene que ver con las recompensas. Si hay un desbalance, puede afectar el comportamiento pero no te condena a nada.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🔄</span>
+                        <h3>Epigenética: el ambiente cambia tus genes</h3>
+                        <p>Esto me voló la cabeza. Tu ambiente puede cambiar cómo funcionan tus genes SIN cambiar tu ADN. El trauma infantil puede "programarte" a nivel molecular. Por eso el ambiente es tan importante.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🎯</span>
+                        <h3>Se necesitan los dos: gen + ambiente</h3>
+                        <p>El modelo diátesis-estrés dice que una vulnerabilidad genética solo se activa si el ambiente es malo. Por eso no todos con genes de riesgo son violentos, y por eso no todos en ambientes malos lo son tampoco.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🌱</span>
+                        <h3>El cerebro puede cambiar</h3>
+                        <p>Lo bueno de todo esto es que el cerebro tiene neuroplasticidad. Incluso de adulto podés cambiar con terapia y apoyo. No estamos condenados por nuestros genes o nuestro pasado.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">⚖️</span>
+                        <h3>Los dilemas éticos</h3>
+                        <p>Todo esto genera preguntas re complicadas. ¿Alguien es responsable si tiene genes de riesgo? ¿Deberíamos testear a la gente? ¿Eso no sería discriminatorio? No hay respuestas fáciles, pero es importante pensarlo.</p>
+                    </div>
+
+                    <div class="card animate-on-scroll">
+                        <span class="card-icon">🔬</span>
+                        <h3>Cómo investigué esto</h3>
+                        <p>Leí más de 10 artículos científicos, vi documentales y analicé casos reales. Lo interesante es que en los papers no encontré una respuesta definitiva tipo "X% es genético", pero todos coinciden en que es una interacción compleja.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería de Imágenes Científicas -->
+        <section>
+            <div class="container animate-on-scroll">
+                <span class="section-badge">📸 Lo visual también ayuda</span>
+                <h2 class="text-center">Imágenes que ayudan a entender</h2>
+                <p class="text-center">A veces una imagen explica mejor que mil palabras.</p>
+
+                <div class="imagen-grid">
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ1y_5Jzd34YkgQ4LD9Vyi2m7j9Q1-PoEnqw&s" alt="Brain MRI">
+                        <div class="imagen-overlay">
+                            <h4>Resonancia Magnética</h4>
+                            <p>Escaneo cerebral mostrando actividad de la corteza prefrontal</p>
+                        </div>
+                    </div>
+
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://images.unsplash.com/photo-1643780668909-580822430155?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YWRufGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="DNA Helix">
+                        <div class="imagen-overlay">
+                            <h4>ADN y Genética</h4>
+                            <p>Estructura del ADN - donde reside la predisposición genética</p>
+                        </div>
+                    </div>
+
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://iddigitalschool.com/bootcamps/wp-content/uploads/2023/03/redes_neuronales-id-bootccamps.png" alt="Neural Network">
+                        <div class="imagen-overlay">
+                            <h4>Redes Neuronales</h4>
+                            <p>Conexiones sinápticas y comunicación neuronal</p>
+                        </div>
+                    </div>
+
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://pavlov.psyciencia.com/2022/09/amigdala-cerebral-large.jpg" alt="Amygdala">
+                        <div class="imagen-overlay">
+                            <h4>La Amígdala</h4>
+                            <p>Centro del procesamiento emocional y respuesta al miedo</p>
+                        </div>
+                    </div>
+
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://i.pinimg.com/736x/55/6c/fb/556cfbc39030bd459a5ad67c809a5f33.jpg" alt="Prefrontal Cortex">
+                        <div class="imagen-overlay">
+                            <h4>Corteza Prefrontal</h4>
+                            <p>Área crítica para el control de impulsos y toma de decisiones</p>
+                        </div>
+                    </div>
+
+                    <div class="imagen-item animate-on-scroll">
+                        <img src="https://s3.amazonaws.com/assets.dotlib.com/public/images/neurotransmisores-disfunciones-y-enfermedades-parte-1.png" alt="Neurotransmitters">
+                        <div class="imagen-overlay">
+                            <h4>Neurotransmisores</h4>
+                            <p>Mensajeros químicos que regulan el comportamiento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Videos/Documentales -->
+        <section id="videos" class="videos-section">
+            <div class="container text-center animate-on-scroll">
+                <span class="section-badge">🎬 Videos para profundizar</span>
+                <h2>Documentales y Entrevistas</h2>
+                <p>Si te interesa el tema, estos documentales están buenísimos para entender mejor los casos reales.</p>
+
+                <div class="video-grid">
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/iWjYsxaBjBI" 
+                                title="Inside the Mind of Jeffrey Dahmer" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>La Mente de Jeffrey Dahmer</h3>
+                            <p>Un análisis psiquiátrico completo de Dahmer. Las entrevistas reales son medio perturbadoras pero re interesantes para entender su caso.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/zoEnvzwgCZ0" 
+                                title="Ted Bundy - Falling for a Killer" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>Ted Bundy: El Asesino Carismático</h3>
+                            <p>Este documental muestra cómo Bundy usaba su carisma e inteligencia para escapar de la justicia. Tiene testimonios de sobrevivientes que son heavy.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/u2V0vOFexY4" 
+                                title="The Brain of a Psychopath" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>The Psychopath Brain</h3>
+                            <p>Neurocientífico James Fallon explica las diferencias cerebrales en psicópatas, usando su propio cerebro como ejemplo.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/6Px75blh0r4" 
+                                title="Serial Killers: Nature vs Nurture" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>Asesinos Seriales: ¿Naturaleza o Crianza?</h3>
+                            <p>Debate científico sobre los factores que crean asesinos seriales. Entrevistas con criminólogos y psicólogos forenses.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/S9ggcsizNlw" 
+                                title="Ed Kemper Entrevista" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>Ed Kemper: Entrevista Completa</h3>
+                            <p>Una de las entrevistas más inquietantes con un asesino serial. Kemper explica su psicología con escalofriante claridad.</p>
+                        </div>
+                    </div>
+
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-embed">
+                            <iframe 
+                                src="https://www.youtube.com/embed/Tt3I4Ou57Ns" 
+                                title="Criminal Minds - Genetics of Violence" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>La Genética de la Violencia</h3>
+                            <p>Documental científico sobre el gen MAO-A y cómo interactúa con el ambiente para influir en el comportamiento violento.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusión -->
+        <section id="conclusion">
+            <div class="container animate-on-scroll">
+                <div class="conclusion-cta">
+                    <h2>La Conclusión: Una Red Compleja de Factores</h2>
+                    <p>
+                        Tras analizar décadas de investigación científica, estudios de casos criminales y evidencia neurobiológica, la respuesta es clara pero matizada: 
+                        <strong>No es naturaleza O crianza, es naturaleza Y crianza en una interacción dinámica.</strong>
+                    </p>
+                    <p style="margin-top: 30px;">
+                        No estamos predeterminados solo por nuestros genes, ni somos pizarras en blanco moldeadas únicamente por el ambiente. 
+                        Somos el resultado de una danza constante entre nuestra biología heredada y nuestras experiencias vividas. 
+                        La genética carga el arma, pero el ambiente aprieta el gatillo.
+                    </p>
+                    <p style="margin-top: 30px; font-size: 1.2rem; color: var(--color-secundario);">
+                        Esta comprensión tiene profundas implicaciones para la justicia criminal, la prevención del delito y la rehabilitación. 
+                        Ni el determinismo genético ni el optimismo ambiental puro son correctos. La verdad está en la complejidad.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container" style="padding: 40px 0;">
+            <p><strong>FELICIA MILLÁN,</strong> RODRIGO RODRÍGUEZ, NAHUEL SUÁREZ Y BELÉN VIANNA</p>
+            <p><strong>2° CT 1 |</strong> LICEO 1, ARTIGAS | PROF: GISELLLE CUSTODIO</p>
+            <p>Investigación científica sobre neurociencia criminal, genética del comportamiento y psicología forense.</p>
+            <div class="footer-links">
+                <a href="#top">Volver Arriba</a>
+                <a href="#debate">Debate</a>
+                <a href="#casos">Casos Criminales</a>
+                <a href="#ciencia">Ciencia</a>
+                <a href="#videos">Documentales</a>
+            </div>
+            <p style="margin-top: 30px; font-size: 0.85rem; opacity: 0.6;">
+                © 2025 Blockbit. Con fines educativos para prueba final de Biología. Todos los casos presentados son históricos y públicos.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // SISTEMA DE PARTÍCULAS EN CANVAS
+        // ============================================
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particles-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.particleCount = 80;
+                this.connectionDistance = 150;
+                
+                this.init();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.init());
+            }
+            
+            init() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.particles = [];
+                
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        radius: Math.random() * 2 + 1
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Actualizar y dibujar partículas
+                this.particles.forEach((particle, index) => {
+                    // Movimiento
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Rebote en bordes
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+                    
+                    // Dibujar partícula
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = 'rgba(255, 46, 99, 0.6)';
+                    this.ctx.fill();
+                    
+                    // Conectar con partículas cercanas
+                    for (let j = index + 1; j < this.particles.length; j++) {
+                        const other = this.particles[j];
+                        const dx = particle.x - other.x;
+                        const dy = particle.y - other.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < this.connectionDistance) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(other.x, other.y);
+                            this.ctx.strokeStyle = `rgba(8, 255, 200, ${0.2 * (1 - distance / this.connectionDistance)})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.stroke();
+                        }
+                    }
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // ============================================
+        // LÓGICA DE TOGGLE INTERACTIVO
+        // ============================================
+        class ToggleSystem {
+            constructor() {
+                this.buttons = {
+                    naturaleza: document.getElementById('naturaleza-btn'),
+                    crianza: document.getElementById('crianza-btn'),
+                    interaccion: document.getElementById('interaccion-btn')
+                };
+                
+                this.panels = {
+                    naturaleza: document.getElementById('naturaleza-content'),
+                    crianza: document.getElementById('crianza-content'),
+                    interaccion: document.getElementById('interaccion-content')
+                };
+                
+                this.initListeners();
+            }
+            
+            initListeners() {
+                Object.keys(this.buttons).forEach(key => {
+                    this.buttons[key].addEventListener('click', () => this.switch(key));
+                });
+            }
+            
+            switch(target) {
+                // Desactivar todos
+                Object.keys(this.buttons).forEach(key => {
+                    this.buttons[key].classList.remove('active');
+                    this.panels[key].classList.remove('active');
+                });
+                
+                // Activar el seleccionado
+                this.buttons[target].classList.add('active');
+                this.panels[target].classList.add('active');
+            }
+        }
+
+        // ============================================
+        // ANIMACIONES AL HACER SCROLL
+        // ============================================
+        class ScrollAnimations {
+            constructor() {
+                this.elements = document.querySelectorAll('.animate-on-scroll');
+                this.observer = new IntersectionObserver(
+                    (entries) => this.handleIntersection(entries),
+                    { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
+                );
+                
+                this.observe();
+            }
+            
+            observe() {
+                this.elements.forEach(element => this.observer.observe(element));
+            }
+            
+            handleIntersection(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        this.observer.unobserve(entry.target);
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // CONTADOR ANIMADO PARA STATS
+        // ============================================
+        class CounterAnimation {
+            constructor() {
+                this.counters = document.querySelectorAll('.stat-number');
+                this.animated = false;
+                this.initObserver();
+            }
+            
+            initObserver() {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting && !this.animated) {
+                                this.animateCounters();
+                                this.animated = true;
+                            }
+                        });
+                    },
+                    { threshold: 0.5 }
+                );
+                
+                const heroStats = document.querySelector('.hero-stats');
+                if (heroStats) observer.observe(heroStats);
+            }
+            
+            animateCounters() {
+                this.counters.forEach(counter => {
+                    const text = counter.textContent;
+                    const hasPercent = text.includes('%');
+                    const hasPlus = text.includes('+');
+                    const numbers = text.match(/\d+/g);
+                    
+                    if (!numbers) return;
+                    
+                    const target = parseInt(numbers[0]);
+                    const duration = 2000;
+                    const steps = 60;
+                    const increment = target / steps;
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        
+                        let display = Math.floor(current).toString();
+                        if (numbers.length > 1) {
+                            display += '-' + numbers[1];
+                        }
+                        if (hasPercent) display += '%';
+                        if (hasPlus) display += '+';
+                        
+                        counter.textContent = display;
+                    }, duration / steps);
+                });
+            }
+        }
+
+        // ============================================
+        // EFECTO PARALLAX EN HERO
+        // ============================================
+        class ParallaxEffect {
+            constructor() {
+                this.hero = document.querySelector('.hero');
+                this.heroImage = document.querySelector('.hero-background img');
+                this.initParallax();
+            }
+            
+            initParallax() {
+                if (!this.heroImage) return;
+                
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const heroHeight = this.hero.offsetHeight;
+                    
+                    if (scrolled < heroHeight) {
+                        const parallaxValue = scrolled * 0.5;
+                        this.heroImage.style.transform = `translateY(${parallaxValue}px) scale(1.1)`;
+                        
+                        // Fade out del contenido del hero
+                        const opacity = 1 - (scrolled / heroHeight) * 1.5;
+                        if (this.hero.querySelector('.hero-content')) {
+                            this.hero.querySelector('.hero-content').style.opacity = Math.max(opacity, 0);
+                        }
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // NAVEGACIÓN QUE CAMBIA AL HACER SCROLL
+        // ============================================
+        class NavigationScroll {
+            constructor() {
+                this.nav = document.getElementById('main-nav');
+                this.lastScroll = 0;
+                this.initScrollListener();
+            }
+            
+            initScrollListener() {
+                window.addEventListener('scroll', () => {
+                    const currentScroll = window.pageYOffset;
+                    
+                    if (currentScroll > 100) {
+                        this.nav.style.background = 'rgba(10, 10, 10, 0.95)';
+                        this.nav.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
+                    } else {
+                        this.nav.style.background = 'rgba(10, 10, 10, 0.6)';
+                        this.nav.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)';
+                    }
+                    
+                    // Ocultar/mostrar nav al hacer scroll
+                    if (currentScroll > this.lastScroll && currentScroll > 500) {
+                        this.nav.style.transform = 'translate(-50%, -100px)';
+                        this.nav.style.opacity = '0';
+                    } else {
+                        this.nav.style.transform = 'translate(-50%, 0)';
+                        this.nav.style.opacity = '1';
+                    }
+                    
+                    this.lastScroll = currentScroll;
+                });
+            }
+        }
+
+        // ============================================
+        // EFECTO HOVER 3D EN TARJETAS
+        // ============================================
+        class Card3DEffect {
+            constructor() {
+                this.cards = document.querySelectorAll('.card, .caso-card, .video-card');
+                this.initCards();
+            }
+            
+            initCards() {
+                this.cards.forEach(card => {
+                    card.addEventListener('mousemove', (e) => this.handleMouseMove(e, card));
+                    card.addEventListener('mouseleave', () => this.handleMouseLeave(card));
+                });
+            }
+            
+            handleMouseMove(e, card) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
+            }
+            
+            handleMouseLeave(card) {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            }
+        }
+
+        // ============================================
+        // CURSOR PERSONALIZADO
+        // ============================================
+        class CustomCursor {
+            constructor() {
+                this.cursor = document.createElement('div');
+                this.cursor.className = 'custom-cursor';
+                document.body.appendChild(this.cursor);
+                
+                this.cursorFollower = document.createElement('div');
+                this.cursorFollower.className = 'cursor-follower';
+                document.body.appendChild(this.cursorFollower);
+                
+                this.cursorPos = { x: 0, y: 0 };
+                this.followerPos = { x: 0, y: 0 };
+                
+                this.addStyles();
+                this.initCursor();
+            }
+            
+            addStyles() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .custom-cursor, .cursor-follower {
+                        position: fixed;
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 9999;
+                        mix-blend-mode: difference;
+                    }
+                    .custom-cursor {
+                        width: 10px;
+                        height: 10px;
+                        background: #ff2e63;
+                        transition: transform 0.1s ease;
+                    }
+                    .cursor-follower {
+                        width: 40px;
+                        height: 40px;
+                        border: 2px solid #08ffc8;
+                        transition: all 0.15s ease;
+                    }
+                    .custom-cursor.click { transform: scale(0.5); }
+                    .cursor-follower.hover { transform: scale(1.5); }
+                    
+                    @media (max-width: 768px) {
+                        .custom-cursor, .cursor-follower { display: none; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            initCursor() {
+                document.addEventListener('mousemove', (e) => {
+                    this.cursorPos.x = e.clientX;
+                    this.cursorPos.y = e.clientY;
+                });
+                
+                document.addEventListener('mousedown', () => {
+                    this.cursor.classList.add('click');
+                });
+                
+                document.addEventListener('mouseup', () => {
+                    this.cursor.classList.remove('click');
+                });
+                
+                // Hover sobre elementos interactivos
+                const interactives = document.querySelectorAll('a, button, .caso-card, .video-card, .card');
+                interactives.forEach(el => {
+                    el.addEventListener('mouseenter', () => this.cursorFollower.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => this.cursorFollower.classList.remove('hover'));
+                });
+                
+                this.updateCursor();
+            }
+            
+            updateCursor() {
+                // Cursor principal
+                this.cursor.style.left = this.cursorPos.x + 'px';
+                this.cursor.style.top = this.cursorPos.y + 'px';
+                
+                // Follower con suavizado
+                this.followerPos.x += (this.cursorPos.x - this.followerPos.x) * 0.1;
+                this.followerPos.y += (this.cursorPos.y - this.followerPos.y) * 0.1;
+                
+                this.cursorFollower.style.left = (this.followerPos.x - 20) + 'px';
+                this.cursorFollower.style.top = (this.followerPos.y - 20) + 'px';
+                
+                requestAnimationFrame(() => this.updateCursor());
+            }
+        }
+
+        // ============================================
+        // INICIALIZACIÓN AL CARGAR EL DOM
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧠 Neurociencia Criminal - Sitio Interactivo');
+            
+            // Inicializar todos los sistemas
+            new ParticleSystem();
+            new ToggleSystem();
+            new ScrollAnimations();
+            new CounterAnimation();
+            new ParallaxEffect();
+            new NavigationScroll();
+            new Card3DEffect();
+            
+            // Cursor personalizado (solo desktop)
+            if (window.innerWidth > 768) {
+                new CustomCursor();
+            }
+            
+            // Smooth scroll para links internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Lazy loading para imágenes
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.removeAttribute('data-src');
+                            }
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('img[data-src]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+            
+            // Easter egg: Konami code
+            let konamiCode = [];
+            const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+            
+            document.addEventListener('keydown', (e) => {
+                konamiCode.push(e.key);
+                konamiCode = konamiCode.slice(-10);
+                
+                if (konamiCode.join('') === konamiSequence.join('')) {
+                    document.body.style.animation = 'rainbow 2s linear infinite';
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes rainbow {
+                            0% { filter: hue-rotate(0deg); }
+                            100% { filter: hue-rotate(360deg); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    setTimeout(() => {
+                        document.body.style.animation = '';
+                    }, 5000);
+                }
+            });
+            
+            console.log('✅ Todos los sistemas inicializados');
+        });
+    </script>
+
+</body>
+</html>
