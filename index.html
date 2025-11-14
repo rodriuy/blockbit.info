@@ -328,6 +328,243 @@
             filter: grayscale(0%) opacity(1);
             transform: scale(1.1);
         }
+        
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            /* Improve touch targets */
+            .cta-button, .secondary-button {
+                min-height: 48px;
+                min-width: 120px;
+                font-size: 0.95rem;
+            }
+            
+            /* Better mobile hero */
+            .heading-massive {
+                font-size: clamp(2.5rem, 15vw, 6rem);
+                line-height: 1.1;
+                text-shadow: 0 0 60px rgba(85, 214, 255, 0.4);
+            }
+            
+            #hero-content p {
+                font-size: 1.125rem;
+                line-height: 1.6;
+                padding: 0 1rem;
+            }
+            
+            /* Mobile header improvements */
+            .header-glass {
+                padding: 0.5rem 0;
+            }
+            
+            /* Stat cards mobile */
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            /* Team members mobile */
+            .team-member img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            /* Modal improvements for mobile */
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                max-width: 95%;
+                padding: 1.5rem;
+            }
+            
+            /* Better spacing for mobile */
+            section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Horizontal scroll hint */
+            .panel {
+                padding: 1.5rem 1rem;
+            }
+            
+            .panel img {
+                margin-bottom: 1rem;
+            }
+            
+            /* Touch-friendly navigation */
+            #main-header nav {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Scroll down indicator mobile */
+            .scroll-down {
+                bottom: 1rem;
+            }
+            
+            /* Better card spacing */
+            .info-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            /* Sponsor logos mobile */
+            .sponsor-logo {
+                height: 2.5rem !important;
+                filter: grayscale(50%) opacity(0.7);
+            }
+            
+            /* Mobile menu improvements */
+            .md\:hidden {
+                gap: 0.5rem;
+            }
+            
+            /* Improve text readability on mobile */
+            p, .text-lg, .text-xl {
+                line-height: 1.7;
+            }
+            
+            /* Better button spacing on mobile */
+            .cta-button {
+                padding: 0.875rem 1.75rem;
+                box-shadow: 0 6px 20px rgba(0, 56, 168, 0.5);
+            }
+            
+            /* Swipe indicator for horizontal scroll */
+            #pin-container::before {
+                content: '← Deslizá →';
+                position: fixed;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(85, 214, 255, 0.9);
+                color: #000;
+                padding: 0.5rem 1.5rem;
+                border-radius: 2rem;
+                font-weight: 700;
+                font-size: 0.875rem;
+                z-index: 100;
+                animation: pulse 2s infinite;
+                pointer-events: none;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+                50% { opacity: 0.7; transform: translateX(-50%) scale(1.05); }
+            }
+            
+            /* Hide swipe indicator after scroll */
+            #pin-container.scrolled::before {
+                display: none;
+            }
+            
+            /* Improve panel text on mobile */
+            .panel h3 {
+                font-size: 1.875rem;
+                margin-bottom: 1rem;
+            }
+            
+            .panel p {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            /* Mobile footer spacing */
+            footer {
+                padding: 2rem 1rem;
+            }
+            
+            /* Better modal close button on mobile */
+            .close {
+                font-size: 36px;
+                padding: 0.5rem;
+                margin: -0.5rem -0.5rem 0 0;
+            }
+            
+            /* Improve intro text on mobile */
+            #intro-text {
+                font-size: 1.375rem;
+                line-height: 1.6;
+                padding: 0 1rem;
+            }
+            
+            /* Mobile CTA section */
+            #unite h2 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            #unite p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            /* Equipo section mobile */
+            #equipo h2 {
+                font-size: 2.25rem;
+            }
+            
+            /* Stats section mobile */
+            #logros h2 {
+                font-size: 2.25rem;
+                margin-bottom: 2rem;
+            }
+            
+            /* Touch feedback */
+            .team-member:active,
+            .cta-button:active,
+            .secondary-button:active {
+                transform: scale(0.97);
+            }
+            
+            /* Prevent text selection on buttons */
+            .cta-button,
+            .secondary-button,
+            button {
+                -webkit-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* Smooth scrolling for mobile */
+            html {
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Better visibility for mobile particles */
+            #hero-canvas {
+                opacity: 0.6;
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 390px) {
+            .heading-massive {
+                font-size: clamp(2rem, 18vw, 5rem);
+            }
+            
+            .cta-button {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.875rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .team-member img {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 
@@ -348,16 +585,36 @@
                     <span class="lang-es">EN</span><span class="lang-en hidden">ES</span>
                 </button>
             </div>
-            <div class="md:hidden flex items-center space-x-4">
-                 <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-all text-sm font-semibold">
-                    <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    <path id="close-icon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-black/95 backdrop-blur-xl border-t border-celeste-claro/20">
+            <div class="max-w-7xl mx-auto px-6 py-6 space-y-4">
+                <a href="#inicio" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors border-b border-gray-800">
+                    <span class="lang-es">Inicio</span><span class="lang-en hidden">Home</span>
                 </a>
-                <button id="lang-switcher-mobile" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
-                    <span class="lang-es">🇺🇸</span>
-                    <span class="lang-en hidden">🇺🇾</span>
+                <a href="#trayectoria" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors border-b border-gray-800">
+                    <span class="lang-es">Trayectoria</span><span class="lang-en hidden">Journey</span>
+                </a>
+                <a href="#equipo" class="block py-3 text-lg text-gray-300 hover:text-white transition-colors border-b border-gray-800">
+                    <span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span>
+                </a>
+                <a href="sumate.html" class="block py-4 px-6 text-center cta-button text-white rounded-full font-bold mt-4">
+                    <span class="lang-es">¡Sumate! 🇺🇾</span><span class="lang-en hidden">Join Us! 🇺🇾</span>
+                </a>
+                <button id="lang-switcher-mobile" class="w-full py-3 border-2 border-gray-600 hover:border-celeste-claro text-white rounded-full text-sm transition-all font-semibold">
+                    <span class="lang-es">English 🇺🇸</span><span class="lang-en hidden">Español 🇺🇾</span>
                 </button>
             </div>
-        </nav>
+        </div>
     </header>
 
     <main>
@@ -724,6 +981,31 @@
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             setLanguage(savedLang);
 
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+            const closeIcon = document.getElementById('close-icon');
+            
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                    document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
+                });
+                
+                // Close menu when clicking on a link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.classList.remove('hidden');
+                        closeIcon.classList.add('hidden');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+            }
+
             // Header scroll effect
             const header = document.getElementById('main-header');
             window.addEventListener('scroll', () => {
@@ -731,6 +1013,14 @@
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
+                }
+                
+                // Hide swipe indicator after scroll on mobile
+                const pinContainer = document.getElementById('pin-container');
+                if (pinContainer && window.innerWidth < 768) {
+                    if (window.scrollY > window.innerHeight) {
+                        pinContainer.classList.add('scrolled');
+                    }
                 }
             });
 
@@ -814,6 +1104,14 @@
                     if (modal) {
                         modal.style.display = 'block';
                         document.body.style.overflow = 'hidden';
+                        
+                        // Add mobile-friendly touch feedback
+                        if (window.innerWidth < 768) {
+                            member.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                member.style.transform = '';
+                            }, 150);
+                        }
                     }
                 });
             });
@@ -836,6 +1134,21 @@
                     document.body.style.overflow = 'auto';
                 }
             });
+            
+            // Mobile touch improvements for buttons
+            if (window.innerWidth < 768) {
+                document.querySelectorAll('.cta-button, .secondary-button').forEach(btn => {
+                    btn.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.97)';
+                    }, { passive: true });
+                    
+                    btn.addEventListener('touchend', function() {
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                    }, { passive: true });
+                });
+            }
 
             // Update year
             document.getElementById('currentYear').textContent = new Date().getFullYear();

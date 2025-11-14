@@ -113,6 +113,45 @@
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
+        
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: clamp(2.5rem, 12vw, 4.5rem);
+                line-height: 1.1;
+            }
+            
+            h2, h3 {
+                font-size: clamp(1.75rem, 8vw, 3rem);
+            }
+            
+            .card-style {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .cta-button {
+                min-height: 48px;
+                padding: 1rem 2rem;
+            }
+            
+            section {
+                padding: 3rem 1rem;
+            }
+            
+            p {
+                line-height: 1.7;
+                font-size: 1rem;
+            }
+            
+            img {
+                margin-bottom: 1.5rem;
+            }
+            
+            button, a {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
     </style>
 </head>
 

@@ -204,6 +204,57 @@
             right: -30px;
             transform: rotate(25deg);
         }
+        
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: clamp(2.5rem, 12vw, 4.5rem);
+                line-height: 1.1;
+            }
+            
+            h2, h3 {
+                font-size: clamp(1.75rem, 8vw, 3rem);
+            }
+            
+            .card-style {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .polaroid-card {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto 2rem;
+            }
+            
+            .polaroid-card-large {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .cta-button {
+                min-height: 48px;
+                padding: 1rem 2rem;
+            }
+            
+            section {
+                padding: 3rem 1rem;
+            }
+            
+            p {
+                line-height: 1.7;
+                font-size: 1rem;
+            }
+            
+            .tribute-note {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            button, a {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
     </style>
 </head>
 

@@ -167,6 +167,50 @@
             transition: --p60 1.5s, --p20 1.5s, --p10a 1.5s, --p10b 1.5s;
             transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         }
+        
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            .heading-massive {
+                font-size: clamp(2.5rem, 15vw, 6rem);
+                line-height: 1.1;
+            }
+            
+            .cta-button {
+                min-height: 48px;
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .info-card {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            #pie-chart {
+                width: 250px;
+                height: 250px;
+            }
+            
+            section {
+                padding: 3rem 1rem;
+            }
+            
+            h1, h2 {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+            
+            p {
+                line-height: 1.7;
+            }
+            
+            .header-glass {
+                padding: 0.5rem 0;
+            }
+            
+            button, a {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
     </style>
 </head>
 
