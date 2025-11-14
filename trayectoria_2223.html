@@ -17,6 +17,14 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
+        :root {
+            --celeste-uruguayo: #0038a8;
+            --celeste-claro: #55d6ff;
+            --dorado: #ffd700;
+            --blanco: #ffffff;
+            --gris-oscuro: #0a0a0a;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -24,12 +32,20 @@
             background-color: #000;
             color: #f5f5f7;
         }
+        
         .header-glass {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(85, 214, 255, 0.2);
+            transition: all 0.3s ease;
         }
+        
+        .header-glass.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 56, 168, 0.3);
+        }
+        
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(50px);
@@ -39,28 +55,61 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
         .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro), var(--dorado));
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-fill-color: transparent;
         }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .card-style {
-            background-color: #1d1d1f;
+            background: linear-gradient(135deg, rgba(0, 56, 168, 0.1), rgba(85, 214, 255, 0.1));
             border-radius: 24px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(85, 214, 255, 0.3);
+            transition: all 0.4s ease;
         }
+        
+        .card-style:hover {
+            transform: translateY(-5px);
+            border-color: var(--dorado);
+            box-shadow: 0 20px 40px rgba(85, 214, 255, 0.4);
+        }
+        
         .cta-button {
-            background-color: #2563eb;
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro));
             color: white;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4);
         }
+        
         .cta-button:hover {
-            background-color: #3b82f6;
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(85, 214, 255, 0.6);
         }
+        
+        .uy-flag-accent {
+            position: relative;
+        }
+        
+        .uy-flag-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--celeste-uruguayo) 0%, var(--celeste-uruguayo) 33%, white 33%, white 66%, var(--celeste-uruguayo) 66%);
+        }
+        
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
@@ -303,7 +352,7 @@
                             <span class="lang-es">Abordamos el problema de la sobreexposición a los rayos UV, una causa importante de cáncer de piel en Uruguay. Nuestra solución fue una pulsera inteligente con un sensor UV que, conectada a una app, alerta al usuario cuando los niveles de radiación se vuelven peligrosos, promoviendo un cuidado consciente de la piel.</span>
                             <span class="lang-en hidden">We tackled the problem of overexposure to UV rays, a significant cause of skin cancer in Uruguay. Our solution was a smart bracelet with a UV sensor that, connected to an app, alerts the user when radiation levels become dangerous, promoting conscious skin care.</span>
                         </p>
-                        <a href="proyecto-2022-superpowered.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
+                        <a href="proyecto2022-23.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
                             <span class="lang-es">Conocer el proyecto a fondo</span>
                             <span class="lang-en hidden">Learn more about the project</span>
                         </a>

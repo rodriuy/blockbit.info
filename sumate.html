@@ -17,6 +17,14 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
+        :root {
+            --celeste-uruguayo: #0038a8;
+            --celeste-claro: #55d6ff;
+            --dorado: #ffd700;
+            --blanco: #ffffff;
+            --gris-oscuro: #0a0a0a;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -24,50 +32,114 @@
             background-color: #000;
             color: #f5f5f7;
         }
+        
         .header-glass {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(85, 214, 255, 0.2);
+            transition: all 0.3s ease;
         }
+        
+        .header-glass.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 56, 168, 0.3);
+        }
+        
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
+        
         .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro), var(--dorado));
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-fill-color: transparent;
         }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .cta-button {
-            background-color: #2563eb;
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro));
             color: white;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
         .cta-button:hover {
-            background-color: #3b82f6;
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(85, 214, 255, 0.6);
         }
+        
         .secondary-button {
             background-color: #1d1d1f;
-            border: 1px solid #374151;
+            border: 2px solid var(--celeste-claro);
             color: white;
-            transition: background-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
         .secondary-button:hover {
-            background-color: #374151;
+            border-color: var(--dorado);
+            box-shadow: 0 5px 20px rgba(85, 214, 255, 0.4);
+            transform: translateY(-2px);
         }
+        
         .heading-massive {
             font-size: clamp(3rem, 12vw, 10rem);
             font-weight: 900;
             line-height: 1;
             letter-spacing: -0.05em;
+            text-shadow: 0 0 80px rgba(85, 214, 255, 0.3);
         }
+        
         .info-card {
-            background: #111111;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(0, 56, 168, 0.1), rgba(85, 214, 255, 0.1));
+            border: 1px solid rgba(85, 214, 255, 0.3);
             border-radius: 24px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--dorado);
+            box-shadow: 0 20px 40px rgba(85, 214, 255, 0.4);
+        }
+        
+        .uy-flag-accent {
+            position: relative;
+        }
+        
+        .uy-flag-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--celeste-uruguayo) 0%, var(--celeste-uruguayo) 33%, white 33%, white 66%, var(--celeste-uruguayo) 66%);
         }
         .reveal-on-scroll {
             opacity: 0;
@@ -103,7 +175,7 @@
     <!-- ===== HEADER ===== -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <a href="index.html" class="text-xl font-bold tracking-tighter uy-flag-accent">Blockbit<span style="color: var(--celeste-claro);">.</span></a>
             <div class="flex items-center space-x-4">
                 <a href="index.html" class="hidden md:block text-sm text-gray-300 hover:text-white transition-colors">
                     <span class="lang-es">Volver al Inicio</span><span class="lang-en hidden">Back to Home</span>
@@ -122,21 +194,21 @@
         <section class="h-screen min-h-[700px] flex flex-col justify-center items-center text-center relative overflow-hidden p-8">
             <div id="hero-content">
                 <h1 class="heading-massive text-white">
-                    <span class="lang-es">INVERTÍ</span>
-                    <span class="lang-en hidden">INVEST</span>
+                    <span class="lang-es">INVERTÍ<span style="color: var(--celeste-claro);">.</span></span>
+                    <span class="lang-en hidden">INVEST<span style="color: var(--celeste-claro);">.</span></span>
                 </h1>
-                <h1 class="heading-massive text-gray-600">
+                <h1 class="heading-massive gradient-text">
                     <span class="lang-es">EN EL FUTURO</span>
                     <span class="lang-en hidden">IN THE FUTURE</span>
                 </h1>
-                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mt-8 mb-12">
-                    <span class="lang-es">Somos más que un equipo de robótica. Somos un semillero de talento, un motor de cambio para nuestra comunidad y una prueba de que con ingenio y apoyo, no hay límites. Tu colaboración nos impulsa a seguir compitiendo, innovando e inspirando a la próxima generación.</span>
-                    <span class="lang-en hidden">We are more than a robotics team. We are a seedbed of talent, an engine of change for our community, and proof that with ingenuity and support, there are no limits. Your collaboration drives us to continue competing, innovating, and inspiring the next generation.</span>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-300 mt-8 mb-12 leading-relaxed">
+                    <span class="lang-es">Somos más que un equipo de robótica. Somos un <strong style="color: var(--celeste-claro);">semillero de talento uruguayo</strong>, un motor de cambio para nuestra comunidad y una prueba de que con ingenio y apoyo, no hay límites. Tu colaboración nos impulsa a seguir compitiendo, innovando e inspirando desde <strong style="color: var(--dorado);">Artigas 🇺🇾</strong> a la próxima generación.</span>
+                    <span class="lang-en hidden">We are more than a robotics team. We are a <strong style="color: var(--celeste-claro);">seedbed of Uruguayan talent</strong>, an engine of change for our community, and proof that with ingenuity and support, there are no limits. Your collaboration drives us to continue competing, innovating, and inspiring from <strong style="color: var(--dorado);">Artigas 🇺🇾</strong> the next generation.</span>
                 </p>
                 <div>
-                    <a href="#aportar" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
-                        <span class="lang-es">Apoyar el Proyecto</span>
-                        <span class="lang-en hidden">Support the Project</span>
+                    <a href="#aportar" class="cta-button font-bold py-4 px-10 rounded-full inline-block text-lg">
+                        <span class="lang-es">Apoyar el Proyecto 💙</span>
+                        <span class="lang-en hidden">Support the Project 💙</span>
                     </a>
                 </div>
             </div>

@@ -17,6 +17,14 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
+        :root {
+            --celeste-uruguayo: #0038a8;
+            --celeste-claro: #55d6ff;
+            --dorado: #ffd700;
+            --blanco: #ffffff;
+            --gris-oscuro: #0a0a0a;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -25,6 +33,7 @@
             color: #f5f5f7;
             overflow-x: hidden;
         }
+        
         #hero-canvas {
             position: absolute;
             top: 0;
@@ -33,45 +42,106 @@
             height: 100%;
             z-index: 0;
         }
+        
         .header-glass {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(85, 214, 255, 0.2);
+            transition: all 0.3s ease;
         }
+        
+        .header-glass.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 56, 168, 0.3);
+        }
+        
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
+        
         .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro), var(--dorado));
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-fill-color: transparent;
         }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .cta-button {
-            background-color: #2563eb;
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro));
             color: white;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
         .cta-button:hover {
-            background-color: #3b82f6;
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(85, 214, 255, 0.6);
         }
+        
         .secondary-button {
             background-color: #1d1d1f;
-            border: 1px solid #374151;
+            border: 2px solid var(--celeste-claro);
             color: white;
-            transition: background-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .secondary-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(85, 214, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .secondary-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
         .secondary-button:hover {
-            background-color: #374151;
+            border-color: var(--dorado);
+            box-shadow: 0 5px 20px rgba(85, 214, 255, 0.4);
+            transform: translateY(-2px);
         }
+        
         .heading-massive {
             font-size: clamp(3rem, 12vw, 10rem);
             font-weight: 900;
             line-height: 1;
             letter-spacing: -0.05em;
+            text-shadow: 0 0 80px rgba(85, 214, 255, 0.3);
         }
         
         /* Horizontal Scroll Section */
@@ -94,6 +164,17 @@
             align-items: center;
             flex-shrink: 0;
             padding: 2rem;
+            position: relative;
+        }
+        
+        .panel img {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 56, 168, 0.4);
+        }
+        
+        .panel:hover img {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 30px 80px rgba(85, 214, 255, 0.6);
         }
 
         /* Scroll down indicator */
@@ -103,6 +184,7 @@
             left: 50%;
             transform: translateX(-50%);
             animation: bounce 2s infinite;
+            z-index: 10;
         }
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {
@@ -115,6 +197,137 @@
                 transform: translateX(-50%) translateY(-10px);
             }
         }
+        
+        /* Stats Section */
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0, 56, 168, 0.1), rgba(85, 214, 255, 0.1));
+            border: 1px solid rgba(85, 214, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--dorado);
+            box-shadow: 0 20px 40px rgba(85, 214, 255, 0.4);
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--celeste-claro), var(--dorado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Team Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            margin: 5% auto;
+            padding: 2rem;
+            border: 2px solid var(--celeste-claro);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 20px 60px rgba(85, 214, 255, 0.5);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .close {
+            color: var(--celeste-claro);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: var(--dorado);
+            cursor: pointer;
+        }
+        
+        /* Team member hover effects */
+        .team-member {
+            transition: all 0.4s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-member img {
+            transition: all 0.5s ease;
+            border: 3px solid transparent;
+        }
+        
+        .team-member:hover img {
+            border-color: var(--celeste-claro);
+            box-shadow: 0 10px 30px rgba(85, 214, 255, 0.5);
+        }
+        
+        /* Uruguay pride */
+        .uy-flag-accent {
+            position: relative;
+        }
+        
+        .uy-flag-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--celeste-uruguayo) 0%, var(--celeste-uruguayo) 33%, white 33%, white 66%, var(--celeste-uruguayo) 66%);
+        }
+        
+        /* Reveal animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* Sponsors hover */
+        .sponsor-logo {
+            transition: all 0.4s ease;
+            filter: grayscale(100%) opacity(0.5);
+        }
+        
+        .sponsor-logo:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -123,15 +336,20 @@
     <!-- ===== HEADER ===== -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <a href="index.html" class="text-xl font-bold tracking-tighter uy-flag-accent">Blockbit<span style="color: var(--celeste-claro);">.</span></a>
             <div class="hidden md:flex items-center space-x-8 text-sm text-gray-300">
-                <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-colors text-sm font-semibold">
-                    <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
+                <a href="#inicio" class="hover:text-white transition-colors">Inicio</a>
+                <a href="#trayectoria" class="hover:text-white transition-colors">Trayectoria</a>
+                <a href="#equipo" class="hover:text-white transition-colors">Equipo</a>
+                <a href="sumate.html" class="cta-button text-white px-5 py-2.5 rounded-full transition-all text-sm font-semibold">
+                    <span class="lang-es">¡Sumate! 🇺🇾</span><span class="lang-en hidden">Join Us! 🇺🇾</span>
                 </a>
-                <button id="lang-switcher-desktop" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+                <button id="lang-switcher-desktop" class="border-2 border-gray-600 hover:border-celeste-claro text-white px-3 py-1 rounded-full text-xs transition-all">
+                    <span class="lang-es">EN</span><span class="lang-en hidden">ES</span>
+                </button>
             </div>
             <div class="md:hidden flex items-center space-x-4">
-                 <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-colors text-sm font-semibold">
+                 <a href="sumate.html" class="cta-button text-white px-4 py-2 rounded-full transition-all text-sm font-semibold">
                     <span class="lang-es">¡Sumate!</span><span class="lang-en hidden">Join Us!</span>
                 </a>
                 <button id="lang-switcher-mobile" class="p-2 text-2xl rounded-full hover:bg-gray-800 transition-colors">
@@ -149,17 +367,21 @@
             <canvas id="hero-canvas"></canvas>
             <div id="hero-content" class="relative z-10">
                 <h1 class="heading-massive text-white">
-                    <span class="lang-es">Ingeniería.</span><span class="lang-en hidden">Engineering.</span>
+                    <span class="lang-es">Ingeniería<span style="color: var(--celeste-claro);">.</span></span><span class="lang-en hidden">Engineering<span style="color: var(--celeste-claro);">.</span></span>
                 </h1>
-                <h1 class="heading-massive text-gray-600">
-                    <span class="lang-es">Resiliencia.</span><span class="lang-en hidden">Resilience.</span>
+                <h1 class="heading-massive gradient-text">
+                    <span class="lang-es">Resiliencia</span><span class="lang-en hidden">Resilience</span>
                 </h1>
                 <h1 class="heading-massive text-white">
-                    <span class="lang-es">Futuro.</span><span class="lang-en hidden">Future.</span>
+                    <span class="lang-es">Futuro<span style="color: var(--dorado);">.</span></span><span class="lang-en hidden">Future<span style="color: var(--dorado);">.</span></span>
                 </h1>
+                <p class="mt-8 text-xl md:text-2xl text-gray-400 font-light">
+                    <span class="lang-es">Desde Artigas, Uruguay 🇺🇾 al mundo 🌎</span>
+                    <span class="lang-en hidden">From Artigas, Uruguay 🇺🇾 to the world 🌎</span>
+                </p>
             </div>
-            <div class="scroll-down z-10">
-                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            <div class="scroll-down">
+                <svg class="w-8 h-8" style="color: var(--celeste-claro);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
         </section>
 
@@ -167,9 +389,51 @@
         <section class="py-20 md:py-32">
             <div class="max-w-4xl mx-auto px-6 text-center">
                 <p id="intro-text" class="text-2xl md:text-4xl font-medium leading-relaxed">
-                    <span class="lang-es">Somos Blockbit. Un equipo de jóvenes de Artigas, Uruguay, que transforma desafíos en hitos globales. Esta es nuestra historia.</span>
-                    <span class="lang-en hidden">We are Blockbit. A team of young people from Artigas, Uruguay, turning challenges into global milestones. This is our story.</span>
+                    <span class="lang-es">Somos <span class="gradient-text">Blockbit</span>. Un equipo de jóvenes de <strong>Artigas, Uruguay</strong>, que transforma desafíos en hitos globales. Esta es nuestra historia de <span style="color: var(--celeste-claro);">pasión</span>, <span style="color: var(--dorado);">innovación</span> y <span style="color: white;">orgullo uruguayo</span>.</span>
+                    <span class="lang-en hidden">We are <span class="gradient-text">Blockbit</span>. A team of young people from <strong>Artigas, Uruguay</strong>, turning challenges into global milestones. This is our story of <span style="color: var(--celeste-claro);">passion</span>, <span style="color: var(--dorado);">innovation</span> and <span style="color: white;">Uruguayan pride</span>.</span>
                 </p>
+            </div>
+        </section>
+        
+        <!-- ===== STATS SECTION ===== -->
+        <section id="logros" class="py-20 md:py-32 bg-[#0a0a0a]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+                        <span class="lang-es">Nuestros <span class="gradient-text">Logros</span></span>
+                        <span class="lang-en hidden">Our <span class="gradient-text">Achievements</span></span>
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="stat-card text-center reveal-on-scroll">
+                        <div class="stat-number">3</div>
+                        <p class="text-gray-400 text-lg mt-2">
+                            <span class="lang-es">Mundiales</span>
+                            <span class="lang-en hidden">World Championships</span>
+                        </p>
+                    </div>
+                    <div class="stat-card text-center reveal-on-scroll" style="transition-delay: 100ms;">
+                        <div class="stat-number">Top 10</div>
+                        <p class="text-gray-400 text-lg mt-2">
+                            <span class="lang-es">Mundial Houston</span>
+                            <span class="lang-en hidden">World Houston</span>
+                        </p>
+                    </div>
+                    <div class="stat-card text-center reveal-on-scroll" style="transition-delay: 200ms;">
+                        <div class="stat-number">5</div>
+                        <p class="text-gray-400 text-lg mt-2">
+                            <span class="lang-es">Integrantes</span>
+                            <span class="lang-en hidden">Team Members</span>
+                        </p>
+                    </div>
+                    <div class="stat-card text-center reveal-on-scroll" style="transition-delay: 300ms;">
+                        <div class="stat-number">100%</div>
+                        <p class="text-gray-400 text-lg mt-2">
+                            <span class="lang-es">Artiguense</span>
+                            <span class="lang-en hidden">From Artigas</span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -179,36 +443,42 @@
                 <!-- PANEL 1: 2021 -->
                 <div class="panel">
                     <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
-                        <img src="foto_equipo2021.jpg" alt="Equipo de Blockbit en 2021" class="rounded-3xl shadow-2xl">
+                        <img src="foto_equipo2021.jpg" alt="Equipo de Blockbit en 2021" class="rounded-3xl shadow-2xl w-full">
                         <div>
-                            <p class="text-blue-400 font-bold mb-2">2021</p>
-                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">El Origen</span><span class="lang-en hidden">The Origin</span></h3>
-                            <p class="text-gray-400 mb-6"><span class="lang-es">Debutamos en las Olimpiadas de Robótica y ganamos en nuestra primera participación. Un inicio que marcó nuestro camino.</span><span class="lang-en hidden">We debuted in the Robotics Olympics and won on our first try. A start that defined our path.</span></p>
-                            <a href="trayectoria_2021.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <div class="inline-block px-4 py-2 rounded-full mb-4" style="background: rgba(0, 56, 168, 0.2); border: 1px solid var(--celeste-claro);">
+                                <p class="font-bold" style="color: var(--celeste-claro);">2021</p>
+                            </div>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">El Origen 🌟</span><span class="lang-en hidden">The Origin 🌟</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg leading-relaxed"><span class="lang-es">Debutamos en las Olimpiadas de Robótica y <strong style="color: var(--dorado);">ganamos en nuestra primera participación</strong>. Un inicio que marcó nuestro camino y demostró que desde Artigas se pueden alcanzar grandes logros.</span><span class="lang-en hidden">We debuted in the Robotics Olympics and <strong style="color: var(--dorado);">won on our first try</strong>. A start that defined our path and showed that great achievements can come from Artigas.</span></p>
+                            <a href="trayectoria_2021.html" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block relative z-10"><span class="lang-es">Ver más →</span><span class="lang-en hidden">See more →</span></a>
                         </div>
                     </div>
                 </div>
                 <!-- PANEL 2: 2022-2023 -->
                 <div class="panel">
                     <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
-                        <img src="foto_houston_letrasfirst.webp" alt="Equipo de Blockbit en Houston" class="rounded-3xl shadow-2xl">
+                        <img src="foto_houston_letrasfirst.webp" alt="Equipo de Blockbit en Houston" class="rounded-3xl shadow-2xl w-full">
                         <div>
-                            <p class="text-blue-400 font-bold mb-2">2022-2023</p>
-                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Escenario Mundial</span><span class="lang-en hidden">World Stage</span></h3>
-                            <p class="text-gray-400 mb-6"><span class="lang-es">Viajamos a Houston, Texas, y logramos un Top 10 mundial en Alianza, poniendo a Artigas en el mapa global de la robótica.</span><span class="lang-en hidden">We traveled to Houston, Texas, and achieved a Top 10 worldwide in Alliance, putting Artigas on the global robotics map.</span></p>
-                            <a href="trayectoria_2223.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <div class="inline-block px-4 py-2 rounded-full mb-4" style="background: rgba(0, 56, 168, 0.2); border: 1px solid var(--celeste-claro);">
+                                <p class="font-bold" style="color: var(--celeste-claro);">2022-2023</p>
+                            </div>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Escenario Mundial 🌎</span><span class="lang-en hidden">World Stage 🌎</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg leading-relaxed"><span class="lang-es">Viajamos a <strong>Houston, Texas</strong>, y logramos un <strong style="color: var(--dorado);">Top 10 mundial en Alianza</strong>, poniendo a Artigas en el mapa global de la robótica. Una experiencia que cambió nuestras vidas para siempre.</span><span class="lang-en hidden">We traveled to <strong>Houston, Texas</strong>, and achieved a <strong style="color: var(--dorado);">Top 10 worldwide in Alliance</strong>, putting Artigas on the global robotics map. An experience that changed our lives forever.</span></p>
+                            <a href="trayectoria_2223.html" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block relative z-10"><span class="lang-es">Ver más →</span><span class="lang-en hidden">See more →</span></a>
                         </div>
                     </div>
                 </div>
                 <!-- PANEL 3: 2023-2024 -->
                 <div class="panel">
                     <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
-                        <img src="foto_pr_puerta.webp" alt="Equipo de Blockbit en Puerto Rico" class="rounded-3xl shadow-2xl">
+                        <img src="foto_pr_puerta.webp" alt="Equipo de Blockbit en Puerto Rico" class="rounded-3xl shadow-2xl w-full">
                         <div>
-                            <p class="text-blue-400 font-bold mb-2">2023-2024</p>
-                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Adaptación Extrema</span><span class="lang-en hidden">Extreme Adaptation</span></h3>
-                            <p class="text-gray-400 mb-6"><span class="lang-es">Con solo 4 meses de preparación, nos enfrentamos a la WRO en Puerto Rico y alcanzamos un Top 20 mundial.</span><span class="lang-en hidden">With only 4 months of preparation, we faced the WRO in Puerto Rico and reached the Top 20 worldwide.</span></p>
-                            <a href="trayectoria_2324.html" class="secondary-button font-semibold py-2 px-6 rounded-full"><span class="lang-es">Ver más</span><span class="lang-en hidden">See more</span></a>
+                            <div class="inline-block px-4 py-2 rounded-full mb-4" style="background: rgba(0, 56, 168, 0.2); border: 1px solid var(--celeste-claro);">
+                                <p class="font-bold" style="color: var(--celeste-claro);">2023-2024</p>
+                            </div>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Adaptación Extrema 💪</span><span class="lang-en hidden">Extreme Adaptation 💪</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg leading-relaxed"><span class="lang-es">Con solo <strong>4 meses de preparación</strong>, nos enfrentamos a la WRO en Puerto Rico y alcanzamos un <strong style="color: var(--dorado);">Top 20 mundial</strong>. La resiliencia uruguaya en su máxima expresión.</span><span class="lang-en hidden">With only <strong>4 months of preparation</strong>, we faced the WRO in Puerto Rico and reached the <strong style="color: var(--dorado);">Top 20 worldwide</strong>. Uruguayan resilience at its finest.</span></p>
+                            <a href="trayectoria_2324.html" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block relative z-10"><span class="lang-es">Ver más →</span><span class="lang-en hidden">See more →</span></a>
                         </div>
                     </div>
                 </div>
@@ -216,80 +486,179 @@
         </section>
 
         <!-- ===== CTA SECTION ===== -->
-        <section id="unite" class="py-20 md:py-32">
-            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
-                 <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-                    <span class="lang-es">Sé parte del <span class="gradient-text">próximo capítulo</span>.</span>
-                    <span class="lang-en hidden">Be part of the <span class="gradient-text">next chapter</span>.</span>
+        <section id="unite" class="py-20 md:py-32 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-celeste-claro to-transparent"></div>
+                <div class="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-dorado to-transparent"></div>
+            </div>
+            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll relative z-10">
+                 <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-6">
+                    <span class="lang-es">Sé parte del <span class="gradient-text">próximo capítulo</span> 🚀</span>
+                    <span class="lang-en hidden">Be part of the <span class="gradient-text">next chapter</span> 🚀</span>
                 </h2>
-                 <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
-                    <span class="lang-es">Nuestra historia la escribimos juntos. Tu apoyo es el combustible que nos permite seguir compitiendo, innovando e inspirando desde Artigas para el mundo.</span>
-                    <span class="lang-en hidden">We write our story together. Your support is the fuel that allows us to keep competing, innovating, and inspiring from Artigas to the world.</span>
+                 <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    <span class="lang-es">Nuestra historia la escribimos juntos. Tu apoyo es el <strong style="color: var(--celeste-claro);">combustible</strong> que nos permite seguir compitiendo, innovando e inspirando desde <strong style="color: var(--dorado);">Artigas</strong> para el mundo.</span>
+                    <span class="lang-en hidden">We write our story together. Your support is the <strong style="color: var(--celeste-claro);">fuel</strong> that allows us to keep competing, innovating, and inspiring from <strong style="color: var(--dorado);">Artigas</strong> to the world.</span>
                 </p>
-                 <a href="sumate.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block text-lg">
-                    <span class="lang-es">Unite a la Misión</span>
-                    <span class="lang-en hidden">Join the Mission</span>
+                 <a href="sumate.html" class="cta-button font-bold py-4 px-10 rounded-full inline-block text-lg">
+                    <span class="lang-es">Unite a la Misión 🇺🇾</span>
+                    <span class="lang-en hidden">Join the Mission 🇺🇾</span>
                  </a>
             </div>
         </section>
 
         <!-- ===== EQUIPO SECTION ===== -->
-        <section id="equipo" class="py-20 md:py-32 bg-[#111111]">
+        <section id="equipo" class="py-20 md:py-32 bg-[#0a0a0a]">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="max-w-3xl mx-auto text-center mb-16 reveal-on-scroll">
                     <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-                        <span class="lang-es">Las mentes detrás de la <span class="gradient-text">magia</span>.</span>
-                        <span class="lang-en hidden">The minds behind the <span class="gradient-text">magic</span>.</span>
+                        <span class="lang-es">Las mentes detrás de la <span class="gradient-text">magia</span> ✨</span>
+                        <span class="lang-en hidden">The minds behind the <span class="gradient-text">magic</span> ✨</span>
                     </h2>
+                    <p class="text-gray-400 text-lg mt-4">
+                        <span class="lang-es">Cinco artiguenses con un mismo sueño</span>
+                        <span class="lang-en hidden">Five people from Artigas with the same dream</span>
+                    </p>
                 </div>
                 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
                     <!-- Integrantes del equipo -->
-                    <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="rodrigo">
-                        <img src="rodrigo.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Rodrigo">
+                    <div class="text-center team-member reveal-on-scroll cursor-pointer" data-member-id="rodrigo">
+                        <div class="relative inline-block">
+                            <img src="rodrigo.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Foto de Rodrigo">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-celeste-uruguayo to-celeste-claro opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+                        </div>
                         <h3 class="text-lg font-bold text-white">Rodrigo</h3>
-                        <p class="text-sm text-gray-400"><span class="lang-es">Desarrollo y Tecnología</span><span class="lang-en hidden">Development & Tech</span></p>
+                        <p class="text-sm" style="color: var(--celeste-claro);"><span class="lang-es">Desarrollo y Tecnología</span><span class="lang-en hidden">Development & Tech</span></p>
                     </div>
-                    <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="belen" style="transition-delay: 100ms;">
-                        <img src="belen.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Belén">
+                    <div class="text-center team-member reveal-on-scroll cursor-pointer" data-member-id="belen" style="transition-delay: 100ms;">
+                        <div class="relative inline-block">
+                            <img src="belen.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Foto de Belén">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-celeste-uruguayo to-celeste-claro opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+                        </div>
                         <h3 class="text-lg font-bold text-white">Belén</h3>
-                        <p class="text-sm text-gray-400">Community Manager</p>
+                        <p class="text-sm" style="color: var(--celeste-claro);">Community Manager</p>
                     </div>
-                    <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="felicia" style="transition-delay: 200ms;">
-                        <img src="felicia.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Felicia">
+                    <div class="text-center team-member reveal-on-scroll cursor-pointer" data-member-id="felicia" style="transition-delay: 200ms;">
+                        <div class="relative inline-block">
+                            <img src="felicia.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Foto de Felicia">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-celeste-uruguayo to-celeste-claro opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+                        </div>
                         <h3 class="text-lg font-bold text-white">Felicia</h3>
-                        <p class="text-sm text-gray-400"><span class="lang-es">Investigación y Desarrollo</span><span class="lang-en hidden">Research & Development</span></p>
+                        <p class="text-sm" style="color: var(--celeste-claro);"><span class="lang-es">Investigación y Desarrollo</span><span class="lang-en hidden">Research & Development</span></p>
                     </div>
-                    <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="nahuel" style="transition-delay: 300ms;">
-                         <img src="nahuel.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Nahuel">
+                    <div class="text-center team-member reveal-on-scroll cursor-pointer" data-member-id="nahuel" style="transition-delay: 300ms;">
+                        <div class="relative inline-block">
+                            <img src="nahuel.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Foto de Nahuel">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-celeste-uruguayo to-celeste-claro opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+                        </div>
                         <h3 class="text-lg font-bold text-white">Nahuel</h3>
-                        <p class="text-sm text-gray-400"><span class="lang-es">Ingeniería y Construcción</span><span class="lang-en hidden">Engineering & Construction</span></p>
+                        <p class="text-sm" style="color: var(--celeste-claro);"><span class="lang-es">Ingeniería y Construcción</span><span class="lang-en hidden">Engineering & Construction</span></p>
                     </div>
-                    <div class="text-center group reveal-on-scroll cursor-pointer" data-member-id="julian" style="transition-delay: 400ms;">
-                        <img src="julián.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Foto de Julián">
+                    <div class="text-center team-member reveal-on-scroll cursor-pointer" data-member-id="julian" style="transition-delay: 400ms;">
+                        <div class="relative inline-block">
+                            <img src="julián.png" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-4 object-cover grayscale hover:grayscale-0 transition-all duration-500" alt="Foto de Julián">
+                            <div class="absolute inset-0 rounded-full bg-gradient-to-br from-celeste-uruguayo to-celeste-claro opacity-0 hover:opacity-20 transition-opacity duration-500"></div>
+                        </div>
                         <h3 class="text-lg font-bold text-white">Julián</h3>
-                        <p class="text-sm text-gray-400"><span class="lang-es">Programación</span><span class="lang-en hidden">Programming</span></p>
+                        <p class="text-sm" style="color: var(--celeste-claro);"><span class="lang-es">Programación</span><span class="lang-en hidden">Programming</span></p>
                     </div>
                 </div>
             </div>
         </section>
         
+        <!-- Team Member Modals -->
+        <div id="modal-rodrigo" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-rodrigo">&times;</span>
+                <div class="flex flex-col items-center">
+                    <img src="rodrigo.png" class="w-32 h-32 rounded-full mb-4 object-cover" alt="Rodrigo">
+                    <h2 class="text-3xl font-bold mb-2" style="color: var(--celeste-claro);">Rodrigo</h2>
+                    <p class="text-gray-400 mb-4"><span class="lang-es">Desarrollo y Tecnología</span><span class="lang-en hidden">Development & Tech</span></p>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        <span class="lang-es">Especializado en programación y desarrollo web. Apasionado por crear soluciones tecnológicas innovadoras que representen a Uruguay en el mundo.</span>
+                        <span class="lang-en hidden">Specialized in programming and web development. Passionate about creating innovative technological solutions that represent Uruguay in the world.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modal-belen" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-belen">&times;</span>
+                <div class="flex flex-col items-center">
+                    <img src="belen.png" class="w-32 h-32 rounded-full mb-4 object-cover" alt="Belén">
+                    <h2 class="text-3xl font-bold mb-2" style="color: var(--celeste-claro);">Belén</h2>
+                    <p class="text-gray-400 mb-4">Community Manager</p>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        <span class="lang-es">Encargada de comunicación y relaciones públicas. Construye puentes entre Blockbit y nuestra comunidad, compartiendo nuestra historia con el mundo.</span>
+                        <span class="lang-en hidden">In charge of communication and public relations. Builds bridges between Blockbit and our community, sharing our story with the world.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modal-felicia" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-felicia">&times;</span>
+                <div class="flex flex-col items-center">
+                    <img src="felicia.png" class="w-32 h-32 rounded-full mb-4 object-cover" alt="Felicia">
+                    <h2 class="text-3xl font-bold mb-2" style="color: var(--celeste-claro);">Felicia</h2>
+                    <p class="text-gray-400 mb-4"><span class="lang-es">Investigación y Desarrollo</span><span class="lang-en hidden">Research & Development</span></p>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        <span class="lang-es">Especialista en investigación e innovación. Lidera la búsqueda de nuevas soluciones y estrategias para mantener a Blockbit a la vanguardia.</span>
+                        <span class="lang-en hidden">Specialist in research and innovation. Leads the search for new solutions and strategies to keep Blockbit at the forefront.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modal-nahuel" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-nahuel">&times;</span>
+                <div class="flex flex-col items-center">
+                    <img src="nahuel.png" class="w-32 h-32 rounded-full mb-4 object-cover" alt="Nahuel">
+                    <h2 class="text-3xl font-bold mb-2" style="color: var(--celeste-claro);">Nahuel</h2>
+                    <p class="text-gray-400 mb-4"><span class="lang-es">Ingeniería y Construcción</span><span class="lang-en hidden">Engineering & Construction</span></p>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        <span class="lang-es">Maestro en diseño mecánico y construcción de robots. Transforma ideas en realidad con precisión ingenieril y creatividad uruguaya.</span>
+                        <span class="lang-en hidden">Master in mechanical design and robot construction. Transforms ideas into reality with engineering precision and Uruguayan creativity.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="modal-julian" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-julian">&times;</span>
+                <div class="flex flex-col items-center">
+                    <img src="julián.png" class="w-32 h-32 rounded-full mb-4 object-cover" alt="Julián">
+                    <h2 class="text-3xl font-bold mb-2" style="color: var(--celeste-claro);">Julián</h2>
+                    <p class="text-gray-400 mb-4"><span class="lang-es">Programación</span><span class="lang-en hidden">Programming</span></p>
+                    <p class="text-gray-300 text-center leading-relaxed">
+                        <span class="lang-es">Experto en programación de robots y sistemas autónomos. Da vida a nuestros robots con código elegante y eficiente.</span>
+                        <span class="lang-en hidden">Expert in robot programming and autonomous systems. Brings our robots to life with elegant and efficient code.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
         <!-- ===== SPONSORS SECTION ===== -->
         <section id="sponsors" class="py-20 md:py-32">
-            <div class="max-w-4xl mx-auto px-6 text-center reveal-on-scroll">
-                <p class="text-sm text-gray-500 mb-8">
-                    <span class="lang-es">Quienes hacen posible nuestro sueño:</span>
-                    <span class="lang-en hidden">Those who make our dream possible:</span>
+            <div class="max-w-5xl mx-auto px-6 text-center reveal-on-scroll">
+                <p class="text-sm text-gray-500 mb-10">
+                    <span class="lang-es">Con el apoyo orgulloso de:</span>
+                    <span class="lang-en hidden">Proudly supported by:</span>
                 </p>
-                <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-70">
-                    <img src="logocerramientos.png" class="h-8" alt="Logo Sponsor Cerramientos">
-                    <img src="Iso Logotipo Ceibal - RGB.png" class="h-12" alt="Logo Sponsor Ceibal">
-                    <img src="logo-Ana'sFood.png.png" class="h-12" alt="Logo Ana's Food">
-                    <img src="logo_agromillan.png.png" class="h-12" alt="Logo Agromillan">
-                    <img src="comaja-logo.png" class="h-12" alt="Logo Agromillan">
-                    <img src="utec-logo.png" class="h-12" alt="Logo Agromillan">
-                    <img src="intendencia-logo.png" class="h-12" alt="Logo Agromillan">
-                    <img src="copac_logo.png" class="h-12" alt="Logo Agromillan">
+                <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-10">
+                    <img src="logocerramientos.png" class="h-10 sponsor-logo" alt="Logo Sponsor Cerramientos">
+                    <img src="Iso Logotipo Ceibal - RGB.png" class="h-14 sponsor-logo" alt="Logo Sponsor Ceibal">
+                    <img src="logo-Ana'sFood.png.png" class="h-14 sponsor-logo" alt="Logo Ana's Food">
+                    <img src="logo_agromillan.png.png" class="h-14 sponsor-logo" alt="Logo Agromillan">
+                    <img src="comaja-logo.png" class="h-14 sponsor-logo" alt="Logo Comaja">
+                    <img src="utec-logo.png" class="h-14 sponsor-logo" alt="Logo UTEC">
+                    <img src="intendencia-logo.png" class="h-14 sponsor-logo" alt="Logo Intendencia">
+                    <img src="copac_logo.png" class="h-14 sponsor-logo" alt="Logo COPAC">
                 </div>
             </div>
         </section>
@@ -297,10 +666,33 @@
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="bg-[#111111] text-gray-400 text-sm">
-        <div class="max-w-7xl mx-auto px-6 py-12 text-center">
-             <a href="index.html" class="text-lg font-bold tracking-tighter text-white">Blockbit<span class="text-blue-500">.</span></a>
-            <p class="mt-4 text-xs text-gray-500">&copy; <span id="currentYear"></span> Blockbit. <span class="lang-es">Todos los derechos reservados.</span><span class="lang-en hidden">All rights reserved.</span></p>
+    <footer class="bg-[#0a0a0a] text-gray-400 text-sm border-t" style="border-color: rgba(85, 214, 255, 0.2);">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="text-center">
+                <a href="index.html" class="text-2xl font-bold tracking-tighter text-white uy-flag-accent inline-block mb-4">
+                    Blockbit<span style="color: var(--celeste-claro);">.</span>
+                </a>
+                <p class="text-gray-400 mb-4">
+                    <span class="lang-es"> Hecho en Artigas, Uruguay</span>
+                    <span class="lang-en hidden">Made in Artigas, Uruguay</span>
+                </p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#inicio" class="hover:text-white transition-colors">
+                        <span class="lang-es">Inicio</span><span class="lang-en hidden">Home</span>
+                    </a>
+                    <a href="#equipo" class="hover:text-white transition-colors">
+                        <span class="lang-es">Equipo</span><span class="lang-en hidden">Team</span>
+                    </a>
+                    <a href="sumate.html" class="hover:text-white transition-colors">
+                        <span class="lang-es">Sumate</span><span class="lang-en hidden">Join</span>
+                    </a>
+                </div>
+                <p class="mt-4 text-xs text-gray-500">
+                    &copy; <span id="currentYear"></span> Blockbit. 
+                    <span class="lang-es">Todos los derechos reservados.</span>
+                    <span class="lang-en hidden">All rights reserved.</span>
+                </p>
+            </div>
         </div>
     </footer>
     
@@ -310,6 +702,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             gsap.registerPlugin(ScrollTrigger);
 
+            // Language Switcher
             const langSwitcherDesktop = document.getElementById('lang-switcher-desktop');
             const langSwitcherMobile = document.getElementById('lang-switcher-mobile');
             const htmlTag = document.documentElement;
@@ -331,39 +724,123 @@
             const savedLang = localStorage.getItem('userLanguage') || 'es';
             setLanguage(savedLang);
 
-            // GSAP Animations
-            gsap.fromTo("#hero-content", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power4.out', delay: 0.2 });
-            gsap.fromTo("#intro-text", { opacity: 0, y: 40 }, {
-                opacity: 1, y: 0, duration: 1, ease: 'power4.out',
-                scrollTrigger: { trigger: "#intro-text", start: "top 85%" }
-            });
-
-            // Horizontal Scroll
-            const container = document.querySelector("#slide-container");
-            gsap.to(container, {
-                x: () => -(container.scrollWidth - document.documentElement.clientWidth) + "px",
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#pin-container",
-                    start: "top top",
-                    end: () => "+=" + (container.scrollWidth - document.documentElement.clientWidth),
-                    scrub: 1,
-                    pin: true,
-                    anticipatePin: 1,
-                    invalidateOnRefresh: true
+            // Header scroll effect
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
             });
 
-            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-                gsap.fromTo(el, { opacity: 0, y: 50 }, {
-                    opacity: 1, y: 0, duration: 1, ease: 'power4.out',
-                    scrollTrigger: { trigger: el, start: 'top 85%' }
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 });
             });
 
+            // GSAP Animations
+            gsap.fromTo("#hero-content", 
+                { opacity: 0, y: 60 }, 
+                { opacity: 1, y: 0, duration: 1.4, ease: 'power4.out', delay: 0.3 }
+            );
+            
+            gsap.fromTo("#intro-text", 
+                { opacity: 0, y: 40 }, 
+                {
+                    opacity: 1, y: 0, duration: 1.2, ease: 'power4.out',
+                    scrollTrigger: { 
+                        trigger: "#intro-text", 
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+
+            // Horizontal Scroll
+            const container = document.querySelector("#slide-container");
+            if (container) {
+                gsap.to(container, {
+                    x: () => -(container.scrollWidth - document.documentElement.clientWidth) + "px",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#pin-container",
+                        start: "top top",
+                        end: () => "+=" + (container.scrollWidth - document.documentElement.clientWidth),
+                        scrub: 1,
+                        pin: true,
+                        anticipatePin: 1,
+                        invalidateOnRefresh: true
+                    }
+                });
+            }
+
+            // Reveal on scroll animations
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                gsap.fromTo(el, 
+                    { opacity: 0, y: 60 }, 
+                    {
+                        opacity: 1, 
+                        y: 0, 
+                        duration: 1, 
+                        ease: 'power4.out',
+                        scrollTrigger: { 
+                            trigger: el, 
+                            start: 'top 85%',
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // Team Member Modals
+            const teamMembers = document.querySelectorAll('.team-member');
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
+
+            teamMembers.forEach(member => {
+                member.addEventListener('click', () => {
+                    const memberId = member.getAttribute('data-member-id');
+                    const modal = document.getElementById(`modal-${memberId}`);
+                    if (modal) {
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modalId = btn.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Update year
             document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // Interactive Particle Background
+            // Interactive Particle Background with Uruguayan colors
             const canvas = document.getElementById('hero-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
@@ -394,7 +871,7 @@
                 draw() {
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                    ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+                    ctx.fillStyle = this.color;
                     ctx.fill();
                 }
                 update() {
@@ -430,13 +907,15 @@
             function init() {
                 particlesArray = [];
                 let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                const colors = ['rgba(0, 56, 168, 0.3)', 'rgba(85, 214, 255, 0.3)', 'rgba(255, 215, 0, 0.2)'];
                 for (let i = 0; i < numberOfParticles; i++) {
                     let size = (Math.random() * 5) + 1;
                     let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
                     let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
                     let directionX = (Math.random() * 0.4) - 0.2;
                     let directionY = (Math.random() * 0.4) - 0.2;
-                    particlesArray.push(new Particle(x, y, directionX, directionY, size));
+                    let color = colors[Math.floor(Math.random() * colors.length)];
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
                 }
             }
 
@@ -458,7 +937,7 @@
                         + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
                         if (distance < (canvas.width/7) * (canvas.height/7)) {
                             opacityValue = 1 - (distance/20000);
-                            ctx.strokeStyle = `rgba(59, 130, 246, ${opacityValue * 0.3})`;
+                            ctx.strokeStyle = `rgba(85, 214, 255, ${opacityValue * 0.4})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);

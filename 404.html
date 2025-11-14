@@ -17,6 +17,14 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <style>
+        :root {
+            --celeste-uruguayo: #0038a8;
+            --celeste-claro: #55d6ff;
+            --dorado: #ffd700;
+            --blanco: #ffffff;
+            --gris-oscuro: #0a0a0a;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -25,31 +33,75 @@
             color: #f5f5f7;
             overflow: hidden; /* Prevent scrolling */
         }
+        
         .header-glass {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(85, 214, 255, 0.2);
         }
+        
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
+        
         .gradient-text {
-            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro), var(--dorado));
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-fill-color: transparent;
         }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .cta-button {
-            background-color: #2563eb;
+            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro));
             color: white;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
         .cta-button:hover {
-            background-color: #3b82f6;
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(85, 214, 255, 0.6);
         }
+        
+        .uy-flag-accent {
+            position: relative;
+        }
+        
+        .uy-flag-accent::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--celeste-uruguayo) 0%, var(--celeste-uruguayo) 33%, white 33%, white 66%, var(--celeste-uruguayo) 66%);
+        }
+        
         canvas#gameCanvas {
             position: absolute;
             top: 0;
@@ -69,33 +121,33 @@
     <!-- ===== HEADER ===== -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 header-glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold tracking-tighter">Blockbit<span class="text-blue-500">.</span></a>
+            <a href="index.html" class="text-xl font-bold tracking-tighter uy-flag-accent">Blockbit<span style="color: var(--celeste-claro);">.</span></a>
             <div class="flex items-center text-sm text-gray-300">
-                <button id="lang-switcher" class="border border-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded-full text-xs transition-colors">EN</button>
+                <button id="lang-switcher" class="border-2 border-gray-600 hover:border-celeste-claro text-white px-3 py-1 rounded-full text-xs transition-all">EN</button>
             </div>
         </nav>
     </header>
 
     <main class="relative z-10 h-screen flex flex-col justify-center items-center text-center p-8">
         
-        <div class="bg-black/50 backdrop-blur-sm p-8 rounded-2xl">
-            <h1 class="text-8xl md:text-9xl font-black tracking-tighter text-blue-500">404</h1>
+        <div class="bg-black/60 backdrop-blur-md p-10 rounded-3xl border border-celeste-claro/30">
+            <h1 class="text-8xl md:text-9xl font-black tracking-tighter gradient-text">404</h1>
             <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-4">
-                <span class="lang-es">Señal Perdida en el Espacio</span>
-                <span class="lang-en hidden">Signal Lost in Space</span>
+                <span class="lang-es">Señal Perdida en el Espacio 🚀</span>
+                <span class="lang-en hidden">Signal Lost in Space 🚀</span>
             </h2>
-            <p class="max-w-md mx-auto text-lg text-gray-400 mt-4">
-                <span class="lang-es">Parece que te desviaste de la órbita. Nuestro robot no pudo encontrar esta página, pero podés ayudarlo a despejar el camino de asteroides mientras volvemos a la base.</span>
-                <span class="lang-en hidden">It seems you've drifted off orbit. Our robot couldn't find this page, but you can help it clear the path of asteroids while we head back to base.</span>
+            <p class="max-w-md mx-auto text-lg text-gray-300 mt-6 leading-relaxed">
+                <span class="lang-es">Parece que te desviaste de la órbita. Nuestro robot no pudo encontrar esta página, pero podés ayudarlo a despejar el camino de asteroides mientras volvemos a la <strong style="color: var(--dorado);">base uruguaya</strong> 🇺🇾.</span>
+                <span class="lang-en hidden">It seems you've drifted off orbit. Our robot couldn't find this page, but you can help it clear the path of asteroids while we head back to the <strong style="color: var(--dorado);">Uruguayan base</strong> 🇺🇾.</span>
             </p>
-            <p class="text-sm text-gray-500 mt-6">
+            <p class="text-sm mt-6" style="color: var(--celeste-claro);">
                 <span class="lang-es"><strong>Controles:</strong> Flechas para mover, Espacio para disparar.</span>
                 <span class="lang-en hidden"><strong>Controls:</strong> Arrow keys to move, Spacebar to shoot.</span>
             </p>
             <div class="mt-8">
-                <a href="index.html" class="cta-button font-semibold py-3 px-8 rounded-full inline-block">
-                    <span class="lang-es">Volver a la Base</span>
-                    <span class="lang-en hidden">Return to Base</span>
+                <a href="index.html" class="cta-button font-bold py-4 px-10 rounded-full inline-block text-lg">
+                    <span class="lang-es">Volver a la Base 🏠</span>
+                    <span class="lang-en hidden">Return to Base 🏠</span>
                 </a>
             </div>
         </div>
