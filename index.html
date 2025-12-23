@@ -18,19 +18,21 @@
 
     <style>
         :root {
-            --celeste-uruguayo: #0038a8;
-            --celeste-claro: #55d6ff;
-            --dorado: #ffd700;
-            --blanco: #ffffff;
-            --gris-oscuro: #0a0a0a;
+            --primary: #0071e3;
+            --secondary: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --border: #424245;
+            --bg-light: #000000;
+            --bg-secondary: #1d1d1f;
         }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background-color: #000;
-            color: #f5f5f7;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
         
@@ -44,104 +46,67 @@
         }
         
         .header-glass {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(85, 214, 255, 0.2);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             transition: all 0.3s ease;
         }
         
         .header-glass.scrolled {
-            background: rgba(0, 0, 0, 0.95);
-            box-shadow: 0 10px 30px rgba(0, 56, 168, 0.3);
+            background: rgba(0, 0, 0, 0.98);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
         
         .lang-en.hidden, .lang-es.hidden {
             display: none;
         }
         
-        .gradient-text {
-            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro), var(--dorado));
-            background-size: 200% 200%;
-            animation: gradientShift 5s ease infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, var(--celeste-uruguayo), var(--celeste-claro));
-            color: white;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(0, 56, 168, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-        
-        .cta-button:hover::before {
-            left: 100%;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(85, 214, 255, 0.6);
-        }
-        
-        .secondary-button {
-            background-color: #1d1d1f;
-            border: 2px solid var(--celeste-claro);
-            color: white;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .secondary-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(85, 214, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .secondary-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .secondary-button:hover {
-            border-color: var(--dorado);
-            box-shadow: 0 5px 20px rgba(85, 214, 255, 0.4);
-            transform: translateY(-2px);
-        }
-        
+        /* Hero Section */
         .heading-massive {
             font-size: clamp(3rem, 12vw, 10rem);
             font-weight: 900;
             line-height: 1;
-            letter-spacing: -0.05em;
-            text-shadow: 0 0 80px rgba(85, 214, 255, 0.3);
+            letter-spacing: -0.02em;
+        }
+        
+        .button-primary {
+            background: var(--primary);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 980px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .button-primary:hover {
+            background: #0059B3;
+            transform: translateY(-2px);
+        }
+        
+        .button-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 12px 32px;
+            border-radius: 980px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .button-secondary:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
         }
         
         /* Horizontal Scroll Section */
@@ -154,7 +119,7 @@
             height: 100vh;
             display: flex;
             flex-wrap: nowrap;
-            width: 300vw; /* 3 panels * 100vw */
+            width: 400vw; /* 4 panels * 100vw */
         }
         .panel {
             width: 100vw;
@@ -736,6 +701,20 @@
                             <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Adaptación Extrema 💪</span><span class="lang-en hidden">Extreme Adaptation 💪</span></h3>
                             <p class="text-gray-300 mb-6 text-lg leading-relaxed"><span class="lang-es">Con solo <strong>4 meses de preparación</strong>, nos enfrentamos a la WRO en Puerto Rico y alcanzamos un <strong style="color: var(--dorado);">Top 20 mundial</strong>. La resiliencia uruguaya en su máxima expresión.</span><span class="lang-en hidden">With only <strong>4 months of preparation</strong>, we faced the WRO in Puerto Rico and reached the <strong style="color: var(--dorado);">Top 20 worldwide</strong>. Uruguayan resilience at its finest.</span></p>
                             <a href="trayectoria_2324.html" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block relative z-10"><span class="lang-es">Ver más →</span><span class="lang-en hidden">See more →</span></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PANEL 4: 2024-2025 -->
+                <div class="panel">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-6xl">
+                        <img src="linkedin/entre-pares.jpg" alt="Equipo de Blockbit 2024-2025" class="rounded-3xl shadow-2xl w-full">
+                        <div>
+                            <div class="inline-block px-4 py-2 rounded-full mb-4" style="background: rgba(0, 56, 168, 0.2); border: 1px solid var(--celeste-claro);">
+                                <p class="font-bold" style="color: var(--celeste-claro);">2024-2025</p>
+                            </div>
+                            <h3 class="text-3xl md:text-5xl font-bold tracking-tighter mb-4"><span class="lang-es">Transición y Autonomía 🌟</span><span class="lang-en hidden">Transition and Autonomy 🌟</span></h3>
+                            <p class="text-gray-300 mb-6 text-lg leading-relaxed"><span class="lang-es">De competir en estructuras conocidas a construir desde cero. Memora nace como nuestro proyecto propio: preservando historias y memorias de Artigas para el mundo. <strong style="color: var(--dorado);">Impacto social y autonomía técnica.</strong></span><span class="lang-en hidden">From competing in known structures to building from scratch. Memora is born as our own project: preserving stories and memories of Artigas for the world. <strong style="color: var(--dorado);">Social impact and technical autonomy.</strong></span></p>
+                            <a href="trayectoria_2425.html" class="secondary-button font-semibold py-3 px-8 rounded-full inline-block relative z-10"><span class="lang-es">Ver más →</span><span class="lang-en hidden">See more →</span></a>
                         </div>
                     </div>
                 </div>

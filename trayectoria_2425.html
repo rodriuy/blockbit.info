@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockbit - Trayectoria 2024-25: Memora y Autonomía</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <style>
+        :root {
+            --primary: #0071e3;
+            --secondary: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --border: #424245;
+            --bg-light: #000000;
+            --bg-secondary: #1d1d1f;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .header-glass {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .header-glass.scrolled {
+            background: rgba(0, 0, 0, 0.98);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-spacing {
+            padding: 80px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .section-spacing {
+                padding: 50px 0;
+            }
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+        
+        .card {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                padding: 24px;
+            }
+        }
+        
+        .button-primary {
+            background: var(--primary);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 980px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .button-primary:hover {
+            background: #0059B3;
+        }
+        
+        .button-secondary {
+            background: transparent;
+            color: var(--primary);
+            padding: 12px 32px;
+            border-radius: 980px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .button-secondary:hover {
+            border-color: var(--primary);
+            background: var(--bg-secondary);
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            aspect-ratio: 4/3;
+            background: var(--bg-secondary);
+        }
+        
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            transform: scale(1.02);
+        }
+        
+        .gallery-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+            display: block;
+            border-radius: 12px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .quote-section {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--primary);
+            border-radius: 8px;
+            padding: 40px;
+            margin: 50px 0;
+            font-size: 16px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .quote-section {
+                padding: 24px;
+            }
+        }
+
+        /* Decorative elements */
+        .accent-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin: 0 8px;
+            opacity: 0.6;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        .accent-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 30px 0;
+            animation: slide-in 1.2s ease-out;
+        }
+
+        @keyframes slide-in {
+            from { width: 0; opacity: 0; }
+            to { width: 100%; opacity: 1; }
+        }
+
+        .highlight-box {
+            background: rgba(0, 113, 227, 0.05);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            transition: all 0.4s ease;
+        }
+
+        .highlight-box:hover {
+            background: rgba(0, 113, 227, 0.08);
+            transform: translateX(4px);
+        }
+
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 113, 227, 0.1);
+            border-radius: 50%;
+            margin-right: 12px;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .feature-row {
+            display: flex;
+            gap: 16px;
+            margin: 20px 0;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feature-row:last-child {
+            border-bottom: none;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-text h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: var(--primary);
+            background: rgba(0, 113, 227, 0.03);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .step-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== HEADER (Apple-like minimal) ===== -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-glass">
+        <nav class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="index.html" class="text-sm font-600 tracking-tight" style="color: var(--text-primary);">Blockbit</a>
+            <div class="hidden md:flex space-x-6 items-center text-sm">
+                <a href="index.html#trayectoria" class="text-secondary hover:text-primary transition-colors" style="color: var(--text-secondary);"><span class="lang-es">Volver</span><span class="lang-en hidden">Back</span></a>
+                <button id="lang-switcher" class="text-secondary hover:text-primary px-3 py-1 text-xs font-500 transition-colors" style="color: var(--text-secondary);">EN</button>
+            </div>
+            <div class="md:hidden">
+                <a href="index.html#trayectoria" style="color: var(--text-primary);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-20 px-6 overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="mb-6" style="color: var(--text-primary);">
+                <span class="lang-es">Transición, Autonomía e Impacto</span><span class="lang-en hidden">Transition, Autonomy & Impact</span>
+            </h1>
+            
+            <p class="text-lg" style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 16px;">
+                <span class="lang-es">Un año de transformación: dejamos de competir para crear. Nació Memora, una solución que preserva las historias y memorias que dan forma a nuestras comunidades.</span>
+                <span class="lang-en hidden">A year of transformation: we moved from competing to creating. Memora was born — a solution to preserve the stories and memories that shape our communities.</span>
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                <a href="#timeline" class="button-primary"><span class="lang-es">Explorar Historia</span><span class="lang-en hidden">Explore the Story</span></a>
+                <a href="memora_prototipo.html" class="button-secondary"><span class="lang-es">Ver Memora</span><span class="lang-en hidden">See Memora</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="max-w-7xl mx-auto px-6 section-spacing">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="stat-box reveal-on-scroll">
+                <div class="stat-number">4</div>
+                <div class="stat-label"><span class="lang-es">Miembros Activos</span><span class="lang-en hidden">Active Members</span></div>
+            </div>
+            <div class="stat-box reveal-on-scroll">
+                <div class="stat-number">3</div>
+                <div class="stat-label"><span class="lang-es">Equipos Mentoreados</span><span class="lang-en hidden">Mentored Teams</span></div>
+            </div>
+            <div class="stat-box reveal-on-scroll">
+                <div class="stat-number">1</div>
+                <div class="stat-label"><span class="lang-es">Proyecto Transformador</span><span class="lang-en hidden">Transformative Project</span></div>
+            </div>
+            <div class="stat-box reveal-on-scroll">
+                <div class="stat-number">∞</div>
+                <div class="stat-label"><span class="lang-es">Historias Preservadas</span><span class="lang-en hidden">Stories Preserved</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="max-w-5xl mx-auto px-6 section-spacing">
+        <h2 class="text-center mb-20" style="color: var(--text-primary);">
+            <span class="lang-es">El Viaje de Este Año</span><span class="lang-en hidden">This Year's Journey</span>
+        </h2>
+
+        <div class="timeline">
+
+        <!-- Timeline Item 1: Introduction -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Contexto y Oportunidad</span><span class="lang-en hidden">Context & Opportunity</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Blockbit atravesó una etapa de transformación profunda: de competir dentro de estructuras conocidas a construir un proyecto propio desde cero, con impacto social, autonomía técnica y conexión comunitaria.</span>
+                    <span class="lang-en hidden">Blockbit went through a profound transformation: from competing within known structures to building our own project from scratch, with social impact, technical autonomy and community connection.</span>
+                </p>
+                <div class="accent-line"></div>
+                <div class="highlight-box">
+                    <div class="feature-row">
+                        <div class="icon-circle">🎯</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Impacto Social</span><span class="lang-en hidden">Social Impact</span></h4>
+                            <p><span class="lang-es">Proyectos con valor real para la comunidad</span><span class="lang-en hidden">Projects with real value</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">⚙️</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Autonomía Técnica</span><span class="lang-en hidden">Technical Autonomy</span></h4>
+                            <p><span class="lang-es">Control total del desarrollo</span><span class="lang-en hidden">Full development control</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">🤝</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Conexión Comunitaria</span><span class="lang-en hidden">Community Connection</span></h4>
+                            <p><span class="lang-es">Vínculo directo con usuarios</span><span class="lang-en hidden">Direct user connection</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 2: STEAM Advanced Decision -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">El Cambio de Paradigma: STEAM Avanzado</span><span class="lang-en hidden">Paradigm Shift: STEAM Advanced</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Elegimos STEAM Avanzado, una categoría orientada al desarrollo de proyectos con impacto real. Decidimos crear proyecto, no robot: una experiencia cercana a productos reales, con usuarios y validación.</span>
+                    <span class="lang-en hidden">We chose STEAM Advanced, a category focused on developing real-world impact projects. We decided to build a project, not a robot: an experience closer to real products, with users and validation.</span>
+                </p>
+                <div class="accent-line"></div>
+                <div class="steps-container">
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">01</div>
+                        <h4><span class="lang-es">Ideación</span><span class="lang-en hidden">Ideation</span></h4>
+                        <p><span class="lang-es">Conceptualizar solución</span><span class="lang-en hidden">Conceptualize solution</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">02</div>
+                        <h4><span class="lang-es">Desarrollo</span><span class="lang-en hidden">Development</span></h4>
+                        <p><span class="lang-es">Crear prototipo funcional</span><span class="lang-en hidden">Build working prototype</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">03</div>
+                        <h4><span class="lang-es">Validación</span><span class="lang-en hidden">Validation</span></h4>
+                        <p><span class="lang-es">Probar con usuarios reales</span><span class="lang-en hidden">Test with real users</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">04</div>
+                        <h4><span class="lang-es">Escala</span><span class="lang-en hidden">Scale</span></h4>
+                        <p><span class="lang-es">Proyección de impacto</span><span class="lang-en hidden">Impact projection</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 3: Memora Birth -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">El Nacimiento de Memora</span><span class="lang-en hidden">The Birth of Memora</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">De una visita a un hogar de adultos mayores surgió una conclusión central: los verdaderos tesoros del pasado son las personas vivas. Memora nació como solución para preservar memorias familiares y comunitarias mediante una "caja de recuerdos" inteligente.</span>
+                    <span class="lang-en hidden">From a visit to a nursing home emerged a central insight: true treasures are living people. Memora was born as a solution to preserve family and community memories through an intelligent "memory box".</span>
+                </p>
+            </div>
+
+            <div class="gallery mt-12">
+                <div class="gallery-item">
+                    <img src="linkedin/abuelo-belén.jpg" alt="Sesión de grabación" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/NUEVO/speech-practice.jpg" alt="Equipo trabajando" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/NUEVO/trabajando.jpg" alt="Componentes y prototipado" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 4: Social Impact -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Dimensión Social: Preservar Patrimonio</span><span class="lang-en hidden">Social Dimension: Preserving Heritage</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Las historias pueden anonimizarse y compartirse en un repositorio público de memorias locales de Artigas. Un recurso gratuito, confiable y accesible para la comunidad, construido con relatos reales de personas comunes que forman parte del patrimonio cultural vivo de nuestra región.</span>
+                    <span class="lang-en hidden">Stories can be anonymized and shared in a public repository of local memories from Artigas. A free, reliable and accessible resource for the community, built with real stories of ordinary people that are part of the living cultural heritage of our region.</span>
+                </p>
+                <div class="accent-line"></div>
+                <div class="highlight-box">
+                    <div class="feature-row">
+                        <div class="icon-circle">📚</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Repositorio Público</span><span class="lang-en hidden">Public Repository</span></h4>
+                            <p><span class="lang-es">Acceso libre para toda la comunidad</span><span class="lang-en hidden">Free access for everyone</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">🔐</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Privacidad Protegida</span><span class="lang-en hidden">Privacy Protected</span></h4>
+                            <p><span class="lang-es">Historias anonimizadas y seguras</span><span class="lang-en hidden">Anonymized and secure</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">🌍</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Patrimonio Vivo</span><span class="lang-en hidden">Living Heritage</span></h4>
+                            <p><span class="lang-es">Identidad cultural de Artigas</span><span class="lang-en hidden">Artigas cultural identity</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 5: Roadmap -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Proyección y Hoja de Ruta</span><span class="lang-en hidden">Roadmap & Vision</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Memora no fue pensado solo como proyecto de competencia, sino como un producto con proyección real. El plan es: desarrollo inicial → mejora y validación → venta local → escala nacional → proyección internacional.</span>
+                    <span class="lang-en hidden">Memora was not just a competition project, but a product with real projection. The plan is: initial development → improvement and validation → local sales → national scale → international projection.</span>
+                </p>
+                <div class="accent-line"></div>
+                <div class="steps-container">
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">1</div>
+                        <h4><span class="lang-es">Desarrollo</span><span class="lang-en hidden">Development</span></h4>
+                        <p><span class="lang-es">Base sólida del sistema</span><span class="lang-en hidden">Solid system base</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">2</div>
+                        <h4><span class="lang-es">Mejora</span><span class="lang-en hidden">Improvement</span></h4>
+                        <p><span class="lang-es">Validación y feedback</span><span class="lang-en hidden">Validation & feedback</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">3</div>
+                        <h4><span class="lang-es">Local</span><span class="lang-en hidden">Local</span></h4>
+                        <p><span class="lang-es">Venta en Artigas</span><span class="lang-en hidden">Sales in Artigas</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">4</div>
+                        <h4><span class="lang-es">Nacional</span><span class="lang-en hidden">National</span></h4>
+                        <p><span class="lang-es">Expansión a nivel país</span><span class="lang-en hidden">Nationwide expansion</span></p>
+                    </div>
+                    <div class="step-card reveal-on-scroll">
+                        <div class="step-number">5</div>
+                        <h4><span class="lang-es">Global</span><span class="lang-en hidden">Global</span></h4>
+                        <p><span class="lang-es">Alcance internacional</span><span class="lang-en hidden">International reach</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 6: Technical Development -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Desarrollo Técnico</span><span class="lang-en hidden">Technical Development</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">El núcleo del sistema está construido sobre Raspberry Pi, pantalla táctil, sensores y botones intuitivos. Software para gestión de grabaciones, perfiles y almacenamiento seguro. El enfoque fue siempre aprender haciendo, explorando tecnologías nuevas y adaptándose a las posibilidades reales.</span>
+                    <span class="lang-en hidden">The system core is built on Raspberry Pi, touchscreen, sensors and intuitive buttons. Software for recording management, profiles and secure storage. The approach was always learning by doing.</span>
+                </p>
+            </div>
+
+            <div class="gallery mt-12">
+                <div class="gallery-item">
+                    <img src="linkedin/PHOTO-2025-10-29-15-04-45.jpg" alt="Prototipo" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/programming.JPEG" alt="Componentes" />
+                </div>
+                <div class="gallery-item">
+                    <video class="gallery-video" playsinline muted autoplay loop preload="metadata" poster="PHOTO-2025-10-29-15-04-45.jpg">
+                        <source src="linkedin/IMG_5930-720.mp4" type="video/mp4">
+                        <source src="linkedin/IMG_5930.mp4" type="video/mp4">
+                        <source src="linkedin/IMG_5930.MOV" type="video/quicktime">
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prototype Evolution -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Evolución del Prototipo</span><span class="lang-en hidden">Prototype Evolution</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Tres momentos clave en el desarrollo físico del prototipo.</span>
+                    <span class="lang-en hidden">Three key moments in the physical development of the prototype.</span>
+                </p>
+            </div>
+
+            <div class="gallery mt-12">
+                <div class="gallery-item">
+                    <video class="gallery-video" playsinline muted autoplay loop preload="metadata" poster="PHOTO-2025-10-29-15-04-45.jpg">
+                        <source src="linkedin/NUEVO/PRIMER_PROTOTIPO.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="gallery-item">
+                    <video class="gallery-video" playsinline muted autoplay loop preload="metadata" poster="PHOTO-2025-10-29-15-04-45.jpg">
+                        <source src="linkedin/NUEVO/SEGUNDO_PROTOTIPO.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- 3D Design Plan -->
+            <div class="gallery mt-12">
+                <div class="gallery-item">
+                    <img src="linkedin/NUEVO/captura_2025-12-22_19-13-27.png" alt="Plano 3D del prototipo" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 7: Team -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">El Equipo: Estructura y Cambios</span><span class="lang-en hidden">The Team: Structure & Changes</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Blockbit pasó de cinco integrantes a un núcleo de tres: Belén Vianna, Felicia Millán y Rodrigo (todos 16 años). Sin apoyo institucional directo, el equipo tuvo que gestionar todo desde cero: presentar la idea, comunicarla, buscar sponsors, administrar recursos y justificar el impacto.</span>
+                    <span class="lang-en hidden">Blockbit went from five members to a core of three: Belén Vianna, Felicia Millán and Rodrigo (all 16). Without direct institutional support, the team had to manage everything from scratch: present the idea, communicate it, seek sponsors, manage resources and justify impact.</span>
+                </p>
+                <div class="accent-line"></div>
+                <div class="highlight-box">
+                    <div class="feature-row">
+                        <div class="icon-circle">👤</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Belén Vianna</span><span class="lang-en hidden">Belén Vianna</span></h4>
+                            <p><span class="lang-es">Liderazgo, comunicación y diseño</span><span class="lang-en hidden">Leadership, communication & design</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">👤</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Felicia Millán</span><span class="lang-en hidden">Felicia Millán</span></h4>
+                            <p><span class="lang-es">Desarrollo técnico y hardware</span><span class="lang-en hidden">Technical & hardware dev</span></p>
+                        </div>
+                    </div>
+                    <div class="feature-row">
+                        <div class="icon-circle">👤</div>
+                        <div class="feature-text">
+                            <h4><span class="lang-es">Rodrigo</span><span class="lang-en hidden">Rodrigo</span></h4>
+                            <p><span class="lang-es">Software, web y gestión</span><span class="lang-en hidden">Software, web & management</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 8: Community Support -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Apoyo Comunitario y Sponsors</span><span class="lang-en hidden">Community Support & Sponsors</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Empresas locales, docentes e instituciones apoyaron el proyecto: Cerramientos del Norte, COPAC, Comaja e Intendencia de Artigas. Gracias a este respaldo, Blockbit montó su propio laboratorio con impresora 3D, herramientas y equipamiento, trabajando de forma autónoma y profesional.</span>
+                    <span class="lang-en hidden">Local companies, teachers and institutions supported the project: Cerramientos del Norte, COPAC, Comaja and Artigas Municipality. Thanks to this support, Blockbit set up its own lab with 3D printer, tools and equipment, working autonomously and professionally.</span>
+                </p>
+            </div>
+
+            <div class="gallery mt-12">
+                <div class="gallery-item">
+                    <img src="linkedin/emiliano-soravilla.png" alt="Reunión con autoridades" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/NUEVO/junta.jpg" alt="Junta Departamental" />
+                </div>
+                <div class="gallery-item">
+                    <video class="gallery-video" autoplay muted loop playsinline preload="metadata" poster="linkedin/NUEVO/junta.jpg">
+                        <source src="linkedin/NUEVO/LABORATORIO.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/news.png" alt="Cobertura en medios" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/radio.jpg" alt="Laboratorio" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 9: Mentoring -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Mentoreo: Del "Otro Lado" de la Olimpíada</span><span class="lang-en hidden">Mentoring: From the "Other Side" of the Olympiad</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">A través del programa Entre Pares de Ceibal, Blockbit pasó de ser participante a formar parte activa del ecosistema. El equipo mentoreó a otros equipos, participó como referee en competencias y colaboró en la conducción de eventos oficiales. Esta experiencia permitió que el equipo original se reencontrara en un nuevo rol.</span>
+                    <span class="lang-en hidden">Through Ceibal's Entre Pares program, Blockbit went from being a participant to becoming an active part of the ecosystem. The team mentored other teams, served as referee in competitions and helped conduct official events. This experience brought the original team back together in a new role.</span>
+                </p>
+            </div>
+
+            <!-- Entre Pares Image -->
+            <div class="gallery mt-12">
+                <div class="gallery-item" style="grid-column: span 2;">
+                    <img src="linkedin/entre-pares.jpg" alt="Evento Entre Pares de Ceibal" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 10: UTEC Visit -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Encuentro con UTEC Rivera</span><span class="lang-en hidden">Meeting with UTEC Rivera</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Blockbit fue invitado por UTEC Rivera a visitar sus instalaciones. La invitación surgió por iniciativa de la propia universidad y fue vivida como una experiencia cercana y personalizada que reforzó la motivación del equipo, demostrando que existen oportunidades y respaldo cuando se trabaja con seriedad y compromiso.</span>
+                    <span class="lang-en hidden">Blockbit was invited by UTEC Rivera to visit its facilities. The invitation came from the university's own initiative and was experienced as a close and personalized experience that reinforced the team's motivation, demonstrating that opportunities exist when working with seriousness and commitment.</span>
+                </p>
+            </div>
+
+            <!-- Gallery for UTEC -->
+            <div class="gallery mt-8">
+                <div class="gallery-item">
+                    <img src="linkedin/utec.jpg" alt="Visita a UTEC" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/utec2.jpg" alt="UTEC instalaciones" />
+                </div>
+                <div class="gallery-item">
+                    <video class="gallery-video" autoplay muted loop preload="metadata" poster="PHOTO-2025-10-29-15-04-45.jpg">
+                        <source src="linkedin/NUEVO/minivlog-utec-720.mp4" type="video/mp4">
+                        <source src="linkedin/NUEVO/minivlog-utec.mp4" type="video/mp4">
+                        <source src="linkedin/NUEVO/minivlog-utec.MOV" type="video/quicktime">
+                        <img src="PHOTO-2025-10-29-15-04-45.jpg" alt="Recorrido por laboratorios" />
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 11: National Finals -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Final Nacional: Antel Arena</span><span class="lang-en hidden">National Finals: Antel Arena</span>
+                </h3>
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">El cierre del año competitivo fue la participación en la final nacional de la Olimpíada, realizada los días 5 y 6 de noviembre en el Antel Arena, en Montevideo. Para Blockbit, llegar a esa instancia representó un hito simbólico y emocional—un recorrido que comenzó en Artigas terminaba en el escenario más grande de la Olimpíada. Sin un premio competitivo, el balance fue profundamente positivo: el valor real estaba en el camino recorrido, no en una posición.</span>
+                    <span class="lang-en hidden">The close of the competitive year was the participation in the national finals of the Olympiad, held on November 5-6 at Antel Arena in Montevideo. For Blockbit, reaching that stage represented a symbolic and emotional milestone—a journey that began in Artigas ended on the biggest stage of the Olympiad. Without a competitive prize, the balance was deeply positive: the real value was in the journey taken, not in a ranking.</span>
+                </p>
+            </div>
+
+            <!-- Gallery for Finals -->
+            <div class="gallery mt-8">
+                <div class="gallery-item">
+                    <img src="linkedin/olimpiadas.JPEG" alt="Presentación en Antel Arena" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/entre-pares.jpg" alt="Equipo en la final" />
+                </div>
+                <div class="gallery-item">
+                    <img src="linkedin/pit.jpg" alt="Momento de celebración" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Item 12: Reflections and Future -->
+        <div class="timeline-item reveal-on-scroll">
+            <div class="card">
+                <h3 style="color: var(--primary);">
+                    <span class="lang-es">Reflexiones, Aprendizajes y El Camino Adelante</span><span class="lang-en hidden">Reflections, Lessons & The Road Ahead</span>
+                </h3>
+                
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">Blockbit cerró el año con más experiencia, más autonomía, nuevas habilidades técnicas y humanas, y una visión clara. Aprendimos sobre autonomía en la gestión de proyectos sin estructura institucional, liderazgo mediante el mentoreo de otros equipos, impacto social a través de iniciativas con valor real para la comunidad, resiliencia al adaptarse a cambios, comunicación efectiva, y responsabilidad en la tecnología que respeta privacidad y dignidad.</span>
+                    <span class="lang-en hidden">Blockbit closed the year with more experience, more autonomy, new technical and human skills, and a clear vision. We learned about autonomy in project management without institutional structure, leadership through mentoring other teams, social impact through initiatives with real value for the community, resilience in adapting to change, effective communication, and responsibility in technology that respects privacy and dignity.</span>
+                </p>
+
+                <p class="text-secondary mt-4">
+                    <span class="lang-es">El proyecto continúa gracias a la confianza de la comunidad y al convencimiento de que lo construido tiene valor real. Memora no fue un capítulo cerrado de la Olimpíada—es el comienzo de una iniciativa que seguirá creciendo. Durante este año, descubrimos que los verdaderos tesoros del pasado son las personas y sus historias. Memora es nuestro compromiso para que esas voces no se pierdan con el tiempo.</span>
+                    <span class="lang-en hidden">The project continues thanks to community trust and conviction that what we built has real value. Memora was not a closed chapter of the Olympiad—it is the beginning of an initiative that will continue to grow. During this year, we discovered that the true treasures of the past are people and their stories. Memora is our commitment so those voices are not lost over time.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="relative py-20 overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 style="color: var(--text-primary);" class="text-4xl md:text-5xl font-bold mb-6">
+                <span class="lang-es">Conoce Memora en Detalle</span><span class="lang-en hidden">Discover Memora in Detail</span>
+            </h2>
+            <p class="text-xl" style="color: var(--text-secondary); margin-bottom: 2rem;">
+                <span class="lang-es">Explora el proyecto, los componentes técnicos y el impacto social de nuestra solución para preservar memorias comunitarias.</span>
+                <span class="lang-en hidden">Explore the project, technical components and social impact of our solution for preserving community memories.</span>
+            </p>
+            <a href="sumate.html" class="button-primary px-8 py-4 rounded-full font-semibold inline-block"><span class="lang-es">Ir a Memora</span><span class="lang-en hidden">Go to Memora</span></a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t" style="border-color: var(--border); background-color: var(--bg-secondary);">
+        <div class="max-w-7xl mx-auto py-12 px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold mb-4" style="color: var(--text-primary);">Blockbit</h4>
+                    <p class="text-sm" style="color: var(--text-secondary);">
+                        <span class="lang-es">Construyendo el futuro con tecnología e impacto social.</span><span class="lang-en hidden">Building the future with technology and social impact.</span>
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" style="color: var(--text-primary);"><span class="lang-es">Navegación</span><span class="lang-en hidden">Navigation</span></h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html" style="color: var(--text-secondary);" class="hover:text-primary transition">Inicio</a></li>
+                        <li><a href="sumate.html" style="color: var(--text-secondary);" class="hover:text-primary transition">Memora</a></li>
+                        <li><a href="sumate.html" style="color: var(--text-secondary);" class="hover:text-primary transition">Sumate</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" style="color: var(--text-primary);"><span class="lang-es">Trayectorias</span><span class="lang-en hidden">Journeys</span></h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="trayectoria_2021.html" style="color: var(--text-secondary);" class="hover:text-primary transition">2021</a></li>
+                        <li><a href="trayectoria_2223.html" style="color: var(--text-secondary);" class="hover:text-primary transition">2022-23</a></li>
+                        <li><a href="trayectoria_2324.html" style="color: var(--text-secondary);" class="hover:text-primary transition">2023-24</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4" style="color: var(--text-primary);"><span class="lang-es">Comunidad</span><span class="lang-en hidden">Community</span></h4>
+                    <p class="text-sm" style="color: var(--text-secondary); margin-bottom: 1rem;"><span class="lang-es">Artigas, Uruguay</span><span class="lang-en hidden">Artigas, Uruguay</span></p>
+                    <p class="text-xs" style="color: var(--text-secondary);">Blockbit © <span id="currentYear"></span></p>
+                </div>
+            </div>
+            <div class="border-t pt-8 text-center text-sm" style="border-color: var(--border); color: var(--text-secondary);">
+                <p><span class="lang-es">Hecho con 💙 y 🤖 desde Artigas</span><span class="lang-en hidden">Made with 💙 and 🤖 from Artigas</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSwitcher = document.getElementById('lang-switcher');
+            const htmlTag = document.documentElement;
+
+            const setLanguage = (lang) => {
+                htmlTag.lang = lang;
+                localStorage.setItem('userLanguage', lang);
+                document.querySelectorAll('.lang-es').forEach(el => el.classList.toggle('hidden', lang !== 'es'));
+                document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden', lang === 'es'));
+                if (langSwitcher) langSwitcher.textContent = lang === 'es' ? 'EN' : 'ES';
+            };
+
+            if (langSwitcher) {
+                langSwitcher.addEventListener('click', () => {
+                    const newLang = htmlTag.lang === 'es' ? 'en' : 'es';
+                    setLanguage(newLang);
+                });
+            }
+
+            const savedLang = localStorage.getItem('userLanguage') || 'es';
+            setLanguage(savedLang);
+
+            // Set dynamic footer year if an element exists
+            const currentYearEl = document.getElementById('currentYear');
+            if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+            // Confetti function -- lightweight and self-cleaning
+            function launchConfetti(count = 18) {
+                const colors = ['#ffd700','#55d6ff','#0038a8','#ff6b6b','#9b59b6'];
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.className = 'confetti-piece';
+                    el.style.left = (10 + Math.random() * 80) + 'vw';
+                    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    el.style.transform = `rotate(${Math.random()*360}deg)`;
+                    el.style.width = (6 + Math.random()*12) + 'px';
+                    el.style.height = (8 + Math.random()*16) + 'px';
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 1400);
+                }
+            }
+
+            // Hook playful confetti to CTA buttons
+            document.querySelectorAll('.cta-button').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // small confetti burst to celebrate exploration
+                    launchConfetti(20);
+                });
+            });
+
+            // Add click interaction on timeline dots (if present)
+            document.querySelectorAll('.timeline-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    dot.classList.add('pulse');
+                    setTimeout(() => dot.classList.remove('pulse'), 700);
+                });
+            });
+        });
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header-glass');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Reveal on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && document.querySelector(href)) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Auto-collapse long paragraphs in timeline to show a short summary + "Ver más" toggle.
+        document.addEventListener('DOMContentLoaded', function() {
+            const maxChars = 300; // summary length
+            document.querySelectorAll('#timeline .card-style').forEach(card => {
+                // Find paragraph nodes that are direct children (main descriptive paragraphs)
+                const paragraphs = Array.from(card.querySelectorAll('p'));
+                paragraphs.forEach(p => {
+                    const full = p.innerHTML.trim();
+                    // ignore very short paragraphs and small meta blocks (like stat boxes)
+                    if (full.length > maxChars && !p.classList.contains('no-collapse')) {
+                        const short = full.slice(0, maxChars).replace(/\s+\S*$/, '');
+                        p.dataset.full = full;
+                        p.dataset.short = short + '...';
+                        p.innerHTML = p.dataset.short;
+                        // create toggle button
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'toggle-more cta-button px-3 py-1 text-sm mt-4';
+                        btn.textContent = 'Ver más';
+                        btn.style.display = 'inline-block';
+                        btn.addEventListener('click', function() {
+                            if (btn.textContent === 'Ver más') {
+                                p.innerHTML = p.dataset.full;
+                                btn.textContent = 'Ver menos';
+                            } else {
+                                p.innerHTML = p.dataset.short;
+                                btn.textContent = 'Ver más';
+                                // scroll into view to keep context
+                                p.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                        });
+                        // append button after the card's content area
+                        card.appendChild(btn);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
