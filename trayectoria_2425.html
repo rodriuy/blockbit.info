@@ -520,6 +520,49 @@
                 max-height: 60px;
             }
         }
+
+        /* UTEC Logo Section */
+        .utec-logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 113, 227, 0.03);
+            border: 1px solid rgba(0, 113, 227, 0.1);
+            border-radius: 12px;
+            transition: all 0.4s ease;
+        }
+
+        .utec-logo-section:hover {
+            background: rgba(0, 113, 227, 0.08);
+            border-color: rgba(0, 113, 227, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .utec-logo-img {
+            max-height: 100px;
+            max-width: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 113, 227, 0.2));
+            transition: filter 0.3s ease;
+        }
+
+        .utec-logo-section:hover .utec-logo-img {
+            filter: drop-shadow(0 4px 8px rgba(0, 113, 227, 0.4));
+        }
+
+        @media (max-width: 768px) {
+            .utec-logo-section {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+
+            .utec-logo-img {
+                max-height: 80px;
+                max-width: 160px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -965,9 +1008,15 @@
                     <span class="lang-es">Encuentro con UTEC Rivera</span><span class="lang-en hidden">Meeting with UTEC Rivera</span>
                 </h3>
                 <p class="text-secondary mt-4">
-                    <span class="lang-es">Blockbit fue invitado por UTEC Rivera a visitar sus instalaciones. La invitación surgió por iniciativa de la propia universidad y fue vivida como una experiencia cercana y personalizada que reforzó la motivación del equipo, demostrando que existen oportunidades y respaldo cuando se trabaja con seriedad y compromiso.</span>
-                    <span class="lang-en hidden">Blockbit was invited by UTEC Rivera to visit its facilities. The invitation came from the university's own initiative and was experienced as a close and personalized experience that reinforced the team's motivation, demonstrating that opportunities exist when working with seriousness and commitment.</span>
+                    <span class="lang-es">UTEC se acercó a nosotros. Sin que lo esperáramos, recibimos una invitación directa para visitar sus laboratorios en Rivera. Para el equipo fue un momento fuerte—ver de verdad dónde se cocinan las cosas, conocer docentes e investigadores que trabajan en proyectos reales, sentir que hay un ecosistema que nos respalda. No fue una visita de trámite. Fue genuino, fue personal, fue el tipo de oportunidades que aparecen cuando trabajás con seriedad.</span>
+                    <span class="lang-en hidden">UTEC reached out to us. Without expecting it, we got a direct invitation to visit their labs in Rivera. For the team it was a strong moment—to really see where things happen, to meet teachers and researchers working on real projects, to feel that there's an ecosystem backing us. It wasn't a routine visit. It was genuine, it was personal, it was the kind of opportunities that show up when you work seriously.</span>
                 </p>
+
+                <!-- UTEC Logo -->
+                <div class="utec-logo-section mt-8 mb-8">
+                    <img src="utec-logo.png" alt="UTEC - Universidad Tecnológica del Este" class="utec-logo-img" />
+                    <p style="color: var(--text-secondary); font-size: 12px; text-align: center; margin-top: 8px;"><span class="lang-es">Universidad Tecnológica del Este</span><span class="lang-en hidden">Technological University of the East</span></p>
+                </div>
             </div>
 
             <!-- Gallery for UTEC -->
