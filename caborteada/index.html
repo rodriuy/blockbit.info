@@ -34,6 +34,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -130,7 +131,7 @@
     <div id="loader">
         <div class="text-center">
             <h1 class="font-display text-6xl font-black text-white tracking-tighter mb-2 animate-pulse">CABORTEADA</h1>
-            <p class="text-xs text-cabor font-bold uppercase tracking-[0.4em]">Cargando Experiencia</p>
+            <p class="text-xs text-cabor font-bold uppercase tracking-[0.4em]" data-es="Cargando Experiencia" data-en="Loading Experience" data-pt="Carregando Experiência">Cargando Experiencia</p>
         </div>
     </div>
 
@@ -141,13 +142,13 @@
         </div>
         
         <div class="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-white/70">
-            <a href="#fechas" class="hover:text-cabor transition-colors">Fechas</a>
-            <a href="#galeria" class="hover:text-cabor transition-colors">Galería</a>
-            <a href="#entradas" class="hover:text-cabor transition-colors">Entradas</a>
-            <a href="#ubicacion" class="hover:text-cabor transition-colors">Ubicación</a>
+            <a href="#fechas" class="hover:text-cabor transition-colors nav-link" data-es="Fechas" data-en="Dates" data-pt="Datas">Fechas</a>
+            <a href="#galeria" class="hover:text-cabor transition-colors nav-link" data-es="Galería" data-en="Gallery" data-pt="Galeria">Galería</a>
+            <a href="#entradas" class="hover:text-cabor transition-colors nav-link" data-es="Entradas" data-en="Tickets" data-pt="Ingressos">Entradas</a>
+            <a href="#ubicacion" class="hover:text-cabor transition-colors nav-link" data-es="Ubicación" data-en="Location" data-pt="Localização">Ubicación</a>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <a href="#entradas" class="px-5 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-cabor hover:text-white transition-all rounded-sm hidden sm:block">
                 Comprar
             </a>
@@ -157,9 +158,9 @@
                     <span id="lang-indicator">ES</span>
                 </button>
                 <div class="absolute right-0 mt-2 w-20 bg-black/95 border border-white/10 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                    <button onclick="changeLanguage('es')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">Español</button>
-                    <button onclick="changeLanguage('en')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">English</button>
-                    <button onclick="changeLanguage('pt')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">Português</button>
+                    <button onclick="setLanguage('es')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left lang-btn">Español</button>
+                    <button onclick="setLanguage('en')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left lang-btn">English</button>
+                    <button onclick="setLanguage('pt')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left lang-btn">Português</button>
                 </div>
             </div>
             <button id="audioToggle" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-cabor hover:text-cabor transition-all">
@@ -178,19 +179,19 @@
         </div>
 
         <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16">
-            <p class="text-cabor font-bold text-xs md:text-sm tracking-[0.4em] uppercase mb-4 reveal-hero opacity-0">Artigas, Uruguay</p>
+            <p class="text-cabor font-bold text-xs md:text-sm tracking-[0.4em] uppercase mb-4 reveal-hero opacity-0" data-es="Artigas, Uruguay" data-en="Artigas, Uruguay" data-pt="Artigas, Uruguai">Artigas, Uruguay</p>
             
             <h1 class="font-display text-7xl md:text-[10rem] leading-[0.85] font-black text-white tracking-tighter mb-6 reveal-hero opacity-0">
                 CABOR<br>FESTIVAL
             </h1>
             
-            <p class="text-white/80 font-body text-sm md:text-lg max-w-xl mx-auto font-light leading-relaxed mb-10 reveal-hero opacity-0">
+            <p class="text-white/80 font-body text-sm md:text-lg max-w-xl mx-auto font-light leading-relaxed mb-10 reveal-hero opacity-0" data-es="El verano en la frontera.<br><span class='text-white font-semibold'>ÚLTIMA FECHA: 31 DE DICIEMBRE.</span>" data-en="Summer on the border.<br><span class='text-white font-semibold'>LAST DATE: DECEMBER 31ST.</span>" data-pt="O verão na fronteira.<br><span class='text-white font-semibold'>ÚLTIMA DATA: 31 DE DEZEMBRO.</span>">
                 El verano en la frontera.<br>
                 <span class="text-white font-semibold">ÚLTIMA FECHA: 31 DE DICIEMBRE.</span>
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center reveal-hero opacity-0">
-                <a href="#entradas" class="px-8 py-4 bg-cabor text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm shadow-[0_0_20px_rgba(255,0,85,0.4)]">
+                <a href="#entradas" class="px-8 py-4 bg-cabor text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all rounded-sm shadow-[0_0_20px_rgba(255,0,85,0.4)]" data-es="Tickets Año Nuevo" data-en="New Year Tickets" data-pt="Ingressos Ano Novo">
                     Tickets Año Nuevo
                 </a>
             </div>
@@ -205,10 +206,10 @@
     <section class="py-24 px-6 bg-dark text-center border-b border-white/5">
         <div class="max-w-3xl mx-auto reveal-up">
             <img src="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png" alt="Icono" class="h-12 mx-auto mb-8 opacity-80">
-            <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-6 leading-tight" data-es="11 AÑOS DEJANDO HUELLA" data-en="11 YEARS MAKING HISTORY" data-pt="11 ANOS DEIXANDO MARCA">
                 11 AÑOS DEJANDO HUELLA
             </h2>
-            <p class="text-white/60 text-base md:text-lg font-body font-light leading-relaxed">
+            <p class="text-white/60 text-base md:text-lg font-body font-light leading-relaxed" data-es="Caborteada no es solo un evento, es un ritual de reencuentro. Ubicados en la Ruta 30, transformamos el paisaje de Artigas en una experiencia audiovisual de nivel internacional." data-en="Caborteada is not just an event, it's a reunion ritual. Located on Route 30, we transform Artigas landscape into an international-level audiovisual experience." data-pt="Caborteada não é apenas um evento, é um ritual de reencontro. Localizada na Rota 30, transformamos a paisagem de Artigas em uma experiência audiovisual de nível internacional.">
                 Caborteada no es solo un evento, es un ritual de reencuentro. Ubicados en la Ruta 30, transformamos el paisaje de Artigas en una experiencia audiovisual de nivel internacional.
             </p>
         </div>
@@ -218,8 +219,8 @@
     <section id="fechas" class="py-24 px-6 bg-[#080808]">
         <div class="max-w-7xl mx-auto">
             <div class="mb-12 flex flex-col md:flex-row justify-between items-end border-b border-white/10 pb-4">
-                <h2 class="font-display text-5xl md:text-7xl font-black text-white uppercase">La Agenda</h2>
-                <span class="text-cabor text-xs font-bold tracking-widest uppercase mb-2">Temporada 2025/2026</span>
+                <h2 class="font-display text-5xl md:text-7xl font-black text-white uppercase" data-es="La Agenda" data-en="Schedule" data-pt="O Calendário">La Agenda</h2>
+                <span class="text-cabor text-xs font-bold tracking-widest uppercase mb-2" data-es="Temporada 2025/2026" data-en="Season 2025/2026" data-pt="Temporada 2025/2026">Temporada 2025/2026</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -228,14 +229,14 @@
                     <video src="navidad.mp4" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-40"></video>
                     <div class="absolute inset-0 bg-black/60"></div>
                     
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white/30 text-white/50 px-4 py-2 text-2xl font-black uppercase tracking-widest -rotate-12">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white/30 text-white/50 px-4 py-2 text-2xl font-black uppercase tracking-widest -rotate-12" data-es="FINALIZADO" data-en="FINISHED" data-pt="FINALIZADO">
                         FINALIZADO
                     </div>
                     
                     <div class="absolute bottom-0 left-0 p-8 w-full opacity-50">
                         <div class="text-5xl font-display font-black text-stroke absolute -top-10 left-8 opacity-100">24</div>
-                        <h3 class="font-display text-3xl font-bold text-white mb-2 line-through decoration-white/30">NAVIDAD</h3>
-                        <p class="text-white/70 text-xs font-light">Apertura de temporada.</p>
+                        <h3 class="font-display text-3xl font-bold text-white mb-2 line-through decoration-white/30" data-es="NAVIDAD" data-en="CHRISTMAS" data-pt="NATAL">NAVIDAD</h3>
+                        <p class="text-white/70 text-xs font-light" data-es="Apertura de temporada." data-en="Season opening." data-pt="Abertura da temporada.">Apertura de temporada.</p>
                     </div>
                 </article>
 
@@ -244,14 +245,14 @@
                     <video src="festival.mp4" autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60"></video>
                     <div class="absolute inset-0 bg-black/60"></div>
 
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white/30 text-white/50 px-4 py-2 text-2xl font-black uppercase tracking-widest -rotate-12">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white/30 text-white/50 px-4 py-2 text-2xl font-black uppercase tracking-widest -rotate-12" data-es="FINALIZADO" data-en="FINISHED" data-pt="FINALIZADO">
                         FINALIZADO
                     </div>
                     
                     <div class="absolute bottom-0 left-0 p-8 w-full opacity-50">
                         <div class="text-5xl font-display font-black text-stroke absolute -top-10 left-8 opacity-100">27</div>
-                        <h3 class="font-display text-3xl font-bold text-white mb-2 line-through decoration-white/30">CABOR FEST</h3>
-                        <p class="text-white/70 text-xs font-light">Festival Principal con MC Rodrigo Do CN.</p>
+                        <h3 class="font-display text-3xl font-bold text-white mb-2 line-through decoration-white/30" data-es="CABOR FEST" data-en="CABOR FEST" data-pt="CABOR FEST">CABOR FEST</h3>
+                        <p class="text-white/70 text-xs font-light" data-es="Festival Principal con MC Rodrigo Do CN." data-en="Main Festival with MC Rodrigo Do CN." data-pt="Festival Principal com MC Rodrigo Do CN.">Festival Principal con MC Rodrigo Do CN.</p>
                     </div>
                 </article>
 
@@ -263,9 +264,9 @@
                     
                     <div class="absolute bottom-0 left-0 p-8 w-full z-10">
                         <div class="text-5xl font-display font-black text-stroke absolute -top-10 left-8 opacity-100 group-hover:opacity-100 transition-opacity">31</div>
-                        <span class="bg-cabor text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm mb-3 inline-block animate-pulse">Última Fecha</span>
-                        <h3 class="font-display text-3xl font-bold text-white mb-2">AÑO NUEVO</h3>
-                        <p class="text-white/70 text-xs font-light leading-relaxed h-0 overflow-hidden group-hover:h-auto transition-all duration-300">
+                        <span class="bg-cabor text-white text-[9px] font-black px-2 py-1 uppercase tracking-widest rounded-sm mb-3 inline-block animate-pulse" data-es="Última Fecha" data-en="Last Date" data-pt="Última Data">Última Fecha</span>
+                        <h3 class="font-display text-3xl font-bold text-white mb-2" data-es="AÑO NUEVO" data-en="NEW YEAR" data-pt="ANO NOVO">AÑO NUEVO</h3>
+                        <p class="text-white/70 text-xs font-light leading-relaxed h-0 overflow-hidden group-hover:h-auto transition-all duration-300" data-es="Recibí el 2026 bailando. El primer amanecer del año se vive acá. Apertura especial post-brindis." data-en="Ring in 2026 dancing. The first sunrise of the year happens here. Special post-toast opening." data-pt="Receba 2026 dançando. O primeiro amanhecer do ano acontece aqui. Abertura especial pós-brinde.">
                             Recibí el 2026 bailando. El primer amanecer del año se vive acá. Apertura especial post-brindis.
                         </p>
                     </div>
@@ -278,8 +279,8 @@
     <section id="galeria" class="py-24 px-6 bg-dark">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16 reveal-up">
-                <span class="text-cabor text-xs font-bold uppercase tracking-widest">Momentos</span>
-                <h2 class="font-display text-4xl md:text-6xl font-black text-white mt-2">EXPERIENCIA CABORTERA</h2>
+                <span class="text-cabor text-xs font-bold uppercase tracking-widest" data-es="Momentos" data-en="Moments" data-pt="Momentos">Momentos</span>
+                <h2 class="font-display text-4xl md:text-6xl font-black text-white mt-2" data-es="EXPERIENCIA CABORTERA" data-en="CABORTEADA EXPERIENCE" data-pt="EXPERIENCIA CABORTEADA">EXPERIENCIA CABORTERA</h2>
             </div>
             
             <div class="masonry-grid reveal-up">
@@ -316,11 +317,11 @@
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 reveal-up">
                 <div>
-                    <h2 class="font-display text-5xl md:text-7xl font-black text-white">ENTRADAS</h2>
-                    <p class="text-white/50 mt-2 text-sm">Venta exclusiva online. Precios actuales (Lote 2).</p>
+                    <h2 class="font-display text-5xl md:text-7xl font-black text-white" data-es="ENTRADAS" data-en="TICKETS" data-pt="INGRESSOS">ENTRADAS</h2>
+                    <p class="text-white/50 mt-2 text-sm" data-es="Venta exclusiva online. Precios actuales (Lote 2)." data-en="Exclusive online sales. Current prices (Batch 2)." data-pt="Vendas exclusivas online. Preços atuais (Lote 2).">Venta exclusiva online. Precios actuales (Lote 2).</p>
                 </div>
                 <div class="flex gap-2">
-                    <span class="px-3 py-1 bg-green-500/10 text-green-500 border border-green-500/20 text-[10px] font-bold uppercase rounded-full animate-pulse">Últimos Lugares</span>
+                    <span class="px-3 py-1 bg-green-500/10 text-green-500 border border-green-500/20 text-[10px] font-bold uppercase rounded-full animate-pulse" data-es="Últimos Lugares" data-en="Last Spots" data-pt="Últimos Lugares">Últimos Lugares</span>
                 </div>
             </div>
 
@@ -328,47 +329,47 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                 <!-- PACK GENERAL -->
                 <div class="glass-panel p-8 md:p-10 rounded-xl border border-white/10 hover:border-cabor/30 relative overflow-hidden reveal-up">
-                    <h3 class="font-display text-3xl font-bold text-white mb-2">PACK ZONA GENERAL</h3>
-                    <p class="text-xs text-white/50 uppercase tracking-widest mb-6 font-bold">Días: 24 | 27 | 31</p>
+                    <h3 class="font-display text-3xl font-bold text-white mb-2" data-es="PACK ZONA GENERAL" data-en="GENERAL ZONE PACK" data-pt="PACK ZONA GERAL">PACK ZONA GENERAL</h3>
+                    <p class="text-xs text-white/50 uppercase tracking-widest mb-6 font-bold" data-es="Días: 24 | 27 | 31" data-en="Days: 24 | 27 | 31" data-pt="Dias: 24 | 27 | 31">Días: 24 | 27 | 31</p>
                     
                     <div class="flex items-baseline gap-2 mb-8">
                         <span class="text-4xl font-black text-white tracking-tighter">$1.350</span>
-                        <span class="text-xs text-white/40 uppercase">+ Costo Servicio</span>
+                        <span class="text-xs text-white/40 uppercase" data-es="+ Costo Servicio" data-en="+ Service Fee" data-pt="+ Taxa de Serviço">+ Costo Servicio</span>
                     </div>
 
                     <ul class="space-y-4 mb-10 text-sm text-white/80">
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-ticket text-white mt-1"></i> <span>Acceso a las 3 fechas</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span>Brazalete Oficial</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span>Revaso (Vaso Reutilizable)</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span>Pack de Stickers</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-ticket text-white mt-1"></i> <span data-es="Acceso a las 3 fechas" data-en="Access to all 3 dates" data-pt="Acesso aos 3 dias">Acceso a las 3 fechas</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span data-es="Brazalete Oficial" data-en="Official Wristband" data-pt="Pulseira Oficial">Brazalete Oficial</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span data-es="Revaso (Vaso Reutilizable)" data-en="Reusable Cup" data-pt="Copo Reutilizável">Revaso (Vaso Reutilizable)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-white mt-1"></i> <span data-es="Pack de Stickers" data-en="Sticker Pack" data-pt="Pacote de Adesivos">Pack de Stickers</span></li>
                     </ul>
 
-                    <a href="https://mientrada.com.uy/evento/pack-cabortero-27940" target="_blank" class="block w-full py-4 border border-white/20 text-white text-center font-black text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all rounded-sm">
+                    <a href="https://mientrada.com.uy/evento/pack-cabortero-27940" target="_blank" class="block w-full py-4 border border-white/20 text-white text-center font-black text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all rounded-sm" data-es="Comprar General" data-en="Buy General" data-pt="Comprar Geral">
                         Comprar General
                     </a>
                 </div>
 
                 <!-- PACK VIP -->
                 <div class="glass-panel p-8 md:p-10 rounded-xl border border-cabor/50 bg-gradient-to-br from-cabor/10 to-transparent relative overflow-hidden reveal-up hover:shadow-[0_0_30px_rgba(255,0,85,0.1)]">
-                    <div class="absolute top-4 right-4 bg-cabor text-white text-[10px] font-black px-3 py-1 uppercase rounded-full">Recomendado</div>
+                    <div class="absolute top-4 right-4 bg-cabor text-white text-[10px] font-black px-3 py-1 uppercase rounded-full" data-es="Recomendado" data-en="Recommended" data-pt="Recomendado">Recomendado</div>
                     
-                    <h3 class="font-display text-3xl font-bold text-white mb-2">PACK ZONA VIP</h3>
-                    <p class="text-xs text-cabor uppercase tracking-widest mb-6 font-bold">Días: 24 | 27 | 31</p>
+                    <h3 class="font-display text-3xl font-bold text-white mb-2" data-es="PACK ZONA VIP" data-en="VIP ZONE PACK" data-pt="PACK ZONA VIP">PACK ZONA VIP</h3>
+                    <p class="text-xs text-cabor uppercase tracking-widest mb-6 font-bold" data-es="Días: 24 | 27 | 31" data-en="Days: 24 | 27 | 31" data-pt="Dias: 24 | 27 | 31">Días: 24 | 27 | 31</p>
                     
                     <div class="flex items-baseline gap-2 mb-8">
                         <span class="text-4xl font-black text-white tracking-tighter">$1.700</span>
-                        <span class="text-xs text-white/40 uppercase">+ Costo Servicio</span>
+                        <span class="text-xs text-white/40 uppercase" data-es="+ Costo Servicio" data-en="+ Service Fee" data-pt="+ Taxa de Serviço">+ Costo Servicio</span>
                     </div>
 
                     <ul class="space-y-4 mb-10 text-sm text-white/80">
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-star text-cabor mt-1"></i> <span>Acceso Preferencial a las 3 fechas</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-cabor mt-1"></i> <span>Brazalete Oficial VIP</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-cabor mt-1"></i> <span>Vaso Térmico INOX (Exclusivo)</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-car text-cabor mt-1"></i> <span>Estacionamiento Incluido</span></li>
-                        <li class="flex items-start gap-3"><i class="fa-solid fa-key text-cabor mt-1"></i> <span>Acceso a CódigoAmigo</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-star text-cabor mt-1"></i> <span data-es="Acceso Preferencial a las 3 fechas" data-en="Preferential Access to all 3 dates" data-pt="Acesso Preferencial aos 3 dias">Acceso Preferencial a las 3 fechas</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-cabor mt-1"></i> <span data-es="Brazalete Oficial VIP" data-en="Official VIP Wristband" data-pt="Pulseira Oficial VIP">Brazalete Oficial VIP</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-cabor mt-1"></i> <span data-es="Vaso Térmico INOX (Exclusivo)" data-en="Stainless Steel Thermal Cup (Exclusive)" data-pt="Copo Térmico INOX (Exclusivo)">Vaso Térmico INOX (Exclusivo)</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-car text-cabor mt-1"></i> <span data-es="Estacionamiento Incluido" data-en="Parking Included" data-pt="Estacionamento Incluído">Estacionamiento Incluido</span></li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-key text-cabor mt-1"></i> <span data-es="Acceso a CódigoAmigo" data-en="Friend Code Access" data-pt="Acesso a CódigoAmigo">Acceso a CódigoAmigo</span></li>
                     </ul>
 
-                    <a href="https://mientrada.com.uy/evento/pack-cabortero-27940" target="_blank" class="block w-full py-4 bg-white text-black text-center font-black text-xs uppercase tracking-[0.2em] hover:bg-cabor hover:text-white transition-all rounded-sm">
+                    <a href="https://mientrada.com.uy/evento/pack-cabortero-27940" target="_blank" class="block w-full py-4 bg-white text-black text-center font-black text-xs uppercase tracking-[0.2em] hover:bg-cabor hover:text-white transition-all rounded-sm" data-es="Comprar VIP" data-en="Buy VIP" data-pt="Comprar VIP">
                         Comprar VIP
                     </a>
                 </div>
@@ -376,7 +377,7 @@
 
             <!-- ENTRADAS INDIVIDUALES (Rediseño: Barras Horizontales) -->
             <div class="pt-12 border-t border-white/10 max-w-4xl mx-auto">
-                <h3 class="font-display text-2xl text-center text-white mb-8 reveal-up">ENTRADAS INDIVIDUALES</h3>
+                <h3 class="font-display text-2xl text-center text-white mb-8 reveal-up" data-es="ENTRADAS INDIVIDUALES" data-en="INDIVIDUAL TICKETS" data-pt="INGRESSOS INDIVIDUAIS">ENTRADAS INDIVIDUALES</h3>
                 
                 <div class="flex flex-col gap-4 reveal-up">
                     
@@ -385,11 +386,11 @@
                         <div class="flex items-center gap-6">
                             <span class="text-2xl font-black text-white/30 w-12 text-center">24</span>
                             <div>
-                                <h4 class="font-bold text-white text-sm">NAVIDAD</h4>
-                                <span class="text-[10px] uppercase text-white/40 tracking-widest">Finalizado</span>
+                                <h4 class="font-bold text-white text-sm" data-es="NAVIDAD" data-en="CHRISTMAS" data-pt="NATAL">NAVIDAD</h4>
+                                <span class="text-[10px] uppercase text-white/40 tracking-widest" data-es="Finalizado" data-en="Finished" data-pt="Finalizado">Finalizado</span>
                             </div>
                         </div>
-                        <button class="px-6 py-2 border border-white/10 text-white/30 text-[10px] font-bold uppercase cursor-not-allowed">
+                        <button class="px-6 py-2 border border-white/10 text-white/30 text-[10px] font-bold uppercase cursor-not-allowed" data-es="Venta Cerrada" data-en="Sales Closed" data-pt="Vendas Fechadas">
                             Venta Cerrada
                         </button>
                     </div>
@@ -399,11 +400,11 @@
                         <div class="flex items-center gap-6">
                             <span class="text-2xl font-black text-white/30 w-12 text-center">27</span>
                             <div>
-                                <h4 class="font-bold text-white text-sm">FESTIVAL</h4>
-                                <span class="text-[10px] uppercase text-white/40 tracking-widest">Finalizado</span>
+                                <h4 class="font-bold text-white text-sm" data-es="FESTIVAL" data-en="FESTIVAL" data-pt="FESTIVAL">FESTIVAL</h4>
+                                <span class="text-[10px] uppercase text-white/40 tracking-widest" data-es="Finalizado" data-en="Finished" data-pt="Finalizado">Finalizado</span>
                             </div>
                         </div>
-                        <button class="px-6 py-2 border border-white/10 text-white/30 text-[10px] font-bold uppercase cursor-not-allowed">
+                        <button class="px-6 py-2 border border-white/10 text-white/30 text-[10px] font-bold uppercase cursor-not-allowed" data-es="Venta Cerrada" data-en="Sales Closed" data-pt="Vendas Fechadas">
                             Venta Cerrada
                         </button>
                     </div>
@@ -413,11 +414,11 @@
                         <div class="flex items-center gap-6 mb-4 sm:mb-0 w-full sm:w-auto">
                             <span class="text-3xl font-black text-cabor w-12 text-center">31</span>
                             <div>
-                                <h4 class="font-bold text-white text-lg group-hover:text-cabor transition-colors">AÑO NUEVO</h4>
-                                <span class="text-[10px] uppercase text-green-400 tracking-widest font-bold">Disponible</span>
+                                <h4 class="font-bold text-white text-lg group-hover:text-cabor transition-colors" data-es="AÑO NUEVO" data-en="NEW YEAR" data-pt="ANO NOVO">AÑO NUEVO</h4>
+                                <span class="text-[10px] uppercase text-green-400 tracking-widest font-bold" data-es="Disponible" data-en="Available" data-pt="Disponível">Disponible</span>
                             </div>
                         </div>
-                        <a href="https://mientrada.com.uy/evento/ano-nuevo-en-caborteada--27937" target="_blank" class="w-full sm:w-auto px-8 py-3 bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-cabor hover:text-white transition-all text-center rounded-sm shadow-lg">
+                        <a href="https://mientrada.com.uy/evento/ano-nuevo-en-caborteada--27937" target="_blank" class="w-full sm:w-auto px-8 py-3 bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-cabor hover:text-white transition-all text-center rounded-sm shadow-lg" data-es="Comprar Ticket" data-en="Buy Ticket" data-pt="Comprar Ingresso">
                             Comprar Ticket
                         </a>
                     </div>
@@ -426,8 +427,8 @@
             </div>
             
             <div class="mt-12 text-center text-white/30 text-xs">
-                <p>Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.</p>
-                <a href="https://wa.me/59899511420" class="text-white hover:text-cabor underline mt-2 inline-block">¿Dudas? Contáctanos a nuestro WhatsApp Oficial</a>
+                <p data-es="Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial." data-en="Prices may change due to batch updates. Check official platform." data-pt="As tarifas podem sofrer modificações por mudança de lote. Consultar na plataforma oficial.">Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.</p>
+                <a href="https://wa.me/59899511420" class="text-white hover:text-cabor underline mt-2 inline-block" data-es="¿Dudas? Contáctanos a nuestro WhatsApp Oficial" data-en="Questions? Contact us on our Official WhatsApp" data-pt="Dúvidas? Contate-nos no nosso WhatsApp Oficial">¿Dudas? Contáctanos a nuestro WhatsApp Oficial</a>
             </div>
         </div>
     </section>
@@ -436,12 +437,12 @@
     <section class="py-20 px-6 bg-dark">
         <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12 glass-panel p-8 rounded-2xl reveal-up">
             <div class="md:w-1/2">
-                <span class="text-cabor text-xs font-bold uppercase tracking-widest mb-2 block">Warm Up</span>
-                <h3 class="font-display text-4xl font-bold text-white mb-4">PLAYLIST OFICIAL</h3>
-                <p class="text-white/60 text-sm leading-relaxed mb-6">
+                <span class="text-cabor text-xs font-bold uppercase tracking-widest mb-2 block" data-es="Warm Up" data-en="Warm Up" data-pt="Warm Up">Warm Up</span>
+                <h3 class="font-display text-4xl font-bold text-white mb-4" data-es="PLAYLIST OFICIAL" data-en="OFFICIAL PLAYLIST" data-pt="PLAYLIST OFICIAL">PLAYLIST OFICIAL</h3>
+                <p class="text-white/60 text-sm leading-relaxed mb-6" data-es="Andá entrando en clima con la selección musical curada por nuestros residentes. Los temas que van a sonar este verano." data-en="Get in the mood with our residents' curated music selection. The tracks that will play this summer." data-pt="Entre no clima com a seleção musical curada pelos nossos residentes. As faixas que tocarão neste verão.">
                     Andá entrando en clima con la selección musical curada por nuestros residentes. Los temas que van a sonar este verano.
                 </p>
-                <a href="https://open.spotify.com/user/caborteada" target="_blank" class="text-white text-xs font-bold border-b border-cabor pb-1 hover:text-cabor transition-colors">
+                <a href="https://open.spotify.com/user/caborteada" target="_blank" class="text-white text-xs font-bold border-b border-cabor pb-1 hover:text-cabor transition-colors" data-es="Seguinos en Spotify" data-en="Follow us on Spotify" data-pt="Siga-nos no Spotify">
                     Seguinos en Spotify <i class="fa-brands fa-spotify ml-2"></i>
                 </a>
             </div>
@@ -456,25 +457,25 @@
         <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div class="reveal-up">
-                    <h2 class="font-display text-4xl md:text-5xl font-black text-white mb-6">UBICACIÓN</h2>
+                    <h2 class="font-display text-4xl md:text-5xl font-black text-white mb-6" data-es="UBICACIÓN" data-en="LOCATION" data-pt="LOCALIZAÇÃO">UBICACIÓN</h2>
                     
                     <div class="space-y-8">
                         <div>
-                            <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-2 text-cabor">Predio del Festival</h4>
-                            <p class="text-white/80 text-lg font-light">Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay</p>
+                            <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-2 text-cabor" data-es="Predio del Festival" data-en="Festival Venue" data-pt="Local do Festival">Predio del Festival</h4>
+                            <p class="text-white/80 text-lg font-light" data-es="Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay" data-en="Artigas, Uruguay, Route 30, 55000 Artigas.<br>Artigas, Uruguay" data-pt="Artigas, Uruguai, Rota 30, 55000 Artigas.<br>Artigas, Uruguai">Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay</p>
                         </div>
 
                         <div>
-                            <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-2 text-cabor">Punto de Venta Físico</h4>
-                            <p class="text-white/80 text-sm font-light">Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)</p>
+                            <h4 class="text-white font-bold uppercase tracking-widest text-xs mb-2 text-cabor" data-es="Punto de Venta Físico" data-en="Physical Sales Point" data-pt="Ponto de Venda Física">Punto de Venta Físico</h4>
+                            <p class="text-white/80 text-sm font-light" data-es="Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)" data-en="Av. Lecueder 797 corner Wilson F. Aldunate<br>(Official Branch)" data-pt="Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Filial Oficial)">Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)</p>
                         </div>
 
                         <div class="pt-6 flex flex-wrap gap-4">
-                            <a href="https://maps.app.goo.gl/wgGZ6kvXsgNXBgwN6" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-sm text-white hover:bg-white hover:text-black transition-all">
+                            <a href="https://maps.app.goo.gl/wgGZ6kvXsgNXBgwN6" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-sm text-white hover:bg-white hover:text-black transition-all" data-es="Google Maps" data-en="Google Maps" data-pt="Google Maps">
                                 <img src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/google_map_icon.webp" class="w-5 h-5" alt="Google">
                                 <span class="text-xs font-bold uppercase">Google Maps</span>
                             </a>
-                            <a href="https://ul.waze.com/ul?place=ChIJrdJQhdkLq5URbuvtwFdGH4w" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-sm text-white hover:bg-white hover:text-black transition-all">
+                            <a href="https://ul.waze.com/ul?place=ChIJrdJQhdkLq5URbuvtwFdGH4w" target="_blank" class="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-sm text-white hover:bg-white hover:text-black transition-all" data-es="Waze" data-en="Waze" data-pt="Waze">
                                 <img src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/waze.png" class="w-5 h-5" alt="Waze">
                                 <span class="text-xs font-bold uppercase">Waze</span>
                             </a>
@@ -494,7 +495,7 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="text-center md:text-left">
                 <img src="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png" alt="Logo" class="h-8 opacity-80 mb-4 mx-auto md:mx-0">
-                <p class="text-[10px] text-white/30 max-w-xs">
+                <p class="text-[10px] text-white/30 max-w-xs" data-es="© 2026 Caborteada. Todos los derechos reservados.<br>Artigas, Uruguay." data-en="© 2026 Caborteada. All rights reserved.<br>Artigas, Uruguay." data-pt="© 2026 Caborteada. Todos os direitos reservados.<br>Artigas, Uruguai.">
                     © 2026 Caborteada. Todos los derechos reservados.<br>
                     Artigas, Uruguay.
                 </p>
@@ -517,295 +518,43 @@
     <audio id="bgMusic" src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/electro.mp3" loop></audio>
 
     <script>
-        // --- SISTEMA DE IDIOMAS COMPLETO ---
-        const translations = {
-            es: {
-                // Navegación
-                'nav-fechas': 'Fechas',
-                'nav-galeria': 'Galería',
-                'nav-entradas': 'Entradas',
-                'nav-ubicacion': 'Ubicación',
-                'nav-comprar': 'Comprar',
-                // Loader
-                'loader-text': 'Cargando Experiencia',
-                // Hero
-                'hero-country': 'Artigas, Uruguay',
-                'hero-title': 'CABOR<br>FESTIVAL',
-                'hero-subtitle': 'El verano en la frontera.<br><span class="text-white font-semibold">ÚLTIMA FECHA: 31 DE DICIEMBRE.</span>',
-                'hero-btn': 'Tickets Año Nuevo',
-                // Intro
-                'intro-title': '11 AÑOS DEJANDO HUELLA',
-                'intro-text': 'Caborteada no es solo un evento, es un ritual de reencuentro. Ubicados en la Ruta 30, transformamos el paisaje de Artigas en una experiencia audiovisual de nivel internacional.',
-                // Agenda
-                'agenda-title': 'La Agenda',
-                'agenda-season': 'Temporada 2025/2026',
-                'date-24': 'NAVIDAD',
-                'date-24-desc': 'Apertura de temporada.',
-                'date-27': 'CABOR FEST',
-                'date-27-desc': 'Festival Principal con MC Rodrigo Do CN.',
-                'date-31': 'AÑO NUEVO',
-                'date-31-desc': 'Recibí el 2026 bailando. El primer amanecer del año se vive acá. Apertura especial post-brindis.',
-                'last-date': 'Última Fecha',
-                'finished': 'FINALIZADO',
-                // Galería
-                'gallery-label': 'Momentos',
-                'gallery-title': 'EXPERIENCIA CABORTERA',
-                // Entradas
-                'tickets-title': 'ENTRADAS',
-                'tickets-subtitle': 'Venta exclusiva online. Precios actuales (Lote 2).',
-                'tickets-label': 'Últimos Lugares',
-                'pack-general': 'PACK ZONA GENERAL',
-                'pack-general-days': 'Días: 24 | 27 | 31',
-                'pack-general-price': '$1.350',
-                'pack-general-cost': '+ Costo Servicio',
-                'pack-general-1': 'Acceso a las 3 fechas',
-                'pack-general-2': 'Brazalete Oficial',
-                'pack-general-3': 'Revaso (Vaso Reutilizable)',
-                'pack-general-4': 'Pack de Stickers',
-                'pack-general-btn': 'Comprar General',
-                'pack-vip': 'PACK ZONA VIP',
-                'pack-vip-days': 'Días: 24 | 27 | 31',
-                'pack-vip-price': '$1.700',
-                'pack-vip-cost': '+ Costo Servicio',
-                'pack-vip-label': 'Recomendado',
-                'pack-vip-1': 'Acceso Preferencial a las 3 fechas',
-                'pack-vip-2': 'Brazalete Oficial VIP',
-                'pack-vip-3': 'Vaso Térmico INOX (Exclusivo)',
-                'pack-vip-4': 'Estacionamiento Incluido',
-                'pack-vip-5': 'Acceso a CódigoAmigo',
-                'pack-vip-btn': 'Comprar VIP',
-                'individual-tickets': 'ENTRADAS INDIVIDUALES',
-                'ticket-24': 'NAVIDAD',
-                'ticket-27': 'FESTIVAL',
-                'ticket-31': 'AÑO NUEVO',
-                'ticket-status-finished': 'Finalizado',
-                'ticket-status-available': 'Disponible',
-                'ticket-btn-closed': 'Venta Cerrada',
-                'ticket-btn-buy': 'Comprar Ticket',
-                'tarifas-note': 'Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.',
-                'contact-whatsapp': '¿Dudas? Contáctanos a nuestro WhatsApp Oficial',
-                // Playlist
-                'playlist-label': 'Warm Up',
-                'playlist-title': 'PLAYLIST OFICIAL',
-                'playlist-text': 'Andá entrando en clima con la selección musical curada por nuestros residentes. Los temas que van a sonar este verano.',
-                'follow-spotify': 'Seguinos en Spotify',
-                // Ubicación
-                'location-title': 'UBICACIÓN',
-                'location-place': 'Predio del Festival',
-                'location-address': 'Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay',
-                'location-sales': 'Punto de Venta Físico',
-                'location-sales-address': 'Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)',
-                'google-maps': 'Google Maps',
-                'waze': 'Waze',
-                // Footer
-                'footer-copyright': '© 2026 Caborteada. Todos los derechos reservados.<br>Artigas, Uruguay.',
-                'footer-contact': 'Contacto: ventas@caborteada.com.uy',
-                'footer-phone': 'Tel: 099 511 420'
-            },
-            en: {
-                // Navegación
-                'nav-fechas': 'Dates',
-                'nav-galeria': 'Gallery',
-                'nav-entradas': 'Tickets',
-                'nav-ubicacion': 'Location',
-                'nav-comprar': 'Buy',
-                // Loader
-                'loader-text': 'Loading Experience',
-                // Hero
-                'hero-country': 'Artigas, Uruguay',
-                'hero-title': 'CABOR<br>FESTIVAL',
-                'hero-subtitle': 'Summer on the border.<br><span class="text-white font-semibold">LAST DATE: DECEMBER 31ST.</span>',
-                'hero-btn': 'New Year Tickets',
-                // Intro
-                'intro-title': '11 YEARS MAKING HISTORY',
-                'intro-text': 'Caborteada is not just an event, it\'s a reunion ritual. Located on Route 30, we transform Artigas landscape into an international-level audiovisual experience.',
-                // Agenda
-                'agenda-title': 'Schedule',
-                'agenda-season': 'Season 2025/2026',
-                'date-24': 'CHRISTMAS',
-                'date-24-desc': 'Season opening.',
-                'date-27': 'CABOR FEST',
-                'date-27-desc': 'Main Festival with MC Rodrigo Do CN.',
-                'date-31': 'NEW YEAR',
-                'date-31-desc': 'Ring in 2026 dancing. The first sunrise of the year happens here. Special post-toast opening.',
-                'last-date': 'Last Date',
-                'finished': 'FINISHED',
-                // Galería
-                'gallery-label': 'Moments',
-                'gallery-title': 'CABORTEADA EXPERIENCE',
-                // Entradas
-                'tickets-title': 'TICKETS',
-                'tickets-subtitle': 'Exclusive online sales. Current prices (Batch 2).',
-                'tickets-label': 'Last Spots',
-                'pack-general': 'GENERAL ZONE PACK',
-                'pack-general-days': 'Days: 24 | 27 | 31',
-                'pack-general-price': '$1.350',
-                'pack-general-cost': '+ Service Fee',
-                'pack-general-1': 'Access to all 3 dates',
-                'pack-general-2': 'Official Wristband',
-                'pack-general-3': 'Reusable Cup',
-                'pack-general-4': 'Sticker Pack',
-                'pack-general-btn': 'Buy General',
-                'pack-vip': 'VIP ZONE PACK',
-                'pack-vip-days': 'Days: 24 | 27 | 31',
-                'pack-vip-price': '$1.700',
-                'pack-vip-cost': '+ Service Fee',
-                'pack-vip-label': 'Recommended',
-                'pack-vip-1': 'Preferential Access to all 3 dates',
-                'pack-vip-2': 'Official VIP Wristband',
-                'pack-vip-3': 'Stainless Steel Thermal Cup (Exclusive)',
-                'pack-vip-4': 'Parking Included',
-                'pack-vip-5': 'Friend Code Access',
-                'pack-vip-btn': 'Buy VIP',
-                'individual-tickets': 'INDIVIDUAL TICKETS',
-                'ticket-24': 'CHRISTMAS',
-                'ticket-27': 'FESTIVAL',
-                'ticket-31': 'NEW YEAR',
-                'ticket-status-finished': 'Finished',
-                'ticket-status-available': 'Available',
-                'ticket-btn-closed': 'Sales Closed',
-                'ticket-btn-buy': 'Buy Ticket',
-                'tarifas-note': 'Prices may change due to batch updates. Check official platform.',
-                'contact-whatsapp': 'Questions? Contact us on our Official WhatsApp',
-                // Playlist
-                'playlist-label': 'Warm Up',
-                'playlist-title': 'OFFICIAL PLAYLIST',
-                'playlist-text': 'Get in the mood with our residents\' curated music selection. The tracks that will play this summer.',
-                'follow-spotify': 'Follow us on Spotify',
-                // Ubicación
-                'location-title': 'LOCATION',
-                'location-place': 'Festival Venue',
-                'location-address': 'Artigas, Uruguay, Route 30, 55000 Artigas.<br>Artigas, Uruguay',
-                'location-sales': 'Physical Sales Point',
-                'location-sales-address': 'Av. Lecueder 797 corner Wilson F. Aldunate<br>(Official Branch)',
-                'google-maps': 'Google Maps',
-                'waze': 'Waze',
-                // Footer
-                'footer-copyright': '© 2026 Caborteada. All rights reserved.<br>Artigas, Uruguay.',
-                'footer-contact': 'Contact: ventas@caborteada.com.uy',
-                'footer-phone': 'Phone: 099 511 420'
-            },
-            pt: {
-                // Navegación
-                'nav-fechas': 'Datas',
-                'nav-galeria': 'Galeria',
-                'nav-entradas': 'Ingressos',
-                'nav-ubicacion': 'Localização',
-                'nav-comprar': 'Comprar',
-                // Loader
-                'loader-text': 'Carregando Experiência',
-                // Hero
-                'hero-country': 'Artigas, Uruguai',
-                'hero-title': 'CABOR<br>FESTIVAL',
-                'hero-subtitle': 'Verão na fronteira.<br><span class="text-white font-semibold">ÚLTIMA DATA: 31 DE DEZEMBRO.</span>',
-                'hero-btn': 'Ingressos Ano Novo',
-                // Intro
-                'intro-title': '11 ANOS DEIXANDO HISTÓRIA',
-                'intro-text': 'Caborteada não é apenas um evento, é um ritual de reencontro. Localizado na Rota 30, transformamos a paisagem de Artigas em uma experiência audiovisual de nível internacional.',
-                // Agenda
-                'agenda-title': 'Agenda',
-                'agenda-season': 'Temporada 2025/2026',
-                'date-24': 'NATAL',
-                'date-24-desc': 'Abertura da temporada.',
-                'date-27': 'CABOR FEST',
-                'date-27-desc': 'Festival Principal com MC Rodrigo Do CN.',
-                'date-31': 'ANO NOVO',
-                'date-31-desc': 'Receba 2026 dançando. O primeiro amanhecer do ano acontece aqui. Abertura especial pós-brinde.',
-                'last-date': 'Última Data',
-                'finished': 'FINALIZADO',
-                // Galería
-                'gallery-label': 'Momentos',
-                'gallery-title': 'EXPERIÊNCIA CABORTEADA',
-                // Entradas
-                'tickets-title': 'INGRESSOS',
-                'tickets-subtitle': 'Vendas exclusivas online. Preços atuais (Lote 2).',
-                'tickets-label': 'Últimos Lugares',
-                'pack-general': 'PACOTE ZONA GERAL',
-                'pack-general-days': 'Datas: 24 | 27 | 31',
-                'pack-general-price': '$1.350',
-                'pack-general-cost': '+ Taxa de Serviço',
-                'pack-general-1': 'Acesso às 3 datas',
-                'pack-general-2': 'Pulseira Oficial',
-                'pack-general-3': 'Copo Reutilizável',
-                'pack-general-4': 'Pacote de Adesivos',
-                'pack-general-btn': 'Comprar Geral',
-                'pack-vip': 'PACOTE ZONA VIP',
-                'pack-vip-days': 'Datas: 24 | 27 | 31',
-                'pack-vip-price': '$1.700',
-                'pack-vip-cost': '+ Taxa de Serviço',
-                'pack-vip-label': 'Recomendado',
-                'pack-vip-1': 'Acesso Preferencial às 3 datas',
-                'pack-vip-2': 'Pulseira Oficial VIP',
-                'pack-vip-3': 'Copo Térmico Aço Inoxidável (Exclusivo)',
-                'pack-vip-4': 'Estacionamento Incluído',
-                'pack-vip-5': 'Acesso Código Amigo',
-                'pack-vip-btn': 'Comprar VIP',
-                'individual-tickets': 'INGRESSOS INDIVIDUAIS',
-                'ticket-24': 'NATAL',
-                'ticket-27': 'FESTIVAL',
-                'ticket-31': 'ANO NOVO',
-                'ticket-status-finished': 'Finalizado',
-                'ticket-status-available': 'Disponível',
-                'ticket-btn-closed': 'Vendas Encerradas',
-                'ticket-btn-buy': 'Comprar Ingresso',
-                'tarifas-note': 'Os preços podem sofrer modificações por mudança de lote. Consulte a plataforma oficial.',
-                'contact-whatsapp': 'Dúvidas? Entre em contato conosco no WhatsApp Oficial',
-                // Playlist
-                'playlist-label': 'Aquecimento',
-                'playlist-title': 'PLAYLIST OFICIAL',
-                'playlist-text': 'Entre no clima com a seleção musical curada por nossos residentes. As músicas que vão tocar neste verão.',
-                'follow-spotify': 'Siga-nos no Spotify',
-                // Ubicación
-                'location-title': 'LOCALIZAÇÃO',
-                'location-place': 'Local do Festival',
-                'location-address': 'Artigas, Uruguai, Rota 30, 55000 Artigas.<br>Artigas, Uruguai',
-                'location-sales': 'Ponto de Vendas Físico',
-                'location-sales-address': 'Av. Lecueder 797 esquina Wilson F. Aldunate<br>(Filial Oficial)',
-                'google-maps': 'Google Maps',
-                'waze': 'Waze',
-                // Footer
-                'footer-copyright': '© 2026 Caborteada. Todos os direitos reservados.<br>Artigas, Uruguai.',
-                'footer-contact': 'Contato: ventas@caborteada.com.uy',
-                'footer-phone': 'Telefone: 099 511 420'
-            }
-        };
+        // --- SISTEMA DE IDIOMAS SIMPLE Y FUNCIONAL ---
+        let currentLanguage = 'es';
 
-        let currentLanguage = localStorage.getItem('language') || 'es';
-
-        function t(key) {
-            return translations[currentLanguage][key] || key;
-        }
-
-        function changeLanguage(lang) {
+        function setLanguage(lang) {
             currentLanguage = lang;
-            localStorage.setItem('language', lang);
-            document.documentElement.lang = lang;
+            localStorage.setItem('caborLanguage', lang);
+            
+            // Actualizar indicador
             document.getElementById('lang-indicator').textContent = lang.toUpperCase();
-            location.reload(); // Recargar para aplicar todas las traducciones
-        }
+            
+            // Cambiar idioma del HTML
+            document.documentElement.lang = lang;
+            
+            // Actualizar todos los elementos con data-{lang}
+            document.querySelectorAll('[data-es]').forEach(element => {
+                if (element.hasAttribute(`data-${lang}`)) {
+                    const text = element.getAttribute(`data-${lang}`);
+                    element.textContent = text;
+                }
+            });
 
-        // Aplicar idioma al cargar
-        document.addEventListener('DOMContentLoaded', () => {
-            // Esta es una solución más robusta usando atributos data
-            applyLanguage(currentLanguage);
-        });
-
-        function applyLanguage(lang) {
-            // Buscar todos los elementos con atributo data-i18n
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                    el.placeholder = translations[lang][key] || key;
-                } else if (el.getAttribute('data-i18n-html')) {
-                    el.innerHTML = translations[lang][key] || key;
-                } else {
-                    el.textContent = translations[lang][key] || key;
+            // Para elementos con HTML dentro (como spans anidados)
+            document.querySelectorAll('[data-es][data-en][data-pt]').forEach(element => {
+                const langAttr = `data-${lang}`;
+                if (element.hasAttribute(langAttr)) {
+                    const html = element.getAttribute(langAttr);
+                    element.innerHTML = html;
                 }
             });
         }
-    </script>
 
-    <script>
+        // Restaurar idioma guardado al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('caborLanguage') || 'es';
+            setLanguage(savedLang);
+        });
+
         // --- LOGICA DE AUDIO ---
         const audio = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioToggle');
@@ -830,6 +579,17 @@
         // --- ANIMACIONES GSAP & LENIS ---
         document.addEventListener('DOMContentLoaded', () => {
             
+            // 1. Smooth Scroll (Lenis)
+            const lenis = new Lenis({
+                lerp: 0.1,
+                smoothWheel: true
+            });
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
             gsap.registerPlugin(ScrollTrigger);
 
             // 2. Loader Out
