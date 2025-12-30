@@ -1,2 +1,26 @@
 linkedin/NUEVO/minivlog-utec.MOV
 linkedin/NUEVO/minivlog-utec.mp4
+# Variables de entorno (NUNCA subir a GitHub)
+.env
+.env.local
+.env.*.local
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+
+# Build outputs
+.vercel/
+.next/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
