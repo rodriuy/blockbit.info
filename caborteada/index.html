@@ -152,6 +152,17 @@
             <a href="#entradas" class="px-5 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-cabor hover:text-white transition-all rounded-sm hidden sm:block">
                 Comprar
             </a>
+            <!-- Language Selector -->
+            <div class="relative group">
+                <button class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-cabor hover:text-cabor transition-all text-xs font-bold">
+                    <span id="lang-indicator">ES</span>
+                </button>
+                <div class="absolute right-0 mt-2 w-20 bg-black/95 border border-white/10 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <button onclick="changeLanguage('es')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">Español</button>
+                    <button onclick="changeLanguage('en')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">English</button>
+                    <button onclick="changeLanguage('pt')" class="w-full px-3 py-2 text-xs text-white hover:bg-white/10 transition-colors text-left">Português</button>
+                </div>
+            </div>
             <button id="audioToggle" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white hover:border-cabor hover:text-cabor transition-all">
                 <i class="fa-solid fa-volume-xmark" id="audioIcon"></i>
             </button>
@@ -505,6 +516,187 @@
 
     <!-- Audio Element (Oculto) -->
     <audio id="bgMusic" src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/electro.mp3" loop></audio>
+
+    <script>
+        // --- SISTEMA DE IDIOMAS ---
+        const translations = {
+            es: {
+                'nav-fechas': 'Fechas',
+                'nav-galeria': 'Galería',
+                'nav-entradas': 'Entradas',
+                'nav-ubicacion': 'Ubicación',
+                'nav-comprar': 'Comprar',
+                'loader-text': 'Cargando Experiencia',
+                'hero-country': 'Artigas, Uruguay',
+                'hero-title': 'CABOR<br>FESTIVAL',
+                'hero-subtitle': 'El verano en la frontera.<br><span class="text-white font-semibold">ÚLTIMA FECHA: 31 DE DICIEMBRE.</span>',
+                'hero-btn': 'Tickets Año Nuevo',
+                'intro-title': '11 AÑOS DEJANDO HUELLA',
+                'intro-text': 'Caborteada no es solo un evento, es un ritual de reencuentro. Ubicados en la Ruta 30, transformamos el paisaje de Artigas en una experiencia audiovisual de nivel internacional.',
+                'agenda-title': 'La Agenda',
+                'agenda-season': 'Temporada 2025/2026',
+                'gallery-label': 'Momentos',
+                'gallery-title': 'EXPERIENCIA CABORTERA',
+                'tickets-title': 'ENTRADAS',
+                'tickets-subtitle': 'Venta exclusiva online. Precios actuales (Lote 2).',
+                'tickets-label': 'Últimos Lugares',
+                'pack-general': 'PACK ZONA GENERAL',
+                'pack-vip': 'PACK ZONA VIP',
+                'pack-vip-label': 'Recomendado',
+                'individual-tickets': 'ENTRADAS INDIVIDUALES',
+                'playlist-label': 'Warm Up',
+                'playlist-title': 'PLAYLIST OFICIAL',
+                'playlist-text': 'Andá entrando en clima con la selección musical curada por nuestros residentes. Los temas que van a sonar este verano.',
+                'location-title': 'UBICACIÓN',
+                'location-place': 'Predio del Festival',
+                'location-address': 'Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay',
+                'location-sales': 'Punto de Venta Físico',
+                'location-sales-address': 'Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)',
+                'google-maps': 'Google Maps',
+                'waze': 'Waze',
+                'follow-spotify': 'Seguinos en Spotify',
+                'footer-copyright': '© 2026 Caborteada. Todos los derechos reservados.<br>Artigas, Uruguay.',
+                'footer-contact': 'Contacto: ventas@caborteada.com.uy',
+                'footer-phone': 'Tel: 099 511 420',
+                'tarifas-note': 'Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.',
+                'contact-whatsapp': '¿Dudas? Contáctanos a nuestro WhatsApp Oficial'
+            },
+            en: {
+                'nav-fechas': 'Dates',
+                'nav-galeria': 'Gallery',
+                'nav-entradas': 'Tickets',
+                'nav-ubicacion': 'Location',
+                'nav-comprar': 'Buy',
+                'loader-text': 'Loading Experience',
+                'hero-country': 'Artigas, Uruguay',
+                'hero-title': 'CABOR<br>FESTIVAL',
+                'hero-subtitle': 'Summer on the border.<br><span class="text-white font-semibold">LAST DATE: DECEMBER 31ST.</span>',
+                'hero-btn': 'New Year Tickets',
+                'intro-title': '11 YEARS MAKING HISTORY',
+                'intro-text': 'Caborteada is not just an event, it\'s a reunion ritual. Located on Route 30, we transform Artigas landscape into an international-level audiovisual experience.',
+                'agenda-title': 'Schedule',
+                'agenda-season': 'Season 2025/2026',
+                'gallery-label': 'Moments',
+                'gallery-title': 'CABORTEADA EXPERIENCE',
+                'tickets-title': 'TICKETS',
+                'tickets-subtitle': 'Exclusive online sales. Current prices (Batch 2).',
+                'tickets-label': 'Last Spots',
+                'pack-general': 'GENERAL ZONE PACK',
+                'pack-vip': 'VIP ZONE PACK',
+                'pack-vip-label': 'Recommended',
+                'individual-tickets': 'INDIVIDUAL TICKETS',
+                'playlist-label': 'Warm Up',
+                'playlist-title': 'OFFICIAL PLAYLIST',
+                'playlist-text': 'Get in the mood with our residents\' curated music selection. The tracks that will play this summer.',
+                'location-title': 'LOCATION',
+                'location-place': 'Festival Venue',
+                'location-address': 'Artigas, Uruguay, Route 30, 55000 Artigas.<br>Artigas, Uruguay',
+                'location-sales': 'Physical Sales Point',
+                'location-sales-address': 'Av. Lecueder 797 corner Wilson F. Aldunate<br>(Official Branch)',
+                'google-maps': 'Google Maps',
+                'waze': 'Waze',
+                'follow-spotify': 'Follow us on Spotify',
+                'footer-copyright': '© 2026 Caborteada. All rights reserved.<br>Artigas, Uruguay.',
+                'footer-contact': 'Contact: ventas@caborteada.com.uy',
+                'footer-phone': 'Phone: 099 511 420',
+                'tarifas-note': 'Prices may change due to batch updates. Check official platform.',
+                'contact-whatsapp': 'Questions? Contact us on our Official WhatsApp'
+            },
+            pt: {
+                'nav-fechas': 'Datas',
+                'nav-galeria': 'Galeria',
+                'nav-entradas': 'Ingressos',
+                'nav-ubicacion': 'Localização',
+                'nav-comprar': 'Comprar',
+                'loader-text': 'Carregando Experiência',
+                'hero-country': 'Artigas, Uruguai',
+                'hero-title': 'CABOR<br>FESTIVAL',
+                'hero-subtitle': 'Verão na fronteira.<br><span class="text-white font-semibold">ÚLTIMA DATA: 31 DE DEZEMBRO.</span>',
+                'hero-btn': 'Ingressos Ano Novo',
+                'intro-title': '11 ANOS DEIXANDO HISTÓRIA',
+                'intro-text': 'Caborteada não é apenas um evento, é um ritual de reencontro. Localizado na Rota 30, transformamos a paisagem de Artigas em uma experiência audiovisual de nível internacional.',
+                'agenda-title': 'Agenda',
+                'agenda-season': 'Temporada 2025/2026',
+                'gallery-label': 'Momentos',
+                'gallery-title': 'EXPERIÊNCIA CABORTEADA',
+                'tickets-title': 'INGRESSOS',
+                'tickets-subtitle': 'Vendas exclusivas online. Preços atuais (Lote 2).',
+                'tickets-label': 'Últimos Lugares',
+                'pack-general': 'PACOTE ZONA GERAL',
+                'pack-vip': 'PACOTE ZONA VIP',
+                'pack-vip-label': 'Recomendado',
+                'individual-tickets': 'INGRESSOS INDIVIDUAIS',
+                'playlist-label': 'Aquecimento',
+                'playlist-title': 'PLAYLIST OFICIAL',
+                'playlist-text': 'Entre no clima com a seleção musical curada por nossos residentes. As músicas que vão tocar neste verão.',
+                'location-title': 'LOCALIZAÇÃO',
+                'location-place': 'Local do Festival',
+                'location-address': 'Artigas, Uruguai, Rota 30, 55000 Artigas.<br>Artigas, Uruguai',
+                'location-sales': 'Ponto de Vendas Físico',
+                'location-sales-address': 'Av. Lecueder 797 esquina Wilson F. Aldunate<br>(Filial Oficial)',
+                'google-maps': 'Google Maps',
+                'waze': 'Waze',
+                'follow-spotify': 'Siga-nos no Spotify',
+                'footer-copyright': '© 2026 Caborteada. Todos os direitos reservados.<br>Artigas, Uruguai.',
+                'footer-contact': 'Contato: ventas@caborteada.com.uy',
+                'footer-phone': 'Telefone: 099 511 420',
+                'tarifas-note': 'Os preços podem sofrer modificações por mudança de lote. Consulte a plataforma oficial.',
+                'contact-whatsapp': 'Dúvidas? Entre em contato conosco no WhatsApp Oficial'
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('language') || 'es';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+            document.getElementById('lang-indicator').textContent = lang.toUpperCase();
+            updatePageContent(lang);
+        }
+
+        function updatePageContent(lang) {
+            const t = translations[lang];
+            
+            // Actualizar navegación
+            document.querySelector('a[href="#fechas"]').textContent = t['nav-fechas'];
+            document.querySelector('a[href="#galeria"]').textContent = t['nav-galeria'];
+            document.querySelector('a[href="#entradas"]').textContent = t['nav-entradas'];
+            document.querySelector('a[href="#ubicacion"]').textContent = t['nav-ubicacion'];
+            document.querySelectorAll('a[href="#entradas"]')[0].textContent = t['nav-comprar'];
+            
+            // Loader
+            document.querySelector('#loader p').textContent = t['loader-text'];
+            
+            // Hero
+            document.querySelector('.text-cabor.font-bold.text-xs').textContent = t['hero-country'];
+            document.querySelector('h1.font-display').innerHTML = t['hero-title'];
+            document.querySelectorAll('p.text-white/80')[0].innerHTML = t['hero-subtitle'];
+            document.querySelectorAll('a[href="#entradas"]')[1].textContent = t['hero-btn'];
+            
+            // Intro
+            document.querySelector('h2.font-display.text-3xl').textContent = t['intro-title'];
+            document.querySelector('p.text-white/60').textContent = t['intro-text'];
+            
+            // Sección de fechas
+            document.querySelector('h2.font-display.text-5xl').textContent = t['agenda-title'];
+            document.querySelector('span.text-cabor.text-xs.font-bold').textContent = t['agenda-season'];
+            
+            // Galería
+            document.querySelectorAll('span.text-cabor')[1].textContent = t['gallery-label'];
+            document.querySelectorAll('h2.font-display')[2].textContent = t['gallery-title'];
+            
+            // Entradas
+            document.querySelector('h2.font-display.text-5xl.md\\:text-7xl.font-black').textContent = t['tickets-title'];
+            document.querySelector('p.text-white/50.mt-2').textContent = t['tickets-subtitle'];
+            document.querySelector('span.px-3.py-1').textContent = t['tickets-label'];
+        }
+
+        // Aplicar idioma al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            changeLanguage(currentLanguage);
+        });
+    </script>
 
     <script>
         // --- LOGICA DE AUDIO ---
