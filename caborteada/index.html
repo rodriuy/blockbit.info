@@ -34,7 +34,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -518,35 +517,79 @@
     <audio id="bgMusic" src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/electro.mp3" loop></audio>
 
     <script>
-        // --- SISTEMA DE IDIOMAS ---
+        // --- SISTEMA DE IDIOMAS COMPLETO ---
         const translations = {
             es: {
+                // Navegación
                 'nav-fechas': 'Fechas',
                 'nav-galeria': 'Galería',
                 'nav-entradas': 'Entradas',
                 'nav-ubicacion': 'Ubicación',
                 'nav-comprar': 'Comprar',
+                // Loader
                 'loader-text': 'Cargando Experiencia',
+                // Hero
                 'hero-country': 'Artigas, Uruguay',
                 'hero-title': 'CABOR<br>FESTIVAL',
                 'hero-subtitle': 'El verano en la frontera.<br><span class="text-white font-semibold">ÚLTIMA FECHA: 31 DE DICIEMBRE.</span>',
                 'hero-btn': 'Tickets Año Nuevo',
+                // Intro
                 'intro-title': '11 AÑOS DEJANDO HUELLA',
                 'intro-text': 'Caborteada no es solo un evento, es un ritual de reencuentro. Ubicados en la Ruta 30, transformamos el paisaje de Artigas en una experiencia audiovisual de nivel internacional.',
+                // Agenda
                 'agenda-title': 'La Agenda',
                 'agenda-season': 'Temporada 2025/2026',
+                'date-24': 'NAVIDAD',
+                'date-24-desc': 'Apertura de temporada.',
+                'date-27': 'CABOR FEST',
+                'date-27-desc': 'Festival Principal con MC Rodrigo Do CN.',
+                'date-31': 'AÑO NUEVO',
+                'date-31-desc': 'Recibí el 2026 bailando. El primer amanecer del año se vive acá. Apertura especial post-brindis.',
+                'last-date': 'Última Fecha',
+                'finished': 'FINALIZADO',
+                // Galería
                 'gallery-label': 'Momentos',
                 'gallery-title': 'EXPERIENCIA CABORTERA',
+                // Entradas
                 'tickets-title': 'ENTRADAS',
                 'tickets-subtitle': 'Venta exclusiva online. Precios actuales (Lote 2).',
                 'tickets-label': 'Últimos Lugares',
                 'pack-general': 'PACK ZONA GENERAL',
+                'pack-general-days': 'Días: 24 | 27 | 31',
+                'pack-general-price': '$1.350',
+                'pack-general-cost': '+ Costo Servicio',
+                'pack-general-1': 'Acceso a las 3 fechas',
+                'pack-general-2': 'Brazalete Oficial',
+                'pack-general-3': 'Revaso (Vaso Reutilizable)',
+                'pack-general-4': 'Pack de Stickers',
+                'pack-general-btn': 'Comprar General',
                 'pack-vip': 'PACK ZONA VIP',
+                'pack-vip-days': 'Días: 24 | 27 | 31',
+                'pack-vip-price': '$1.700',
+                'pack-vip-cost': '+ Costo Servicio',
                 'pack-vip-label': 'Recomendado',
+                'pack-vip-1': 'Acceso Preferencial a las 3 fechas',
+                'pack-vip-2': 'Brazalete Oficial VIP',
+                'pack-vip-3': 'Vaso Térmico INOX (Exclusivo)',
+                'pack-vip-4': 'Estacionamiento Incluido',
+                'pack-vip-5': 'Acceso a CódigoAmigo',
+                'pack-vip-btn': 'Comprar VIP',
                 'individual-tickets': 'ENTRADAS INDIVIDUALES',
+                'ticket-24': 'NAVIDAD',
+                'ticket-27': 'FESTIVAL',
+                'ticket-31': 'AÑO NUEVO',
+                'ticket-status-finished': 'Finalizado',
+                'ticket-status-available': 'Disponible',
+                'ticket-btn-closed': 'Venta Cerrada',
+                'ticket-btn-buy': 'Comprar Ticket',
+                'tarifas-note': 'Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.',
+                'contact-whatsapp': '¿Dudas? Contáctanos a nuestro WhatsApp Oficial',
+                // Playlist
                 'playlist-label': 'Warm Up',
                 'playlist-title': 'PLAYLIST OFICIAL',
                 'playlist-text': 'Andá entrando en clima con la selección musical curada por nuestros residentes. Los temas que van a sonar este verano.',
+                'follow-spotify': 'Seguinos en Spotify',
+                // Ubicación
                 'location-title': 'UBICACIÓN',
                 'location-place': 'Predio del Festival',
                 'location-address': 'Artigas, Uruguay, Ruta 30, 55000 Artigas.<br>Artigas, Uruguay',
@@ -554,40 +597,82 @@
                 'location-sales-address': 'Av. Lecueder 797 esq. Wilson F. Aldunate<br>(Sucursal Oficial)',
                 'google-maps': 'Google Maps',
                 'waze': 'Waze',
-                'follow-spotify': 'Seguinos en Spotify',
+                // Footer
                 'footer-copyright': '© 2026 Caborteada. Todos los derechos reservados.<br>Artigas, Uruguay.',
                 'footer-contact': 'Contacto: ventas@caborteada.com.uy',
-                'footer-phone': 'Tel: 099 511 420',
-                'tarifas-note': 'Las tarifas pueden sufrir modificaciones por cambio de lote. Consultar en plataforma oficial.',
-                'contact-whatsapp': '¿Dudas? Contáctanos a nuestro WhatsApp Oficial'
+                'footer-phone': 'Tel: 099 511 420'
             },
             en: {
+                // Navegación
                 'nav-fechas': 'Dates',
                 'nav-galeria': 'Gallery',
                 'nav-entradas': 'Tickets',
                 'nav-ubicacion': 'Location',
                 'nav-comprar': 'Buy',
+                // Loader
                 'loader-text': 'Loading Experience',
+                // Hero
                 'hero-country': 'Artigas, Uruguay',
                 'hero-title': 'CABOR<br>FESTIVAL',
                 'hero-subtitle': 'Summer on the border.<br><span class="text-white font-semibold">LAST DATE: DECEMBER 31ST.</span>',
                 'hero-btn': 'New Year Tickets',
+                // Intro
                 'intro-title': '11 YEARS MAKING HISTORY',
                 'intro-text': 'Caborteada is not just an event, it\'s a reunion ritual. Located on Route 30, we transform Artigas landscape into an international-level audiovisual experience.',
+                // Agenda
                 'agenda-title': 'Schedule',
                 'agenda-season': 'Season 2025/2026',
+                'date-24': 'CHRISTMAS',
+                'date-24-desc': 'Season opening.',
+                'date-27': 'CABOR FEST',
+                'date-27-desc': 'Main Festival with MC Rodrigo Do CN.',
+                'date-31': 'NEW YEAR',
+                'date-31-desc': 'Ring in 2026 dancing. The first sunrise of the year happens here. Special post-toast opening.',
+                'last-date': 'Last Date',
+                'finished': 'FINISHED',
+                // Galería
                 'gallery-label': 'Moments',
                 'gallery-title': 'CABORTEADA EXPERIENCE',
+                // Entradas
                 'tickets-title': 'TICKETS',
                 'tickets-subtitle': 'Exclusive online sales. Current prices (Batch 2).',
                 'tickets-label': 'Last Spots',
                 'pack-general': 'GENERAL ZONE PACK',
+                'pack-general-days': 'Days: 24 | 27 | 31',
+                'pack-general-price': '$1.350',
+                'pack-general-cost': '+ Service Fee',
+                'pack-general-1': 'Access to all 3 dates',
+                'pack-general-2': 'Official Wristband',
+                'pack-general-3': 'Reusable Cup',
+                'pack-general-4': 'Sticker Pack',
+                'pack-general-btn': 'Buy General',
                 'pack-vip': 'VIP ZONE PACK',
+                'pack-vip-days': 'Days: 24 | 27 | 31',
+                'pack-vip-price': '$1.700',
+                'pack-vip-cost': '+ Service Fee',
                 'pack-vip-label': 'Recommended',
+                'pack-vip-1': 'Preferential Access to all 3 dates',
+                'pack-vip-2': 'Official VIP Wristband',
+                'pack-vip-3': 'Stainless Steel Thermal Cup (Exclusive)',
+                'pack-vip-4': 'Parking Included',
+                'pack-vip-5': 'Friend Code Access',
+                'pack-vip-btn': 'Buy VIP',
                 'individual-tickets': 'INDIVIDUAL TICKETS',
+                'ticket-24': 'CHRISTMAS',
+                'ticket-27': 'FESTIVAL',
+                'ticket-31': 'NEW YEAR',
+                'ticket-status-finished': 'Finished',
+                'ticket-status-available': 'Available',
+                'ticket-btn-closed': 'Sales Closed',
+                'ticket-btn-buy': 'Buy Ticket',
+                'tarifas-note': 'Prices may change due to batch updates. Check official platform.',
+                'contact-whatsapp': 'Questions? Contact us on our Official WhatsApp',
+                // Playlist
                 'playlist-label': 'Warm Up',
                 'playlist-title': 'OFFICIAL PLAYLIST',
                 'playlist-text': 'Get in the mood with our residents\' curated music selection. The tracks that will play this summer.',
+                'follow-spotify': 'Follow us on Spotify',
+                // Ubicación
                 'location-title': 'LOCATION',
                 'location-place': 'Festival Venue',
                 'location-address': 'Artigas, Uruguay, Route 30, 55000 Artigas.<br>Artigas, Uruguay',
@@ -595,40 +680,82 @@
                 'location-sales-address': 'Av. Lecueder 797 corner Wilson F. Aldunate<br>(Official Branch)',
                 'google-maps': 'Google Maps',
                 'waze': 'Waze',
-                'follow-spotify': 'Follow us on Spotify',
+                // Footer
                 'footer-copyright': '© 2026 Caborteada. All rights reserved.<br>Artigas, Uruguay.',
                 'footer-contact': 'Contact: ventas@caborteada.com.uy',
-                'footer-phone': 'Phone: 099 511 420',
-                'tarifas-note': 'Prices may change due to batch updates. Check official platform.',
-                'contact-whatsapp': 'Questions? Contact us on our Official WhatsApp'
+                'footer-phone': 'Phone: 099 511 420'
             },
             pt: {
+                // Navegación
                 'nav-fechas': 'Datas',
                 'nav-galeria': 'Galeria',
                 'nav-entradas': 'Ingressos',
                 'nav-ubicacion': 'Localização',
                 'nav-comprar': 'Comprar',
+                // Loader
                 'loader-text': 'Carregando Experiência',
+                // Hero
                 'hero-country': 'Artigas, Uruguai',
                 'hero-title': 'CABOR<br>FESTIVAL',
                 'hero-subtitle': 'Verão na fronteira.<br><span class="text-white font-semibold">ÚLTIMA DATA: 31 DE DEZEMBRO.</span>',
                 'hero-btn': 'Ingressos Ano Novo',
+                // Intro
                 'intro-title': '11 ANOS DEIXANDO HISTÓRIA',
                 'intro-text': 'Caborteada não é apenas um evento, é um ritual de reencontro. Localizado na Rota 30, transformamos a paisagem de Artigas em uma experiência audiovisual de nível internacional.',
+                // Agenda
                 'agenda-title': 'Agenda',
                 'agenda-season': 'Temporada 2025/2026',
+                'date-24': 'NATAL',
+                'date-24-desc': 'Abertura da temporada.',
+                'date-27': 'CABOR FEST',
+                'date-27-desc': 'Festival Principal com MC Rodrigo Do CN.',
+                'date-31': 'ANO NOVO',
+                'date-31-desc': 'Receba 2026 dançando. O primeiro amanhecer do ano acontece aqui. Abertura especial pós-brinde.',
+                'last-date': 'Última Data',
+                'finished': 'FINALIZADO',
+                // Galería
                 'gallery-label': 'Momentos',
                 'gallery-title': 'EXPERIÊNCIA CABORTEADA',
+                // Entradas
                 'tickets-title': 'INGRESSOS',
                 'tickets-subtitle': 'Vendas exclusivas online. Preços atuais (Lote 2).',
                 'tickets-label': 'Últimos Lugares',
                 'pack-general': 'PACOTE ZONA GERAL',
+                'pack-general-days': 'Datas: 24 | 27 | 31',
+                'pack-general-price': '$1.350',
+                'pack-general-cost': '+ Taxa de Serviço',
+                'pack-general-1': 'Acesso às 3 datas',
+                'pack-general-2': 'Pulseira Oficial',
+                'pack-general-3': 'Copo Reutilizável',
+                'pack-general-4': 'Pacote de Adesivos',
+                'pack-general-btn': 'Comprar Geral',
                 'pack-vip': 'PACOTE ZONA VIP',
+                'pack-vip-days': 'Datas: 24 | 27 | 31',
+                'pack-vip-price': '$1.700',
+                'pack-vip-cost': '+ Taxa de Serviço',
                 'pack-vip-label': 'Recomendado',
+                'pack-vip-1': 'Acesso Preferencial às 3 datas',
+                'pack-vip-2': 'Pulseira Oficial VIP',
+                'pack-vip-3': 'Copo Térmico Aço Inoxidável (Exclusivo)',
+                'pack-vip-4': 'Estacionamento Incluído',
+                'pack-vip-5': 'Acesso Código Amigo',
+                'pack-vip-btn': 'Comprar VIP',
                 'individual-tickets': 'INGRESSOS INDIVIDUAIS',
+                'ticket-24': 'NATAL',
+                'ticket-27': 'FESTIVAL',
+                'ticket-31': 'ANO NOVO',
+                'ticket-status-finished': 'Finalizado',
+                'ticket-status-available': 'Disponível',
+                'ticket-btn-closed': 'Vendas Encerradas',
+                'ticket-btn-buy': 'Comprar Ingresso',
+                'tarifas-note': 'Os preços podem sofrer modificações por mudança de lote. Consulte a plataforma oficial.',
+                'contact-whatsapp': 'Dúvidas? Entre em contato conosco no WhatsApp Oficial',
+                // Playlist
                 'playlist-label': 'Aquecimento',
                 'playlist-title': 'PLAYLIST OFICIAL',
                 'playlist-text': 'Entre no clima com a seleção musical curada por nossos residentes. As músicas que vão tocar neste verão.',
+                'follow-spotify': 'Siga-nos no Spotify',
+                // Ubicación
                 'location-title': 'LOCALIZAÇÃO',
                 'location-place': 'Local do Festival',
                 'location-address': 'Artigas, Uruguai, Rota 30, 55000 Artigas.<br>Artigas, Uruguai',
@@ -636,66 +763,46 @@
                 'location-sales-address': 'Av. Lecueder 797 esquina Wilson F. Aldunate<br>(Filial Oficial)',
                 'google-maps': 'Google Maps',
                 'waze': 'Waze',
-                'follow-spotify': 'Siga-nos no Spotify',
+                // Footer
                 'footer-copyright': '© 2026 Caborteada. Todos os direitos reservados.<br>Artigas, Uruguai.',
                 'footer-contact': 'Contato: ventas@caborteada.com.uy',
-                'footer-phone': 'Telefone: 099 511 420',
-                'tarifas-note': 'Os preços podem sofrer modificações por mudança de lote. Consulte a plataforma oficial.',
-                'contact-whatsapp': 'Dúvidas? Entre em contato conosco no WhatsApp Oficial'
+                'footer-phone': 'Telefone: 099 511 420'
             }
         };
 
         let currentLanguage = localStorage.getItem('language') || 'es';
+
+        function t(key) {
+            return translations[currentLanguage][key] || key;
+        }
 
         function changeLanguage(lang) {
             currentLanguage = lang;
             localStorage.setItem('language', lang);
             document.documentElement.lang = lang;
             document.getElementById('lang-indicator').textContent = lang.toUpperCase();
-            updatePageContent(lang);
-        }
-
-        function updatePageContent(lang) {
-            const t = translations[lang];
-            
-            // Actualizar navegación
-            document.querySelector('a[href="#fechas"]').textContent = t['nav-fechas'];
-            document.querySelector('a[href="#galeria"]').textContent = t['nav-galeria'];
-            document.querySelector('a[href="#entradas"]').textContent = t['nav-entradas'];
-            document.querySelector('a[href="#ubicacion"]').textContent = t['nav-ubicacion'];
-            document.querySelectorAll('a[href="#entradas"]')[0].textContent = t['nav-comprar'];
-            
-            // Loader
-            document.querySelector('#loader p').textContent = t['loader-text'];
-            
-            // Hero
-            document.querySelector('.text-cabor.font-bold.text-xs').textContent = t['hero-country'];
-            document.querySelector('h1.font-display').innerHTML = t['hero-title'];
-            document.querySelectorAll('p.text-white/80')[0].innerHTML = t['hero-subtitle'];
-            document.querySelectorAll('a[href="#entradas"]')[1].textContent = t['hero-btn'];
-            
-            // Intro
-            document.querySelector('h2.font-display.text-3xl').textContent = t['intro-title'];
-            document.querySelector('p.text-white/60').textContent = t['intro-text'];
-            
-            // Sección de fechas
-            document.querySelector('h2.font-display.text-5xl').textContent = t['agenda-title'];
-            document.querySelector('span.text-cabor.text-xs.font-bold').textContent = t['agenda-season'];
-            
-            // Galería
-            document.querySelectorAll('span.text-cabor')[1].textContent = t['gallery-label'];
-            document.querySelectorAll('h2.font-display')[2].textContent = t['gallery-title'];
-            
-            // Entradas
-            document.querySelector('h2.font-display.text-5xl.md\\:text-7xl.font-black').textContent = t['tickets-title'];
-            document.querySelector('p.text-white/50.mt-2').textContent = t['tickets-subtitle'];
-            document.querySelector('span.px-3.py-1').textContent = t['tickets-label'];
+            location.reload(); // Recargar para aplicar todas las traducciones
         }
 
         // Aplicar idioma al cargar
         document.addEventListener('DOMContentLoaded', () => {
-            changeLanguage(currentLanguage);
+            // Esta es una solución más robusta usando atributos data
+            applyLanguage(currentLanguage);
         });
+
+        function applyLanguage(lang) {
+            // Buscar todos los elementos con atributo data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translations[lang][key] || key;
+                } else if (el.getAttribute('data-i18n-html')) {
+                    el.innerHTML = translations[lang][key] || key;
+                } else {
+                    el.textContent = translations[lang][key] || key;
+                }
+            });
+        }
     </script>
 
     <script>
@@ -723,17 +830,6 @@
         // --- ANIMACIONES GSAP & LENIS ---
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. Smooth Scroll
-            const lenis = new Lenis({
-                lerp: 0.1,
-                smoothWheel: true
-            });
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
             gsap.registerPlugin(ScrollTrigger);
 
             // 2. Loader Out
