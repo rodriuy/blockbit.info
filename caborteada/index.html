@@ -34,7 +34,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -579,17 +578,6 @@
         // --- ANIMACIONES GSAP & LENIS ---
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. Smooth Scroll (Lenis)
-            const lenis = new Lenis({
-                lerp: 0.1,
-                smoothWheel: true
-            });
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
             gsap.registerPlugin(ScrollTrigger);
 
             // 2. Loader Out
