@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CABOR FESTIVAL | The 2026 Evolution</title>
+    <meta name="description" content="Caborteada es la mejor fiesta a cielo abierto del país. Viví una experiencia única.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;800&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <!-- Confetti for the "Surprise Me" effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cabor: '#ff0055',
+                        dark: '#050505',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                    },
+                    fontFamily: {
+                        display: ['Bricolage Grotesque', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            cursor: default;
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            border-color: #ff0055;
+            background: rgba(255, 0, 85, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+        }
+
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-premium:hover::after {
+            left: 100%;
+        }
+
+        /* Lang switcher style */
+        .lang-btn.active {
+            color: #ff0055;
+            border-bottom: 2px solid #ff0055;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Chatbot Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 320px;
+            height: 400px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform-origin: bottom right;
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .chat-window.open {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .chat-header {
+            background: #111;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .message.bot {
+            background: rgba(255, 255, 255, 0.08);
+            color: #eee;
+        }
+
+        .message.user {
+            background: #ff0055;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-options {
+            padding: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chat-option-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .chat-option-btn:hover {
+            background: #ff0055;
+            border-color: #ff0055;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typing-indicator span {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: #888;
+            border-radius: 50%;
+            animation: typing 1s infinite;
+            margin: 0 2px;
+        }
+        
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-3px); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="text-center">
+            <h2 class="font-display text-4xl font-extrabold tracking-tighter animate-pulse text-cabor">CABOR</h2>
+            <div class="w-48 h-[2px] bg-white/10 mt-4 overflow-hidden">
+                <div id="loader-bar" class="w-0 h-full bg-cabor"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center bg-black/90 backdrop-blur-md border-b border-white/5">
+        <div class="flex items-center gap-8">
+            <img src="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png" alt="Cabor" class="h-8 md:h-9">
+            <div class="hidden lg:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-white/70">
+                <a href="#historia" class="hover:text-cabor transition-colors" data-i18n="nav-history">Historia</a>
+                <a href="#experiencia" class="hover:text-cabor transition-colors" data-i18n="nav-exp">El Festival</a>
+                <a href="#entradas" class="hover:text-cabor transition-colors" data-i18n="nav-tickets">Tickets</a>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-6">
+            <!-- Language Switcher -->
+            <div class="flex gap-4 text-[10px] font-bold border-r border-white/10 pr-6 mr-2">
+                <button onclick="changeLang('es')" class="lang-btn active hover:text-white transition-colors" id="btn-es">ES</button>
+                <button onclick="changeLang('en')" class="lang-btn hover:text-white transition-colors" id="btn-en">EN</button>
+                <button onclick="changeLang('pt')" class="lang-btn hover:text-white transition-colors" id="btn-pt">PT</button>
+            </div>
+            <div id="audio-ui" class="flex items-center gap-3 px-3 py-1 cursor-pointer group">
+                <div class="flex gap-[2px] h-3 items-end">
+                    <div class="w-[2px] h-3 bg-cabor animate-pulse"></div>
+                    <div class="w-[2px] h-2 bg-cabor animate-pulse" style="animation-delay: 0.1s"></div>
+                    <div class="w-[2px] h-4 bg-cabor animate-pulse" style="animation-delay: 0.2s"></div>
+                </div>
+                <button id="audioToggle" class="text-[10px] font-bold uppercase tracking-widest text-white group-hover:text-cabor transition-colors">
+                    Sound On
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105" id="hero-video">
+            <source src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/video_load_page.mp4" type="video/mp4">
+        </video>
+
+        <div class="relative z-10 text-center px-4 mt-10">
+            <h1 class="font-display text-7xl md:text-[11rem] font-black leading-[0.85] tracking-tighter opacity-0 reveal-y">
+                CABOR<br><span class="text-outline">2026</span>
+            </h1>
+            
+            <!-- Functional Info -->
+            <div class="mt-8 flex flex-col items-center gap-2 opacity-0 reveal-y">
+                <p class="text-xs md:text-sm tracking-[0.3em] font-bold text-white/80" data-i18n="hero-date">24 • 27 • 31 DICIEMBRE</p>
+                <p class="text-[10px] md:text-xs tracking-[0.3em] text-cabor uppercase" data-i18n="hero-loc">ARTIGAS — RUTA 30</p>
+            </div>
+
+            <div class="mt-12 flex flex-col md:flex-row gap-6 justify-center items-center opacity-0 reveal-y">
+                <a href="#entradas" class="btn-premium bg-white text-black px-10 py-4 font-black text-xs uppercase hover:bg-cabor hover:text-white tracking-wider" data-i18n="btn-buy">COMPRAR ENTRADAS</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANCLAJE TERRITORIAL -->
+    <section class="py-24 bg-black text-center border-b border-white/5">
+        <div class="max-w-2xl mx-auto px-6 reveal-fade">
+            <p class="font-display text-3xl md:text-5xl font-bold leading-tight text-white/90" data-i18n="anchor-text">
+                NO ES MONTEVIDEO.<br>NO ES PUNTA.<br><span class="text-cabor">ES FRONTERA.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- HISTORIA CON VERDAD -->
+    <section id="historia" class="py-32 px-6 bg-[#080808]">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-20 items-center">
+                <div class="lg:w-1/2 reveal-left">
+                    <span class="text-cabor font-bold tracking-widest text-[10px] uppercase mb-4 block">11 Años de Resistencia</span>
+                    <h2 class="font-display text-5xl font-black mb-8 leading-none text-white" data-i18n="hist-title">EL RIESGO<br>DE CREER.</h2>
+                    <div class="space-y-6 text-white/70 leading-relaxed text-base font-light">
+                        <p data-i18n="hist-p1">En Artigas no existían festivales de esta escala. Cuando arrancamos en 2014, no teníamos grandes sponsors ni garantías. Era puro riesgo y ganas de que el norte tuviera su lugar en el mapa.</p>
+                        <p data-i18n="hist-p2">Hoy, Caborteada no es solo una fiesta. Es la prueba de que en la frontera se pueden hacer cosas de nivel mundial sin pedir permiso.</p>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 reveal-right">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="https://caborteada.com.uy/wp-content/uploads/2025/01/11.jpg" class="w-full h-64 object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500" alt="History">
+                        <img src="https://caborteada.com.uy/wp-content/uploads/2025/08/DSC8028.jpg" class="w-full h-64 object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-500 mt-8" alt="History">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EL FESTIVAL (Experiencia) -->
+    <section id="experiencia" class="py-32 px-6 bg-dark relative overflow-hidden">
+        <!-- Background Element -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-cabor/5 to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="mb-16">
+                <h2 class="font-display text-6xl font-black text-white mb-4">EL RITUAL</h2>
+                <p class="text-white/50 max-w-xl" data-i18n="exp-desc">Tres fechas. Tres energías distintas. Un solo lugar donde el tiempo no existe.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
+                <div class="group relative h-96 overflow-hidden bg-white/5 border-r border-white/10">
+                    <img src="https://caborteada.com.uy/wp-content/uploads/2025/01/17.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="Navidad">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <span class="text-cabor text-xs font-bold uppercase tracking-widest">24 DIC</span>
+                        <h3 class="font-display text-3xl font-black text-white mt-1">NAVIDAD</h3>
+                    </div>
+                </div>
+                <div class="group relative h-96 overflow-hidden bg-white/5 border-r border-white/10">
+                    <img src="https://caborteada.com.uy/wp-content/uploads/2025/08/DSC6751.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="Festival">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <span class="text-cabor text-xs font-bold uppercase tracking-widest">27 DIC</span>
+                        <h3 class="font-display text-3xl font-black text-white mt-1">FESTIVAL</h3>
+                    </div>
+                </div>
+                <div class="group relative h-96 overflow-hidden bg-white/5">
+                    <img src="https://caborteada.com.uy/wp-content/uploads/2025/08/DSC7914.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="Año Nuevo">
+                    <div class="absolute bottom-0 left-0 p-8 w-full bg-gradient-to-t from-black to-transparent">
+                        <span class="text-cabor text-xs font-bold uppercase tracking-widest">31 DIC</span>
+                        <h3 class="font-display text-3xl font-black text-white mt-1">AÑO NUEVO</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="entradas" class="py-32 px-6 bg-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-16 text-center">
+                <h2 class="font-display text-6xl md:text-8xl font-black text-white tracking-tighter" data-i18n="tick-title">TICKETS</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <!-- Sold Out -->
+                <div class="glass-card p-8 opacity-40 grayscale rounded-lg border border-white/10">
+                    <div class="flex justify-between items-start mb-12">
+                        <h3 class="font-bold text-xl text-white">EARLY BIRD</h3>
+                        <span class="text-[9px] font-bold bg-white/20 px-2 py-1 rounded text-white">AGOTADO</span>
+                    </div>
+                    <div class="text-3xl font-black tracking-tighter text-white mb-2">$ SOLD OUT</div>
+                </div>
+
+                <!-- Active -->
+                <div class="glass-card p-10 border border-cabor/50 bg-cabor/5 rounded-lg relative transform md:scale-110 z-10 shadow-2xl shadow-cabor/10">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cabor text-white text-[9px] font-bold px-3 py-1 uppercase tracking-widest rounded-sm shadow-lg">Disponibilidad Limitada</div>
+                    <div class="mb-10">
+                        <span class="text-[10px] font-bold text-cabor uppercase mb-2 block" data-i18n="lote-active">Fase 02 • Activo</span>
+                        <h3 class="font-display text-3xl font-black text-white" data-i18n="lote-title">LOTE CABORTERO</h3>
+                        <p class="text-[11px] text-white/50 mt-3 border-t border-white/10 pt-3 leading-relaxed">
+                            <i class="fa fa-check text-cabor mr-1"></i> Acceso general a las 3 fechas<br>
+                            <i class="fa fa-check text-cabor mr-1"></i> Acceso a todas las pistas<br>
+                            <i class="fa fa-check text-cabor mr-1"></i> Ingreso exclusivo +18
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <div class="text-5xl font-black tracking-tighter text-white">$2.500</div>
+                        <a href="https://mientrada.com.uy/evento/pack-cabortero-27940" target="_blank" class="w-full bg-white text-black py-4 font-black uppercase text-xs hover:bg-cabor hover:text-white transition-all text-center tracking-widest">
+                            Comprar Ahora
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Next -->
+                <div class="glass-card p-8 border border-white/10 opacity-70 rounded-lg">
+                    <div class="flex justify-between items-start mb-12">
+                        <h3 class="font-bold text-xl text-white">LOTE FINAL</h3>
+                        <span class="text-[9px] font-bold bg-white/10 px-2 py-1 rounded text-white/50">PRÓXIMAMENTE</span>
+                    </div>
+                    <div class="text-3xl font-black tracking-tighter text-white/30">$ ---</div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-[10px] uppercase tracking-widest text-white/30">Plataforma oficial: MiEntrada</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRO / INDUSTRY SECTION (Moved to bottom, styled as internal/partner) -->
+    <section class="py-20 px-6 border-t border-white/5 bg-[#050505]">
+        <div class="max-w-4xl mx-auto text-center opacity-60 hover:opacity-100 transition-opacity duration-500">
+            <p class="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mb-8">ÁREA DE SOCIOS & DESARROLLO 2026</p>
+            
+            <div class="grid md:grid-cols-2 gap-12 text-left bg-white/5 p-10 rounded-xl border border-white/5">
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-2">Evolución Digital</h4>
+                    <p class="text-xs text-white/50 leading-relaxed">Esta plataforma no es una web estática. Es un entorno inmersivo preparado para integrar venta de tokens, mapas en tiempo real y fidelización post-evento.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-2">Estrategia de Frontera</h4>
+                    <p class="text-xs text-white/50 leading-relaxed">Diseño nativo para captación de público regional (UY/BR). Infraestructura escalable para picos de tráfico durante los lanzamientos de lotes.</p>
+                </div>
+                <div class="col-span-full pt-6 border-t border-white/5 text-center">
+                    <button class="text-[10px] font-bold text-white uppercase border border-white/20 px-6 py-2 hover:bg-white hover:text-black transition-all">
+                        Acceso a Propuesta Técnica
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <img src="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png" alt="Logo" class="h-8 opacity-50 grayscale hover:grayscale-0 transition-all">
+            <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                <a href="#" class="hover:text-white transition-colors">Términos</a>
+                <a href="#" class="hover:text-white transition-colors">Contacto</a>
+            </div>
+            <p class="text-[9px] text-white/20 font-mono">ARTIGAS // 2026</p>
+        </div>
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="bgMusic" src="https://caborteada.com.uy/wp-content/themes/cabor_2026/img/electro.mp3" loop></audio>
+
+    <!-- AI Chatbot Widget -->
+    <div class="chat-widget">
+        <!-- Chat Window -->
+        <div class="chat-window" id="cabor-ai-window">
+            <div class="chat-header">
+                <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
+                <h4 class="font-bold text-xs uppercase text-white tracking-wider">Soporte Oficial</h4>
+                <button id="close-chat" class="ml-auto opacity-50 hover:opacity-100 text-white"><i class="fa fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chat-options">
+                <button class="chat-option-btn" onclick="aiResponse('tickets')">Comprar Tickets</button>
+                <button class="chat-option-btn" onclick="aiResponse('lineup')">Info Line-Up</button>
+                <button class="chat-option-btn" onclick="aiResponse('location')">Ubicación</button>
+            </div>
+        </div>
+
+        <!-- Trigger Button -->
+        <button id="cabor-ai-trigger" class="w-12 h-12 rounded-full bg-[#1a1a1a] text-white border border-white/20 flex items-center justify-center text-lg hover:bg-cabor hover:border-cabor hover:scale-105 transition-all shadow-xl">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+    </div>
+
+    <script>
+        // --- TRANSLATIONS DATA ---
+        const i18n = {
+            es: {
+                "nav-history": "Historia", "nav-exp": "El Festival", "nav-tickets": "Tickets",
+                "hero-date": "24 • 27 • 31 DICIEMBRE", "hero-loc": "ARTIGAS — RUTA 30",
+                "btn-buy": "COMPRAR ENTRADAS",
+                "anchor-text": "NO ES MONTEVIDEO.<br>NO ES PUNTA.<br><span class=\"text-cabor\">ES FRONTERA.</span>",
+                "hist-title": "EL RIESGO<br>DE CREER.", 
+                "hist-p1": "En Artigas no existían festivales de esta escala. Cuando arrancamos en 2014, no teníamos grandes sponsors ni garantías. Era puro riesgo.",
+                "hist-p2": "Hoy, Caborteada no es solo una fiesta. Es la prueba de que en la frontera se pueden hacer cosas de nivel mundial.",
+                "tick-title": "TICKETS", 
+                "lote-active": "Fase 02 • Activo", "lote-title": "LOTE CABORTERO"
+            },
+            en: {
+                "nav-history": "History", "nav-exp": "The Festival", "nav-tickets": "Tickets",
+                "hero-date": "DECEMBER 24 • 27 • 31", "hero-loc": "ARTIGAS — ROUTE 30",
+                "btn-buy": "GET TICKETS",
+                "anchor-text": "NOT MONTEVIDEO.<br>NOT PUNTA.<br><span class=\"text-cabor\">IT'S THE BORDER.</span>",
+                "hist-title": "THE RISK<br>OF BELIEVING.", 
+                "hist-p1": "Festivals of this scale didn't exist in Artigas. In 2014, we had no big sponsors. It was pure risk.",
+                "hist-p2": "Today, Caborteada is proof that world-class events can happen at the border.",
+                "tick-title": "TICKETS", 
+                "lote-active": "Phase 02 • Active", "lote-title": "CABOR PASS"
+            },
+            pt: {
+                "nav-history": "Nossa História", "nav-exp": "O Festival", "nav-tickets": "Ingressos",
+                "hero-date": "24 • 27 • 31 DEZEMBRO", "hero-loc": "ARTIGAS — ROTA 30",
+                "btn-buy": "GARANTIR INGRESSO",
+                "anchor-text": "NÃO É MONTEVIDEO.<br>NÃO É PUNTA.<br><span class=\"text-cabor\">É A FRONTEIRA.</span>",
+                "hist-title": "O RISCO<br>DE ACREDITAR.", 
+                "hist-p1": "Em Artigas não existiam festivais assim. Em 2014, sem grandes patrocinadores, foi puro risco. Sabemos que para quem vem de Quaraí ou Livramento, a festa começa na estrada.",
+                "hist-p2": "Hoje, a Caborteada prova que na fronteira se faz eventos de nível mundial.",
+                "tick-title": "INGRESSOS", 
+                "lote-active": "Fase 02 • Ativo", "lote-title": "LOTE CABORTEIRO"
+            }
+        };
+
+        function changeLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.innerHTML = i18n[lang][key]; // Use innerHTML to parse <br> and <span>
+            });
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
+        }
+
+        // --- CHATBOT LOGIC ---
+        const chatWindow = document.getElementById('cabor-ai-window');
+        const chatTrigger = document.getElementById('cabor-ai-trigger');
+        const closeChat = document.getElementById('close-chat');
+        const chatMessages = document.getElementById('chat-messages');
+        let isChatOpen = false;
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                chatWindow.classList.add('open');
+                if (chatMessages.children.length === 0) {
+                    addBotMessage("Hola. Soy el asistente oficial. ¿En qué puedo ayudarte?");
+                }
+            } else {
+                chatWindow.classList.remove('open');
+            }
+        }
+
+        chatTrigger.addEventListener('click', toggleChat);
+        closeChat.addEventListener('click', toggleChat);
+
+        function addUserMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'message user';
+            msg.innerText = text;
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addBotMessage(text, delay = 500) {
+            // Add typing indicator
+            const typing = document.createElement('div');
+            typing.className = 'message bot typing-indicator';
+            typing.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typing);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                chatMessages.removeChild(typing);
+                const msg = document.createElement('div');
+                msg.className = 'message bot';
+                msg.innerText = text;
+                chatMessages.appendChild(msg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, delay);
+        }
+
+        function aiResponse(type) {
+            let userText = "";
+            let botText = "";
+
+            switch(type) {
+                case 'tickets':
+                    userText = "Comprar Tickets";
+                    botText = "El Lote 2 está activo ($2.500). Incluye acceso a las 3 fechas. Te redirijo a la compra oficial.";
+                    setTimeout(() => { document.querySelector('#entradas').scrollIntoView({behavior: 'smooth'}); }, 1200);
+                    break;
+                case 'location':
+                    userText = "¿Dónde es?";
+                    botText = "Ruta 30, Artigas. Acceso principal señalizado. Estacionamiento disponible en predio contiguo.";
+                    break;
+                case 'lineup':
+                    userText = "Info Line-Up";
+                    botText = "El line-up se revela en fases. Fase 1 confirmada. Siguiente anuncio: 15 de Noviembre en Instagram.";
+                    break;
+            }
+
+            addUserMessage(userText);
+            addBotMessage(botText, 800);
+        }
+
+
+        // --- MAIN SCRIPTS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lenis Config 
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    lerp: 0.1, 
+                    wheelMultiplier: 1.1,
+                    smoothWheel: true
+                });
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+            }
+
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Loader Animation - Faster
+            gsap.to("#loader-bar", { 
+                width: "100%", duration: 0.8, ease: "power2.inOut", 
+                onComplete: () => {
+                    gsap.to("#loader", { opacity: 0, duration: 0.4, onComplete: () => {
+                        document.getElementById('loader').style.display = 'none';
+                        startHeroAnims();
+                    }});
+                }
+            });
+
+            // Section Anims - Snappier
+            gsap.from(".reveal-left", {
+                scrollTrigger: { trigger: "#historia", start: "top 85%" },
+                x: -30, opacity: 0, duration: 0.8, ease: "power3.out"
+            });
+            gsap.from(".reveal-right", {
+                scrollTrigger: { trigger: "#historia", start: "top 85%" },
+                x: 30, opacity: 0, duration: 0.8, ease: "power3.out"
+            });
+            
+             gsap.from(".reveal-fade", {
+                scrollTrigger: { trigger: ".reveal-fade", start: "top 90%" },
+                opacity: 0, y: 20, duration: 1, ease: "power2.out"
+            });
+        });
+
+        function startHeroAnims() {
+            gsap.to(".reveal-y", { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power4.out" });
+            gsap.to("#hero-video", {
+                scrollTrigger: { trigger: "header", start: "top top", end: "bottom top", scrub: true },
+                y: 50, scale: 1.1
+            });
+        }
+
+        // Audio Toggle
+        const audio = document.getElementById('bgMusic');
+        const audioBtn = document.getElementById('audioToggle');
+        let isPlaying = false;
+
+        document.getElementById('audio-ui').addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                audioBtn.innerText = 'Sound On';
+            } else {
+                audio.play().catch(() => {});
+                audioBtn.innerText = 'Sound Off';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+</body>
+</html>
