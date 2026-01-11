@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BurgerStack - Las Mejores Hamburguesas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- NAVEGACIÓN -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">🍔 BurgerStack</div>
+            <ul class="nav-menu">
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="#menu">Menú</a></li>
+                <li><a href="#orden">Ordena Ahora</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN HERO -->
+    <section id="hero" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">BurgerStack</h1>
+            <p class="hero-subtitle">Las hamburguesas más deliciosas de la ciudad</p>
+            <a href="#menu" class="cta-button">Explorar Menú</a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN MENÚ -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2 class="section-title">Nuestro Menú</h2>
+            <p class="loading-message" id="loading-message">Cargando menú...</p>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Las hamburguesas se cargarán aquí con JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE PEDIDOS -->
+    <section id="orden" class="order-section">
+        <div class="container">
+            <h2 class="section-title">Tu Pedido</h2>
+            <div class="order-container">
+                <div class="order-summary" id="order-summary">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="order-items" id="order-items">
+                        <p class="empty-order">No hay hamburguesas seleccionadas</p>
+                    </div>
+                    <div class="order-total">
+                        <span>Total:</span>
+                        <span id="total-price">$0.00</span>
+                    </div>
+                </div>
+
+                <form class="order-form" id="order-form">
+                    <div class="form-group">
+                        <label for="customer-name">Tu Nombre:</label>
+                        <input 
+                            type="text" 
+                            id="customer-name" 
+                            name="customer-name"
+                            placeholder="Ej: Juan García"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer-email">Tu Email:</label>
+                        <input 
+                            type="email" 
+                            id="customer-email" 
+                            name="customer-email"
+                            placeholder="tu@email.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer-phone">Tu Teléfono:</label>
+                        <input 
+                            type="tel" 
+                            id="customer-phone" 
+                            name="customer-phone"
+                            placeholder="+598 99 123 456"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer-address">Tu Dirección:</label>
+                        <textarea 
+                            id="customer-address" 
+                            name="customer-address"
+                            placeholder="Calle y número"
+                            rows="3"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="special-notes">Notas Especiales:</label>
+                        <textarea 
+                            id="special-notes" 
+                            name="special-notes"
+                            placeholder="Ej: Sin cebolla, extra queso..."
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button" id="submit-button">
+                        Enviar Pedido
+                    </button>
+                    <p class="form-message" id="form-message"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 BurgerStack. Todos los derechos reservados.</p>
+            <p>Hecho con 🍔 y amor en Jamstack</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

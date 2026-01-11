@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Caborteada</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800;900&family=Inter:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cabor: '#ff0055',
+                        dark: '#050505',
+                    },
+                    fontFamily: {
+                        display: ['Bricolage Grotesque', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+            color: transparent;
+        }
+        .animate-glitch {
+            animation: glitch 1s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="antialiased font-body h-screen flex items-center justify-center p-6">
+
+    <!-- Fondo con video loop (Muted, Autoplay, No controls) -->
+    <div class="absolute inset-0 z-0 opacity-40">
+        <video autoplay muted loop playsinline class="w-full h-full object-cover grayscale">
+            <source src="cerveza.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-dark/40"></div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="relative z-10 text-center max-w-xl">
+        <div class="relative inline-block mb-8">
+            <h1 class="font-display text-[10rem] md:text-[15rem] leading-none font-black text-stroke absolute top-0 left-0 -translate-x-4 -translate-y-4 opacity-20">404</h1>
+            <h1 class="font-display text-[10rem] md:text-[15rem] leading-none font-black text-white relative animate-glitch">404</h1>
+        </div>
+        
+        <h2 class="font-display text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4">
+            TE PERDISTE <span class="text-cabor">EN LA FIESTA</span>
+        </h2>
+        
+        <p class="text-white/60 text-sm md:text-base mb-10 leading-relaxed font-light">
+            Todavía estamos trabajando en esta página. <br class="hidden md:block">
+            No te preocupes, el carnaval sigue en la página principal.
+        </p>
+
+        <a href="index.html" class="inline-block px-10 py-4 bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-cabor hover:text-white transition-all rounded-sm shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            Volver al Inicio
+        </a>
+    </div>
+
+    <!-- Marca de agua / Logo inferior -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-30">
+        <img src="https://caborteada.com.uy/wp-content/uploads/2025/11/logo_cabor.png" alt="Logo Caborteada" class="h-6">
+    </div>
+
+</body>
+</html>
