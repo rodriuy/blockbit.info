@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ta! — Ingeniería Web por Blockbit</title>
-    
+    <link rel="icon" type="image/png" href="logo/Ta! - blck.svg">
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,8 +168,12 @@
 
     <!-- Nav -->
     <nav class="fixed w-full z-50 px-6 py-6 md:px-12 flex justify-between items-center mix-blend-difference text-white">
-        <a href="#" class="text-2xl font-black tracking-tighter hover-trigger" data-cursor="link">
-            BLOCKBIT <span class="text-[#00ffd1]">TA!</span>
+        <!-- LOGO HEADER MODIFICADO -->
+        <a href="#" class="flex items-center gap-3 text-2xl font-black tracking-tighter hover-trigger" data-cursor="link">
+            BLOCKBIT 
+            <!-- Reemplazo de texto TA! por SVG -->
+            <!-- AUMENTADO DE TAMAÑO: h-10 en mobile, h-12 en desktop -->
+            <img src="logo/Ta! - white.svg" alt="Ta!" class="h-10 md:h-12 w-auto object-contain">
         </a>
 
         <!-- Desktop Menu -->
@@ -203,36 +207,35 @@
     <main>
         <!-- Hero Section -->
         <section class="min-h-screen relative flex items-center justify-center overflow-hidden pt-20">
-            <!-- Background Elements -->
             <div class="absolute inset-0 z-0">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-[#00ffd1] rounded-full blur-[150px] opacity-10 animate-pulse"></div>
             </div>
 
             <div class="relative z-10 container mx-auto px-6 md:px-12 text-center md:text-left">
-                <div class="reveal-text overflow-hidden mb-2">
-                    <h1 class="text-[14vw] md:text-[11vw] leading-[0.85] font-black tracking-tighter mix-blend-lighten">
-                        TA! WEB
-                    </h1>
+                <div class="reveal-text overflow-hidden -mb-4 md:-mb-[3vw] flex justify-center md:justify-start z-20 relative">
+                    <img src="logo/Ta! - white.svg" 
+                         alt="Ta!" 
+                         class="h-[24vw] md:h-[15vw] w-auto mix-blend-lighten object-contain block">
                 </div>
-                <div class="reveal-text overflow-hidden mb-8 md:pl-4">
-                    <h1 class="text-[14vw] md:text-[11vw] leading-[0.85] font-black tracking-tighter text-outline opacity-50">
+                
+                <div class="reveal-text overflow-hidden mb-6 md:mb-8 md:pl-2 relative z-10">
+                    <h1 class="text-[12vw] md:text-[10vw] leading-[0.9] font-black tracking-tighter text-outline opacity-50">
                         LISTA.
                     </h1>
                 </div>
 
-                <div class="flex flex-col md:flex-row items-start gap-8 md:gap-20 md:pl-4 mt-12">
-                    <p class="max-w-md text-gray-400 text-lg md:text-xl leading-relaxed opacity-0 hero-fade">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-20 md:pl-4 mt-8 md:mt-12">
+                    <p class="max-w-md text-gray-400 text-base md:text-xl leading-relaxed opacity-0 hero-fade">
                         Traemos la ingeniería de <strong>Blockbit</strong> al desarrollo comercial. Sitios rápidos, lógicos y diseñados para ganar en un mundo saturado.
                     </p>
                     
-                    <a href="#portafolio" class="group relative px-8 py-4 bg-white text-black rounded-full font-bold overflow-hidden hover-trigger opacity-0 hero-fade" data-cursor="link">
+                    <a href="#portafolio" class="group relative px-6 py-3 md:px-8 md:py-4 bg-white text-black rounded-full font-bold text-sm md:text-base overflow-hidden hover-trigger opacity-0 hero-fade" data-cursor="link">
                         <span class="relative z-10 group-hover:text-white transition-colors duration-300">VER PROYECTOS</span>
                         <div class="absolute inset-0 bg-[#00ffd1] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
                     </a>
                 </div>
             </div>
 
-            <!-- Scroll Indicator -->
             <div class="absolute bottom-10 right-6 md:right-12 flex flex-col items-center gap-2 opacity-0 hero-fade">
                 <span class="text-[10px] tracking-widest uppercase writing-vertical">Scroll</span>
                 <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
@@ -478,7 +481,8 @@
                 ease: "power4.inOut"
             })
             // Animaciones de entrada del Hero
-            .from('.reveal-text h1', {
+            // Actualizado para animar H1 e Imágenes dentro de reveal-text
+            .from('.reveal-text h1, .reveal-text img', {
                 y: 150,
                 duration: 1.2,
                 stagger: 0.1,
@@ -544,7 +548,7 @@
             if (isMenuOpen) {
                 mobileMenu.classList.add('open');
                 menuBtn.style.mixBlendMode = 'normal';
-                menuBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>`;
+                menuBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M18 6L6 18M6 6l12 12\"/></svg>`;
             } else {
                 mobileMenu.classList.remove('open');
                 menuBtn.style.mixBlendMode = 'difference';
