@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ta! — Sitios Web con ADN Blockbit</title>
+    
+    <!-- Fuentes y librerías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #00ffd1;
+            --accent-dark: #008a71;
+            --text: #ffffff;
+            --muted: #888888;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #00ffd1, #7cff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .portfolio-card {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .hero-image {
+            filter: grayscale(100%) contrast(1.2);
+            mix-blend-mode: screen;
+            opacity: 0.3;
+        }
+
+        .btn-ta {
+            background: var(--accent);
+            color: black;
+            font-weight: 800;
+            padding: 1rem 2rem;
+            border-radius: 99px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ta:hover {
+            box-shadow: 0 0 25px var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Mockup de Navegador para el Portafolio */
+        .browser-mockup {
+            border-top: 20px solid #222;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        .browser-mockup::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ff5f56;
+            box-shadow: 10px 0 0 #ffbd2e, 20px 0 0 #27c93f;
+        }
+
+        .img-container {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: #111;
+        }
+
+        .img-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-card:hover video {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <nav class="fixed w-full z-50 py-6 px-8 flex justify-between items-center glass border-none">
+        <div class="font-black text-2xl tracking-tighter">BLOCKBIT <span class="text-accent">TA!</span></div>
+        <div class="hidden md:flex gap-8 font-medium text-sm uppercase tracking-widest">
+            <a href="#historia" class="hover:text-accent transition">Nuestra Historia</a>
+            <a href="#portafolio" class="hover:text-accent transition">Proyectos</a>
+            <a href="https://blockbit.uy" target="_blank" class="hover:text-accent transition">Blockbit.uy</a>
+        </div>
+        <a href="https://wa.me/59899000000" class="btn-ta text-xs">CONTACTO</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center px-8 md:px-20 relative overflow-hidden">
+        <div class="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
+            <!-- Imagen conceptual de código/ingeniería -->
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80" alt="Código de ingeniería" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="relative z-10 max-w-4xl">
+            <h1 class="text-7xl md:text-9xl font-black mb-6 leading-none">
+                <span class="text-gradient">TA!</span><br>WEB LISTA.
+            </h1>
+            <p class="text-xl md:text-2xl text-muted max-w-2xl mb-10">
+                Traemos la ingeniería de <strong>Blockbit</strong> al desarrollo web comercial. Sitios rápidos, lógicos y diseñados para ganar.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#portafolio" class="btn-ta">VER PORTAFOLIO</a>
+                <div class="flex items-center gap-2 px-6 py-4 rounded-full border border-white/10 text-xs font-bold">
+                    <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span> DISPONIBLES PARA PROYECTOS
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logros & Historia -->
+    <section id="historia" class="py-24 px-8 md:px-20 bg-white text-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-5xl font-black mb-8 leading-tight">De las olimpiadas de informática a tu pantalla.</h2>
+                    <p class="text-lg mb-6 opacity-80">
+                        Blockbit no nació para hacer páginas web. Nació en las clases del Liceo N2 de Artigas, ganando olimpiadas de informática, compitiendo internacionalmente en robótica, conociendo otros países y como consecuente otras culturas y servicios. 
+                    </p>
+                    <p class="text-lg mb-6 opacity-80">
+                        Vimos que el mercado web uruguayo estaba quedandose muy atrás, lleno de sitios lentos, "atados con alambre" y sin lógica. Decidimos lanzar <strong>Ta!</strong> para aplicar nuestro rigor técnico en soluciones que realmente funcionen para empresas y eventos.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="p-4 border-l-4 border-black bg-gray-100">
+                            <span class="block font-black text-3xl">1ra+</span>
+                            <span class="text-sm uppercase font-bold">Línea de código</span>
+                        </div>
+                        <div class="p-4 border-l-4 border-black bg-gray-100">
+                            <span class="block font-black text-3xl">Uruguay</span>
+                            <span class="text-sm uppercase font-bold">Identidad local</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <!-- Imagen de equipo o representativa de Blockbit -->
+                    <img src="portfolio/together.jpg" alt="Equipo trabajando" class="rounded-3xl shadow-2xl">
+                    <div class="absolute -bottom-6 -right-6 glass p-8 rounded-2xl text-white">
+                        <p class="italic text-lg font-medium">"Si lo podemos programar, lo podemos mejorar."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portafolio -->
+    <section id="portafolio" class="py-24 px-8 md:px-20">
+        <div class="text-center mb-16">
+            <h2 class="text-5xl md:text-7xl font-black mb-4">Portafolio</h2>
+            <p class="text-muted text-xl">Lo que ya liquidamos con éxito.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- Cerramientos del Norte -->
+            <div class="portfolio-card group">
+                <a href="https://cerramientosdelnorte.uy" target="_blank">
+                    <div class="browser-mockup">
+                        <div class="img-container">
+                            <video autoplay muted loop playsinline src="portfolio/cerramientos.mp4"></video>
+                        </div>
+                    </div>
+                    <div class="py-6">
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-accent transition">Cerramientos del Norte</h3>
+                        <p class="text-muted text-sm mb-4">Sitio institucional robusto con catálogo de productos y optimización SEO para el norte del país.</p>
+                        <span class="text-xs font-bold tracking-widest text-accent uppercase">VER SITIO LIVE →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Caborteada -->
+            <div class="portfolio-card group">
+                <a href="https://blockbit.uy/caborteada" target="_blank">
+                    <div class="browser-mockup">
+                        <div class="img-container">
+                            <video autoplay muted loop playsinline src="portfolio/cabor.mp4"></video>
+                        </div>
+                    </div>
+                    <div class="py-6">
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-accent transition">Caborteada</h3>
+                        <p class="text-muted text-sm mb-4">Plataforma centralizada para la gestión de información de eventos masivos. UX rápida y clara.</p>
+                        <span class="text-xs font-bold tracking-widest text-accent uppercase">VER SITIO LIVE →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Caborteada Carnaval -->
+            <div class="portfolio-card group">
+                <a href="https://blockbit.uy/caborteada/carnaval" target="_blank">
+                    <div class="browser-mockup">
+                        <div class="img-container">
+                            <video autoplay muted loop playsinline src="portfolio/carnaval.mp4"></video>
+                        </div>
+                    </div>
+                    <div class="py-6">
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-accent transition">Caborteada Carnaval</h3>
+                        <p class="text-muted text-sm mb-4">Adaptación dinámica para el flujo de información en tiempo real durante eventos de Carnaval.</p>
+                        <span class="text-xs font-bold tracking-widest text-accent uppercase">VER SITIO LIVE →</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Próximamente -->
+            <div class="portfolio-card opacity-50">
+                <div class="browser-mockup">
+                    <div class="img-container flex items-center justify-center bg-zinc-900">
+                        <span class="text-4xl font-black text-zinc-800">Y CONTANDO...</span>
+                    </div>
+                </div>
+                <div class="py-6">
+                    <h3 class="text-2xl font-bold mb-2">Tu próximo proyecto</h3>
+                    <p class="text-muted text-sm mb-4">Estamos listos para sumar tu marca a nuestra lista de éxitos técnicos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / CTA Final -->
+    <footer class="py-20 px-8 border-t border-white/10 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-5xl font-black mb-8 italic">"Ta! Web Lista"</h2>
+            <p class="text-xl text-muted mb-12">No des más vueltas con precios disparatados y poca eficiencia. Hablá con el equipo de Blockbit.</p>
+            <a href="https://wa.me/59891318589" class="btn-ta text-lg inline-block">HABLAR POR WHATSAPP</a>
+            
+            <div class="mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-sm text-muted">© 2026 Blockbit. Artigas, Uruguay.</div>
+                <div class="flex gap-6 grayscale opacity-50">
+                    <img src="../logo_wt.png" alt="Blockbit Logo" class="h-8" onerror="this.style.display='none'">
+                    <a href="https://blockbit.uy" class="font-bold">BLOCKBIT.UY</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animación de entrada de las cards
+        gsap.utils.toArray('.portfolio-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.1
+            });
+        });
+
+        // Efecto parallax suave en imágenes
+        gsap.to(".hero-image", {
+            scrollTrigger: {
+                trigger: ".hero",
+                scrub: true
+            },
+            y: 100
+        });
+    </script>
+</body>
+</html>
